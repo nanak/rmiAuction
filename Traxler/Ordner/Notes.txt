@@ -1,0 +1,2 @@
+Aufwandsschätzung RMI nach Prototypen, Code vom letzten Jahr durchgehen und neu aufleben lassen.
+Class-Diagramm vorhandene Basen mergen, RMI connection designen, Ideen einbringen
