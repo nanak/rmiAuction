@@ -1,0 +1,3 @@
+Fake_CLI implements UI for Loadtesting
+has a BufferedReade aka InputStream from the Testing Component wich simulates the User in this way
+Fake_CLI gives the output to the testing Component
