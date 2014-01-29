@@ -3,7 +3,17 @@ Class-Diagramm vorhandene Basen mergen, RMI connection designen, Ideen einbringe
 
 
 2014-01-28: Arbeitsaufteilung mit Reichmann nochmal Besprochen, kleine Aenderungen zur zufriedneheit aller und besserer Aufteilung
-Aufwandschaetzung erledigt
-Klassendiagramm ueberarbeitet:
-	Alternativer FileHandler vorgeschlagen
+	Aufwandschaetzung erledigt
+	Klassendiagramm ueberarbeitet:
+		Alternativer FileHandler vorgeschlagen
+		RMI eingebau
+		Struktur fuer Analyticsserver, Billingserver und Managementclient ueberarbeitet 
+		Gemeinsam mit Reichmann grossteile der Struktur nochmal optimiert
 	
+
+2014-01-29: 
+	Klassendiagramm
+		Added Filehandler for Analytics and Billing Server
+		Added Some Packages
+		Correctures for beautifullness
+		
