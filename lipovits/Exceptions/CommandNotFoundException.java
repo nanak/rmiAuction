@@ -1,8 +1,8 @@
-package Exceptions;
+package exceptions;
 /**
  * This Exception is thrown if the given Command does not exist.
  *
- * @author Michaela Lipovits <mlipovits@student.tgm.ac.at>
+ * @author Michaela Lipovits 
  * @version 20140203
  */
 public class CommandNotFoundException extends Exception{
