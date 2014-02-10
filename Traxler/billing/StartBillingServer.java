@@ -8,15 +8,13 @@ import java.rmi.server.UnicastRemoteObject;
 public class StartBillingServer {
 
 	public static void main(String[] args) {
-		initRMI();
 	}
 	
 	/**
 	 * Initialisiert den RMI-stub fuer den Billingserver
 	 */
-	 private void initRmi(){
+	 private static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
-	            BillingServer bs = new BillingServer();
 	            BillingServer stub =
 	                (BillingServer) UnicastRemoteObject.exportObject(bs, 0);
 	            Registry registry = LocateRegistry.getRegistry();
@@ -24,7 +22,6 @@ public class StartBillingServer {
 	            System.out.println("BillingServer bound");
 	            
 
-	            RemoteBillingServerSecure bss = new RemoteBillingServerSecure();
 	            RemoteBillingServerSecure stubSecure =
 	                (RemoteBillingServerSecure) UnicastRemoteObject.exportObject(bss, 0);
 	            registry.rebind(RemoteBillingServerSecure.SERVERNAME, stub);
