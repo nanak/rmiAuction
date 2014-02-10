@@ -2,6 +2,6 @@ package management;
 
 public interface Command<T> {
 
-	public abstract T execute();
+	public abstract T execute(String cmd);
 
 }

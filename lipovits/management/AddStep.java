@@ -1,6 +1,6 @@
 package management;
 
-public class AddStep extends SecureCommand {
+public class AddStep extends SecureCommand<String> {
 
 	private Double startPrice;
 
@@ -9,5 +9,12 @@ public class AddStep extends SecureCommand {
 	private Double fixedPrice;
 
 	private Double variablePricePercent;
+
+	@Override
+	public String execute(String cmd) {
+		
+		return null;
+	}
+	
 
 }
