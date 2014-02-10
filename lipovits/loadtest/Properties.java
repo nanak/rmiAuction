@@ -136,6 +136,24 @@ public class Properties {
 			e.printStackTrace();
 		}
 	}
+	public int getClients() {
+		return clients;
+	}
 
+	public int getAuctionsPerMin() {
+		return auctionsPerMin;
+	}
+
+	public int getAuctionDuration() {
+		return auctionDuration;
+	}
+
+	public int getUpdateIntervalSec() {
+		return updateIntervalSec;
+	}
+
+	public int getBidsPerMin() {
+		return bidsPerMin;
+	}
 
 }

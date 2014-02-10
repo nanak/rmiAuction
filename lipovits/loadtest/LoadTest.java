@@ -1,11 +1,9 @@
 package loadtest;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.Scanner;
+import java.util.concurrent.ConcurrentHashMap;
 
-import javax.swing.JTable.PrintMode;
-
+import Client.Client;
 /**
  * Class LoadTest which starts the Loadtests.
  * 
@@ -15,7 +13,7 @@ import javax.swing.JTable.PrintMode;
 public class LoadTest {
 
 	private Properties properties;
-
+	private static ConcurrentHashMap<Integer, Client> clients;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -27,27 +25,20 @@ public class LoadTest {
 
 	public static void main(String[] args) {
 		Properties p = new Properties();
+		//read properties from file
 		p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/lipovits/loadtest/loadtest.properties");
-//		System.out.println(p.toString());
 		
-		
-		//CODESNIPPET FAKE CLI
-		
+		//Byteinputstream for clients
 		String text= "!login muh\n!bid miau";
   		ByteArrayInputStream in=new ByteArrayInputStream(text.getBytes());
-  		printMyStuff(in);
 
-
-	}
-	public static void printMyStuff(ByteArrayInputStream input){
-		InputStream stdin = System.in;
-		try {
-  			System.setIn(input);
-  			Scanner scanner = new Scanner(System.in);
-  			System.out.println(scanner.nextLine());
-  			System.out.println(scanner.nextLine());
-		} finally {
+  		//put clients to map
+		for (int i=0; i<p.getClients(); i++){
+			clients.put(i, new Client(null, 0, null));
 		}
+		
+
+
 	}
 
 }
