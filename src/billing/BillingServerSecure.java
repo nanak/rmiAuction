@@ -7,6 +7,14 @@ import ServerModel.Auction;
 import management.Login;
 import management.Bill;
 
+/**
+ * provides the actual functionality of the BillingServer
+ *    
+ * @author Rudolf Krepela
+ * @email rkrepela@student.tgm.ac.at
+ * @version 11.02.2014
+ *
+ */
 public class BillingServerSecure  {
 
 	private ConcurrentHashMap<String,Login> user;

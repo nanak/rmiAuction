@@ -5,6 +5,14 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 
+/**
+ * main class and startpoint for the billing server
+ *    
+ * @author Rudolf Krepela, Thomas Traxler
+ * @email rkrepela@student.tgm.ac.at, ttraxler@student.tgm.ac.at
+ * @version 11.02.2014
+ *
+ */
 public class StartBillingServer {
 
 	public static void main(String[] args) {
