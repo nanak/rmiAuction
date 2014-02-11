@@ -2,14 +2,15 @@ package management;
 
 import Exceptions.IllegalNumberOfArgumentsException;
 
-public class Steps extends SecureCommand {
+public class Subscribe extends SecureCommand<String> {
 
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException {
-		if(cmd.length!=1){
+		if(cmd.length!=2){
 			throw new IllegalNumberOfArgumentsException();
 		}
-		return "no steps avaiable";
+		return "Created subscription with ID null for events using filter "+cmd[1];
 	}
+	
 
 }
