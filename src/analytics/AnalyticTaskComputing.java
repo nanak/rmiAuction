@@ -1,8 +1,10 @@
 package analytics;
 
+import java.rmi.Remote;
+
 import management.ClientInterface;
 
-public class AnalyticTaskComputing implements Remote {
+public class AnalyticTaskComputing implements Remote{
  
 	private AnalyticsServer as;
 	 
@@ -14,8 +16,8 @@ public class AnalyticTaskComputing implements Remote {
 		return false;
 	}
 	 
-	public void processEvent(Event_T_ e) {
-	 
+	public void processEvent(Event e) {
+		
 	}
 	 
 }
