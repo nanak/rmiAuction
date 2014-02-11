@@ -2,7 +2,6 @@
 *.bak
 
 # Package Files #
-*.jar
 *.war
 *.ear
 Diagramms/AuctionSystem.asta.lock
