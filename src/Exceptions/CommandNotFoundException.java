@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 /**
  * This Exception is thrown if the given Command does not exist.
  *

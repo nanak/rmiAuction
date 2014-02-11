@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 /**
  * This Exception is thrown if a command is followed by an invalid
  * number of arguments.

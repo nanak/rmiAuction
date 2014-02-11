@@ -1,4 +1,4 @@
-package exceptions;
+package Exceptions;
 /**
  * This Exception is thrown if the input consists of one or more invald signs.
  * One or more arguments can be invalid.

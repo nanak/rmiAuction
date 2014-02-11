@@ -2,7 +2,7 @@ package billing;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import ServerModel.FileHandler<K,T>;
+import ServerModel.FileHandler;
 import ServerModel.Auction;
 import management.Login;
 import management.Bill;
@@ -15,7 +15,7 @@ public class BillingServerSecure  {
 
 	private ConcurrentHashMap<Integer,Bill> bills;
 
-	private FileHandler<K,T> fileHandler<K,T>;
+	//private FileHandler<K,T> fileHandler;
 
 	public PriceSteps getPriceSteps() {
 		return null;
@@ -33,7 +33,7 @@ public class BillingServerSecure  {
 
 	}
 
-	public String getBill(int String user) {
+	public String getBill(String user) {
 		return null;
 	}
 	

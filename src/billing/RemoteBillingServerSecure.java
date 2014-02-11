@@ -2,7 +2,7 @@ package billing;
 
 import java.rmi.Remote;
 
-import management.SecureCommand<T>;
+import management.SecureCommand;
 import ServerModel.Auction;
 
 public class RemoteBillingServerSecure implements Remote {

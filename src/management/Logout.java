@@ -1,6 +1,6 @@
 package management;
 
-import exceptions.IllegalNumberOfArgumentsException;
+import Exceptions.IllegalNumberOfArgumentsException;
 
 public class Logout<T> extends SecureCommand<T> {
 	
