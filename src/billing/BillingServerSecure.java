@@ -41,11 +41,10 @@ public class BillingServerSecure  {
 		CompositeKey k;
 			try {
 				p = new PriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
-				// TODO test if range overlaps and throw exception
 				k=new CompositeKey(startPrice, endPrice);
 				Iterator<CompositeKey> i=priceSteps.keySet().iterator();
 				while(i.hasNext()){
-					if(i.next().overlaps(k)){
+					if(k.overlaps(i.next())){
 						throw new PriceStepIntervalOverlapException();
 					}
 				}

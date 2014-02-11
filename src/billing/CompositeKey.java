@@ -31,6 +31,9 @@ public class CompositeKey {
 			if (this.key1 == 0) {
 				return !(s.getKey2() <= this.key1);
 			}
+			if (this.key2 == 0) {
+				return (this.key1 < s.getKey2());
+			}
 			if (s.getKey2() == 0) {
 				return !(this.key2 <= s.getKey1());
 			}
@@ -66,10 +69,10 @@ public Double getKey2() {
 public static void main(String[] args){
 	BillingServerSecure s= new BillingServerSecure();
 	try {
+		s.createPriceStep(0, 10, 5, 10);
 		s.createPriceStep(10, 100, 5, 10);
 		s.createPriceStep(200, 300, 7, 9);
 		s.createPriceStep(300, 0, 5, 6);
-		s.createPriceStep(400, 500, 5, 6);
 	} catch (PriceStepIntervalOverlapException e) {
 		System.out.println("ex");
 		e.printStackTrace();
