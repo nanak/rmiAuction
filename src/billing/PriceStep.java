@@ -28,7 +28,7 @@ public class PriceStep{
 
 	@Override
 	public String toString() {
-		return "PriceSteps [startPrice=" + startPrice + ", endPrice="
+		return "PriceStep [startPrice=" + startPrice + ", endPrice="
 				+ endPrice + ", fixedPrice=" + fixedPrice
 				+ ", variablePricePercent=" + variablePricePercent + "]";
 	}

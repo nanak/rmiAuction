@@ -1,6 +1,7 @@
 package billing;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Exceptions.IllegalValueException;
@@ -32,8 +33,13 @@ public class BillingServerSecure  {
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
 	}
 
-	public ConcurrentHashMap<CompositeKey, PriceStep> getPriceSteps() {
-		return priceSteps;
+	public String getPriceSteps() {
+		String r="";
+		Iterator i=priceSteps.values().iterator();
+		while(i.hasNext()){
+			r=r+"\n"+i.next().toString();
+		}
+		return r;
 	}
 
 	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
@@ -56,7 +62,8 @@ public class BillingServerSecure  {
 	}
 
 	public void deletePriceStep(Double startPrice, Double endPrice) {
-		priceSteps.remove(startPrice+""+endPrice);
+		CompositeKey k=new CompositeKey(startPrice, endPrice);
+		if(priceSteps.containsKey(k))priceSteps.remove(k);
 	}
 
 	public void billAuction(Auction auction) {
