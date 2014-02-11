@@ -1,5 +1,6 @@
 package billing;
 
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 import Exceptions.IllegalValueException;
@@ -21,22 +22,34 @@ public class BillingServerSecure  {
 
 	private ConcurrentHashMap<String,Login> user;
 
-	private ConcurrentHashMap<String,PriceSteps> priceSteps;
+	private ConcurrentHashMap<CompositeKey,PriceStep> priceSteps;
 
-	private ConcurrentHashMap<Integer,Bill> bills;
+	private ConcurrentHashMap<String,Bill> bills;
 
 	//private FileHandler<K,T> fileHandler;
+	
+	public BillingServerSecure(){
+		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
+	}
 
-	public ConcurrentHashMap<String, PriceSteps> getPriceSteps() {
+	public ConcurrentHashMap<CompositeKey, PriceStep> getPriceSteps() {
 		return priceSteps;
 	}
 
 	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
-		PriceSteps p;
+		PriceStep p;
+		CompositeKey k;
 			try {
-				p = new PriceSteps(startPrice, endPrice, fixedPrice, variablePricePercent);
+				p = new PriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
 				// TODO test if range overlaps and throw exception
-				priceSteps.put(startPrice+""+endPrice, p);
+				k=new CompositeKey(startPrice, endPrice);
+				Iterator<CompositeKey> i=priceSteps.keySet().iterator();
+				while(i.hasNext()){
+					if(i.next().overlaps(k)){
+						throw new PriceStepIntervalOverlapException();
+					}
+				}
+				priceSteps.put(k, p);
 			} catch (IllegalValueException e) {
 				e.printStackTrace();
 			}
@@ -54,7 +67,6 @@ public class BillingServerSecure  {
 	public String getBill(String user) {
 		return null;
 	}
-	
 	
 
 }

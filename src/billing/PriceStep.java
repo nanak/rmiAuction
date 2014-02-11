@@ -13,12 +13,13 @@ import Exceptions.IllegalValueException;
  * @version 11.02.2014
  *
  */
-public class PriceSteps{
+public class PriceStep{
 	
 	private double startPrice, endPrice, fixedPrice, variablePricePercent;
 	
-	public PriceSteps(double startPrice,double endPrice,double fixedPrice,double variablePricePercent) throws IllegalValueException{
-		if(startPrice<0||endPrice<0||fixedPrice<0||variablePricePercent<0)throw new IllegalValueException();
+	public PriceStep(double startPrice,double endPrice,double fixedPrice,double variablePricePercent) throws IllegalValueException{
+		if(startPrice<0||endPrice<0||fixedPrice<0||variablePricePercent<0)throw new IllegalValueException("values below zero");
+		if (startPrice >= endPrice && endPrice != 0)throw new IllegalValueException("endprice must be bigger than startprice");
 		this.endPrice=endPrice;
 		this.startPrice=startPrice;
 		this.fixedPrice=fixedPrice;

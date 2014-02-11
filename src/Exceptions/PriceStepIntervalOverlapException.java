@@ -18,6 +18,6 @@ public class PriceStepIntervalOverlapException extends RemoteException{
      * the text of the exception.
      */
     public PriceStepIntervalOverlapException(){
-  	super("The provided price interval collides (overlaps) with an existing price step (delete the other price step first)!");
+  	super("The provided price interval overlaps with an existing price step (delete the other price step first)!");
     }
 }

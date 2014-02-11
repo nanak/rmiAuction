@@ -17,6 +17,9 @@ public class IllegalValueException extends RemoteException{
      * the text of the exception.
      */
     public IllegalValueException(){
-  	super("One or more arguments are invalid(values below zero)!");
+  	super("One or more arguments are invalid!");
+    }
+    public IllegalValueException(String s){
+  	super("One or more arguments are invalid("+s+")!");
     }
 }
