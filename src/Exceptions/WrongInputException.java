@@ -6,12 +6,12 @@ package Exceptions;
  * @author Michaela Lipovits
  * @version 20140203
  */
-public class WrongInutException extends Exception{
+public class WrongInputException extends Exception{
     /**
      * Constructor, which calls the superclasses constructor with 
      * the text of the exception.
      */
-    public WrongInutException(){
+    public WrongInputException(){
   	super("One or more arguments are invalid!");
     }
 }

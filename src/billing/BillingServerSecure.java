@@ -2,6 +2,8 @@ package billing;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import Exceptions.IllegalValueException;
+import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
 import ServerModel.Auction;
 import management.Login;
@@ -19,22 +21,30 @@ public class BillingServerSecure  {
 
 	private ConcurrentHashMap<String,Login> user;
 
-	private ConcurrentHashMap<Integer,PriceSteps> priceSteps;
+	private ConcurrentHashMap<String,PriceSteps> priceSteps;
 
 	private ConcurrentHashMap<Integer,Bill> bills;
 
 	//private FileHandler<K,T> fileHandler;
 
-	public PriceSteps getPriceSteps() {
-		return null;
+	public ConcurrentHashMap<String, PriceSteps> getPriceSteps() {
+		return priceSteps;
 	}
 
-	public String createPriceStep(Double startPrice, Double endPrice, Double fixedPrice, double variablePricePercent) {
-		return null;
+	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
+		PriceSteps p;
+			try {
+				p = new PriceSteps(startPrice, endPrice, fixedPrice, variablePricePercent);
+				// TODO test if range overlaps and throw exception
+				priceSteps.put(startPrice+""+endPrice, p);
+			} catch (IllegalValueException e) {
+				e.printStackTrace();
+			}
+
 	}
 
-	public String deletePriceStep(Double startPrice, Double endPrice) {
-		return null;
+	public void deletePriceStep(Double startPrice, Double endPrice) {
+		priceSteps.remove(startPrice+""+endPrice);
 	}
 
 	public void billAuction(Auction auction) {
