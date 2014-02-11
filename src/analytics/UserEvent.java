@@ -1,6 +1,6 @@
 package analytics;
 
-public abstract class UserEvent_T_ extends Event_T_ {
+public abstract class UserEvent<T> extends Event<T> {
  
 	protected String username;
 	 

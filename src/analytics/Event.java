@@ -1,6 +1,6 @@
 package analytics;
 
-public abstract class Event {
+public abstract class Event<T> {
  
 	protected String ID;
 	 

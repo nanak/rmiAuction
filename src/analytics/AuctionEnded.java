@@ -1,6 +1,6 @@
 package analytics;
 
-public class AuctionEnded extends AuctionEvent_T_ {
+public class AuctionEnded extends AuctionEvent<T> {
  
 }
  

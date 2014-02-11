@@ -1,6 +1,6 @@
 package analytics;
 
-public abstract class BidEvent_T_ extends Event_T_ {
+public abstract class BidEvent<T> extends Event<T> {
  
 	protected String username;
 	 
