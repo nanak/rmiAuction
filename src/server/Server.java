@@ -1,10 +1,13 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import connect.Notifier;
 import connect.NotifierFactory;
-
 import model.*;
 
 /**
@@ -16,8 +19,8 @@ import model.*;
 public class Server {
 
 	private int tcpPort;
-	private ArrayList<User> user;
-	private ArrayList<Auction> auction;
+	private ConcurrentHashMap<String, User> user; //Map for getting User
+	private ConcurrentHashMap<Integer, Auction> auction; //Map of auctions with ID as identifier
 	private AuctionHandler ahandler;
 	private RequestHandler rhandler; 
 	private Notifier udp;
@@ -28,9 +31,9 @@ public class Server {
 	 * initialised.
 	 */
 	public Server() {
-		user=new ArrayList<User>();
+		user= new ConcurrentHashMap<String, User>(); //Only way to get ConcurrendHashSet
 		active = true;
-		auction=new ArrayList<Auction>();
+		auction=new ConcurrentHashMap<Integer, Auction>();
 		ahandler = new AuctionHandler(this);
 		rhandler = new RequestHandler();
 		udp = NotifierFactory.getUDPNotifer();
@@ -80,7 +83,7 @@ public class Server {
 	/**
 	 * @return the user
 	 */
-	public ArrayList<User> getUser() {
+	public ConcurrentHashMap<String, User> getUser() {
 		return user;
 	}
 
@@ -88,7 +91,7 @@ public class Server {
 	/**
 	 * @param user the user to set
 	 */
-	public void setUser(ArrayList<User> user) {
+	public void setUser(ConcurrentHashMap<String, User> user) {
 		this.user = user;
 	}
 
@@ -96,7 +99,7 @@ public class Server {
 	/**
 	 * @return the auction
 	 */
-	public ArrayList<Auction> getAuction() {
+	public ConcurrentHashMap<Integer,Auction> getAuction() {
 		return auction;
 	}
 
@@ -104,7 +107,7 @@ public class Server {
 	/**
 	 * @param auction the auction to set
 	 */
-	public void setAuction(ArrayList<Auction> auction) {
+	public void setAuction(ConcurrentHashMap<Integer, Auction> auction) {
 		this.auction = auction;
 	}
 

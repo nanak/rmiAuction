@@ -1,6 +1,9 @@
 package server;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import model.Auction;
 import model.CreateMessage;
 import model.Message;
@@ -24,18 +27,21 @@ public class ServerCreate implements ServerAction{
 	public String doOperation(Message message, Server server) {
 		CreateMessage create = (CreateMessage) message;
 		User creater = null;
-		for(int i=0;i < server.getUser().size();i++) { //searches for the user who has created the auction
-			if(create.getName().equals(server.getUser().get(i).getName())) {
-				creater = server.getUser().get(i);
-			}
-		}
+		//Get creater
+		creater = server.getUser().get(create.getName());
 		if (creater == null) { //if the user doesn't exists the operation is canceled with an error message
 			return "This User doesn't exists please log in first!";
 		}
 		//adds the auction to the list
 		Auction hilf = new Auction(creater, create.getDesc(),  create.getDuration() , server.getAuction().size() );
-		server.getAuction().add(hilf);
-		server.notify(server.getUser(),"An auction '"+hilf.getDescription()+"' with the ID: "
+		server.getAuction().put(server.getAuction().size(), hilf);
+		//Create ArrayList to notify users
+		Iterator<String> it = server.getUser().keySet().iterator();
+		ArrayList<User> al = new ArrayList();
+		while(it.hasNext()){
+			al.add(server.getUser().get(it.next()));
+		}
+		server.notify(al,"An auction '"+hilf.getDescription()+"' with the ID: "
 				+hilf.getId()+" has been created and will end on "
 				+hilf.getDeadline()+".");
 		return "You have succesfully created a new auction!";	

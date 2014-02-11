@@ -25,18 +25,19 @@ public class ServerLogout implements ServerAction{
 	public String doOperation(Message message, Server server) {
 		LogoutMessage logout = (LogoutMessage) message;
 		User loger = null;
-		int ii = 0;
-		for(int i = 0;i < server.getUser().size();i++) { //searches for the user
-			if(logout.getName().equals(server.getUser().get(i).getName())) {
-				loger = server.getUser().get(i);
-				ii = i;
-			}
-		}
+		loger = server.getUser().get(logout.getName());
+//		int ii = 0;
+//		for(int i = 0;i < server.getUser().size();i++) { //searches for the user
+//			if(logout.getName().equals(server.getUser().get(i).getName())) {
+//				loger = server.getUser().get(i);
+//				ii = i;
+//			}
+//		}
 		if(loger == null) { //Errormessage if the user doesn't exists
 			return "This User doesn't exists!";
 		}
-		else if (loger != null && server.getUser().get(ii).isActive() == true) { //if it exists logout
-			server.getUser().get(ii).setActive(false);			
+		else if (loger != null && loger.isActive() == true) { //if it exists logout
+			loger.setActive(false);			
 			//TODO cancel the connections
 			return "Succesfully loged out as: "+loger.getName();
 		}
