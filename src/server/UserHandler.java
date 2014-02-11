@@ -29,7 +29,7 @@ public class UserHandler implements Runnable{
 	private Socket client; //Socket-Verbindung mit Client
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-	private Thread executor; //Fuerht die Aktionen durch.
+//	private Thread executor; //Fuerht die Aktionen durch.
 	
 	/**
 	 * Creates the UserHandler and starts the Connection
@@ -51,8 +51,8 @@ public class UserHandler implements Runnable{
 		}catch(Exception e){
 			return ;
 		}
-		executor = new Thread(this);
-		executor.start();
+//		executor = new Thread(this);
+//		executor.start();
 	}
 	@Override
 	public void run() {
@@ -72,15 +72,14 @@ public class UserHandler implements Runnable{
 			}
 			
 			if(o instanceof Message){
+				System.out.println("Received Login");
 				m = (Message) o;
 				//If message is Login-Message log user in
 				String ret;
 				if(m instanceof LoginMessage){
 					ret = server.request(m);
 					if(ret.startsWith("Successfully")){
-						User tmp = new User();
-						tmp.setName(m.getName());
-						user = server.getUser().get(server.getUser().indexOf(tmp));
+						user = server.getUser().get(server.getUser().get(m.getName()));
 					}
 				}
 				else{

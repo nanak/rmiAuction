@@ -25,56 +25,90 @@ public class ServerBid implements ServerAction {
 	public String doOperation(Message message, Server server) {
 		BidMessage bid = (BidMessage) message;
 		User bidder = null;
-		for(int i=0;i < server.getUser().size();i++) { //searches for the user who bidded
-			if(bid.getName().equals(server.getUser().get(i).getName())) {
-				bidder = server.getUser().get(i);
-			}
-		}
+		//Get Bidder
+		bidder = server.getUser().get(bid.getName());
+//		for(int i=0;i < server.getUser().size();i++) { //searches for the user who bidded
+//			if(bid.getName().equals(server.getUser().get(i).getName())) {
+//				bidder = server.getUser().get(i);
+//			}
+//		}
 		if (bidder == null) { //If the user doesn't exists the operation is canceled
 			return "This User doesn't exists!";
 		}
-		
-		
-
-		for(int i=0;i< server.getAuction().size();i++) {
-			if(bid.getId() == server.getAuction().get(i).getId()) {
-				if(server.getAuction().get(i).isFinished() == false) {
-					if(server.getAuction().get(i).getOwner().getName().equals(bid.getName())){
-						return "You cannot bid on your own auction!";
-					}
-					else if(server.getAuction().get(i).getHighestBid() < bid.getAmount() ) { //checks if the bid is higher and if the auction is over
-						User lastUser;
-						Auction hilf = server.getAuction().get(i);
-						hilf.setHighestBid(bid.getAmount());
-						lastUser = server.getAuction().get(i).getLastUser();
-						hilf.setLastUser(bidder);
-						server.getAuction().set(i,hilf);
-
-						if (lastUser != null) { //If there is a previous bidder he gets notified
-							ArrayList<User> al = new ArrayList();
-							al.add(lastUser);
-							server.notify(al,"You have been overbid on '" +
-									server.getAuction().get(i).getDescription()+"' with the ID: "+
-									server.getAuction().get(i).getId()+".");
-						}
-
-						//Informs if the bid was succesfully
-						//return "You successfully bid with "+bid.getAmount()+" on '"
-						//	+server.getAuction().get(i).getDescription()+"'.";
-
-						return "You successfully bid with "+server.getAuction().get(i).getHighestBid()+" on '"
-						+server.getAuction().get(i).getDescription()+"'.";
-					}
-					else { //If the bid his lower then the current bid than the operation is canceled and a error message is produced
-						return "Your bid must be higher then the current bid! The current bid is: "+
-						server.getAuction().get(i).getHighestBid();
-					}
+		//get Auction on which is bid
+		Auction auction = server.getAuction().get(bid.getId());
+		if(auction == null)
+			return "There is no Auction with this ID!"; //Errormessage if the auction doesn't exists
+		if(!auction.isFinished()){
+			if(auction.getOwner().getName().equals(bid.getName())){
+				return "You cannot bid on your own auction!";
+			}
+			else if(auction.getHighestBid() < bid.getAmount()){
+				User lastUser;
+				lastUser = server.getUser().get(auction.getLastUser().getName());
+				
+				if (lastUser != null) { //If there is a previous bidder he gets notified
+					ArrayList<User> al = new ArrayList();
+					al.add(lastUser);
+					server.notify(al,"You have been overbid on '" +
+							auction.getDescription()+"' with the ID: "+
+							auction.getId()+".");
 				}
-				else {
-					return "The auction '"+server.getAuction().get(i).getDescription()+"' is allready over you can not bid on this auction anymore!";
-				}
+
+				//Informs if the bid was succesfully
+				//return "You successfully bid with "+bid.getAmount()+" on '"
+				//	+server.getAuction().get(i).getDescription()+"'.";
+
+				return "You successfully bid with "+auction.getHighestBid()+" on '"
+				+auction.getDescription()+"'.";
+			}
+			else{
+				return "Your bid must be higher then the current bid! The current bid is: "+
+						auction.getHighestBid();
 			}
 		}
-		return "There is no Auction with this ID!"; //Errormessage if the auction doesn't exists
+		else
+			return "The auction '" + auction.getDescription()+"' is allready over you can not bid on this auction anymore!";
+
+//		for(int i=0;i< server.getAuction().size();i++) {
+//			if(bid.getId() == server.getAuction().get(i).getId()) {
+//				if(server.getAuction().get(i).isFinished() == false) {
+//					if(server.getAuction().get(i).getOwner().getName().equals(bid.getName())){
+//						return "You cannot bid on your own auction!";
+//					}
+//					else if(server.getAuction().get(i).getHighestBid() < bid.getAmount() ) { //checks if the bid is higher and if the auction is over
+//						User lastUser;
+//						Auction hilf = server.getAuction().get(i);
+//						hilf.setHighestBid(bid.getAmount());
+//						lastUser = server.getAuction().get(i).getLastUser();
+//						hilf.setLastUser(bidder);
+//						server.getAuction().set(i,hilf);
+//
+//						if (lastUser != null) { //If there is a previous bidder he gets notified
+//							ArrayList<User> al = new ArrayList();
+//							al.add(lastUser);
+//							server.notify(al,"You have been overbid on '" +
+//									server.getAuction().get(i).getDescription()+"' with the ID: "+
+//									server.getAuction().get(i).getId()+".");
+//						}
+//
+//						//Informs if the bid was succesfully
+//						//return "You successfully bid with "+bid.getAmount()+" on '"
+//						//	+server.getAuction().get(i).getDescription()+"'.";
+//
+//						return "You successfully bid with "+server.getAuction().get(i).getHighestBid()+" on '"
+//						+server.getAuction().get(i).getDescription()+"'.";
+//					}
+//					else { //If the bid his lower then the current bid than the operation is canceled and a error message is produced
+//						return "Your bid must be higher then the current bid! The current bid is: "+
+//						server.getAuction().get(i).getHighestBid();
+//					}
+//				}
+//				else {
+//					return "The auction '"+server.getAuction().get(i).getDescription()+"' is allready over you can not bid on this auction anymore!";
+//				}
+//			}
+//		}
+//		return "There is no Auction with this ID!"; //Errormessage if the auction doesn't exists
 	}
 }
