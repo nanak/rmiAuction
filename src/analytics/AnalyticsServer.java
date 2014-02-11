@@ -11,7 +11,7 @@ public class AnalyticsServer {
  
 	private ConcurrentHashMap<Event, ConcurrentLinkedQueue<ClientInterface>> subscriptions;
 	 
-	private FileHandler<K,T> fileHandler_K,T_;
+	private FileHandler fileHandler;
 	 
 	public void processEvent(Event e) {
 	 
