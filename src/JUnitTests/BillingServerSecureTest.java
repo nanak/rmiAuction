@@ -41,4 +41,15 @@ public class BillingServerSecureTest{
 			s.createPriceStep(0, 11, 5, 6);
 	}
 
+	@Test
+	public void deletePriceStepTest() {
+		BillingServerSecure s= new BillingServerSecure();
+		try {
+			s.createPriceStep(0, 10, 5, 10);
+			s.deletePriceStep((double)0, (double)10);
+			s.createPriceStep(0, 10, 5, 10);
+			assertTrue(true);
+		} catch (PriceStepIntervalOverlapException e) {
+		}
+	}
 }
