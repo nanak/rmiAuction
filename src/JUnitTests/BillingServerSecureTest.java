@@ -30,7 +30,7 @@ public class BillingServerSecureTest{
 			s.createPriceStep(10, 100, 5, 10);
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
-			//ToDo read price steps
+			System.out.println(s.getPriceSteps());
 			assertTrue(true);
 		} catch (PriceStepIntervalOverlapException e) {
 		}
@@ -73,7 +73,6 @@ public class BillingServerSecureTest{
 	public void toStringTest(){
 		try {
 			PriceStep p= new PriceStep(0, 10, 5, 5);
-			System.out.println(p.toString());
 			assertEquals(p.toString(), "PriceSteps [startPrice=0.0, endPrice=10.0, fixedPrice=5.0, variablePricePercent=5.0]");
 		} catch (IllegalValueException e) {
 		}
