@@ -25,14 +25,22 @@ public class Bill{
 		this.price.add(price);
 	}
 	
+	/**
+	 * shows the total history and the total price
+	 */
 	@Override
 	public String toString() {
 		String r="Bill for "+user+" ";
+		int total=0;
 		Iterator<Long> a=auctionID.iterator();
 		Iterator<Double> b=price.iterator();
+		Double p;
 		while(b.hasNext()){
-			r=r+"\n"+"ID: "+a.next().toString()+" Price: "+b.next().toString();
+			p=b.next();
+			total+=p;
+			r=r+"\n"+"ID: "+a.next().toString()+" Price: "+p.toString();
 		}
+		r=r+"\n"+"total: "+total;
 		return r;
 	}
 

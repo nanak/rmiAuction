@@ -110,7 +110,8 @@ public class BillingServerSecure  {
 	 * @return
 	 */
 	public String getBill(String user) {
-		return null;
+		if(bills.contains(user))return bills.get(user).toString();
+		return "No bill for the user "+user+" available.";
 	}
 	
 
