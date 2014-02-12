@@ -1,0 +1,37 @@
+AuctionEvent
+    AuctionEnded
+        wenn eine Auktion beendet wurde
+    AuctionStarted
+        wenn eine Auktion gestartet wurde
+
+UserEvent
+    UserLogin
+        wenn sich ein User eingeloggt hat
+    UserLogout
+        wenn sich ein User ausgeloggt hat
+    UserDisconnected
+        wenn die Verbindung zu einem User getrennt wurde (zB. Timeout)
+
+BidEvent
+    BidPlaced
+        wenn ein Gebot abgegeben wurde
+    BidOverbid
+        wenn ein Gebot ueberboten wurde
+    BidWon
+        wenn ein Gebot, als hoechstes die Auktion gewonnen hat
+
+StatisticsEvent
+    UserSessionTimeMin
+        wird bei jedem logout upgedated
+    UserSessionTimeMax
+        wird bei jedem logout upgedated
+    UserSessionTimeAvg
+        wird bei jedem logout upgedated
+    BidPriceMax
+        wird nach jedem Auktionsende upgedated (automatisch hoechstes Gebot dieser)
+    BidCountPerMinute
+        zaehlt die Bids innerhalb einer Minute und macht dann sofort ein Update
+    AuctionTimeAvg
+        wird nach jedem Auktionsende upgedated (falls fruehzeitig abgebrochen)
+    AuctionSuccessRatio
+        wird nach jedem Auktionsende upgedated
