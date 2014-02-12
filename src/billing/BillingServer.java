@@ -5,6 +5,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import management.Login;
 
@@ -22,6 +23,11 @@ import management.Login;
  */
 public class BillingServer  implements Remote {
 	public static final String SERVERNAME = "billingServer";
+	private ConcurrentHashMap<String,byte[]> user;
+	
+	public BillingServer (ConcurrentHashMap<String,byte[]> user){
+		this.user = user;
+	}
 
 	/**
 	 *  
@@ -29,6 +35,8 @@ public class BillingServer  implements Remote {
 	public RemoteBillingServerSecure login(Login login) {
 		
 		//TODO Login testen
+		if(user.get(login.getName())!= login.getPw())
+			return null;//Password not correct
 		
 		Registry registry;
 		try {
