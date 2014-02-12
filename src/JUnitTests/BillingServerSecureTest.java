@@ -1,6 +1,9 @@
 package JUnitTests;
 
 import static org.junit.Assert.*;
+
+import java.rmi.RemoteException;
+
 import org.junit.Before;
 import org.junit.Test;
 import billing.BillingServerSecure;
@@ -65,7 +68,7 @@ public class BillingServerSecureTest{
 			s.deletePriceStep((double)0, (double)10);
 			s.createPriceStep(0, 10, 5, 10);
 			assertTrue(true);
-		} catch (PriceStepIntervalOverlapException e) {
+		} catch (RemoteException e) {
 		}
 	}
 	
