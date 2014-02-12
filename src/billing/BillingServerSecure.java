@@ -30,6 +30,7 @@ public class BillingServerSecure  {
 	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
+		bills=new ConcurrentHashMap<String,Bill>();
 	}
 
 	/**
@@ -96,7 +97,7 @@ public class BillingServerSecure  {
 	 */
 	public void billAuction(String user, long auctionID, double price) {
 		//ToDo Test if auction server is logged in
-		if(bills.contains(user)){
+		if(bills.containsKey(user)){
 			bills.get(user).addBillingLine(auctionID, price);
 		}else{
 			bills.put(user, new Bill(user, auctionID, price));
@@ -110,7 +111,7 @@ public class BillingServerSecure  {
 	 * @return
 	 */
 	public String getBill(String user) {
-		if(bills.contains(user))return bills.get(user).toString();
+		if(bills.containsKey(user))return bills.get(user).toString();
 		return "No bill for the user "+user+" available.";
 	}
 	

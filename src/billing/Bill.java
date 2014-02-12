@@ -30,7 +30,7 @@ public class Bill{
 	 */
 	@Override
 	public String toString() {
-		String r="Bill for "+user+" ";
+		String r="Bill for "+user;
 		int total=0;
 		Iterator<Long> a=auctionID.iterator();
 		Iterator<Double> b=price.iterator();
