@@ -1,6 +1,10 @@
 package billing;
 
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import management.Login;
 
@@ -25,7 +29,21 @@ public class BillingServer  implements Remote {
 	public RemoteBillingServerSecure login(Login login) {
 		
 		//TODO Login testen
-		return null;
+		
+		Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry("URL");//TODO URL
+			RemoteBillingServerSecure bss = (RemoteBillingServerSecure) registry.lookup(RemoteBillingServerSecure.SERVERNAME);
+			return bss;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;//Fehler bei der Serverlokalisierung
 	}
 
 }
