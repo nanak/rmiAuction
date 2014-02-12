@@ -5,6 +5,8 @@ import java.rmi.Remote;
 import management.ClientInterface;
 
 public class AnalyticTaskComputing implements Remote{
+	
+	public static final String SERVERNAME = "AnalyticServer";
  
 	private AnalyticsServer as;
 	 
