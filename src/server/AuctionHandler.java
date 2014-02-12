@@ -29,6 +29,12 @@ public class AuctionHandler implements Runnable {
 	@Override
 	public void run() {
 		while(server.isActive()) {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			Date now = new Date();
 			//System.out.println(now);
 			try{

@@ -16,7 +16,7 @@ public class MainClient {
 		String host=args[0];
 		int tcpPort=Integer.parseInt(args[1]);
 		int udpPort=Integer.parseInt(args[2]);	//Save arguments
-		Client c=new Client(host,tcpPort,udpPort);
+		Client c=new Client(host,tcpPort,null);
 		c.run();		//Start Client
 		}catch(NumberFormatException e){
 			System.out.println("Port(s) is/are not numeric");
