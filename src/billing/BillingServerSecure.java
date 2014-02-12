@@ -9,7 +9,6 @@ import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
 import ServerModel.Auction;
 import management.Login;
-import management.Bill;
 
 /**
  * provides the actual functionality of the BillingServer
@@ -97,6 +96,11 @@ public class BillingServerSecure  {
 	 */
 	public void billAuction(String user, long auctionID, double price) {
 		//ToDo Test if auction server is logged in
+		if(bills.contains(user)){
+			bills.get(user).addBillingLine(auctionID, price);
+		}else{
+			bills.put(user, new Bill(user, auctionID, price));
+		}
 	}
 
 	/**
