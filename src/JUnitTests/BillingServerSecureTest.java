@@ -1,9 +1,6 @@
 package JUnitTests;
 
 import static org.junit.Assert.*;
-
-import java.rmi.RemoteException;
-
 import org.junit.Before;
 import org.junit.Test;
 import billing.BillingServerSecure;
@@ -68,7 +65,7 @@ public class BillingServerSecureTest{
 			s.deletePriceStep((double)0, (double)10);
 			s.createPriceStep(0, 10, 5, 10);
 			assertTrue(true);
-		} catch (RemoteException e) {
+		} catch (PriceStepIntervalOverlapException e) {
 		}
 	}
 	
@@ -76,24 +73,9 @@ public class BillingServerSecureTest{
 	public void toStringTest(){
 		try {
 			PriceStep p= new PriceStep(0, 10, 5, 5);
-			assertEquals(p.toString(), "PriceStep [startPrice=0.0, endPrice=10.0, fixedPrice=5.0, variablePricePercent=5.0]");
+			assertEquals(p.toString(), "PriceSteps [startPrice=0.0, endPrice=10.0, fixedPrice=5.0, variablePricePercent=5.0]");
 		} catch (IllegalValueException e) {
 		}
 		
-	}
-	
-	@Test
-	public void billAuctionAndGetBillTest(){
-		BillingServerSecure s= new BillingServerSecure();
-		s.billAuction("test", 1, 10);
-		s.billAuction("test", 1, 20);
-		s.billAuction("test", 3, 10);
-		s.billAuction("t", 3, 10);
-		assertEquals("Bill for test\nID: 1 Price: 10.0\nID: 1 Price: 20.0\nID: 3 Price: 10.0\ntotal: 40", s.getBill("test"));
-	}
-	@Test
-	public void getBillTestFalse(){
-		BillingServerSecure s= new BillingServerSecure();
-		assertEquals("No bill for the user tz available.", s.getBill("tz"));
 	}
 }
