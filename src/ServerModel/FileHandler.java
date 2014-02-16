@@ -10,21 +10,38 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 
+ * This class handles the saving to and reading from file.
  * @author Nanak
  * 
- * @param <K>
- * @param <T>
+ * @param <K> Type of the Key to use
+ * @param <T> Type of the Value to use
  */
 public class FileHandler<K, T> {
 
 	private File file;
 	private String filename;
 
+	/**
+	 * default constructor
+	 */
 	public FileHandler() {
 		this.filename = "file.txt";
 	}
+	
+	/**
+	 * constructor, sets the filename to use for the program
+	 * @param filename the filename to use
+	 */
+	public FileHandler(String filename){
+		this.filename = filename;
+	}
 
+	/**
+	 * Writes a single Object to file
+	 * @param key the Key to use
+	 * @param value the Value to use
+	 * @return true if successful, false if unsuccessful
+	 */
 	public boolean writeObject(K key, T value) {
 		ObjectOutputStream out;
 		try {
@@ -45,6 +62,11 @@ public class FileHandler<K, T> {
 		return true;
 	}
 
+	/**
+	 * Saves a Map to file
+	 * @param map the map to save
+	 * @return true if successful, false if unsuccessful
+	 */
 	public boolean writeMap(ConcurrentHashMap<K, T> map) {
 		Properties prop = new Properties();
 		for (ConcurrentHashMap.Entry<K, T> entry : map.entrySet()) {
@@ -65,6 +87,10 @@ public class FileHandler<K, T> {
 		return true;
 	}
 
+	/**
+	 * Reads a Map from file
+	 * @return the ConcurrentHashMap which was read from file
+	 */
 	public ConcurrentHashMap<K, T> readAll() {
 		ConcurrentHashMap<K, T> map = new ConcurrentHashMap<K, T>();
 		Properties prop = new Properties();
@@ -81,6 +107,10 @@ public class FileHandler<K, T> {
 		return map;
 	}
 
+	/**
+	 * deletes a file
+	 * @return true if successful, false if unsuccessful
+	 */
 	public boolean deleteFile() {
 		try {
 			file = new File(filename);
