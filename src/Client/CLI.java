@@ -1,4 +1,7 @@
 package Client;
+
+import java.util.Scanner;
+
 /**
  * This implementation defines the output via standard output
  * 
@@ -14,5 +17,11 @@ public class CLI implements UI{
 	@Override
 	public void outln(String output){
 		System.out.print(output);
+	}
+	@Override
+	public String readln(){
+		Scanner in;
+		in=new Scanner(System.in);
+		return in.nextLine();
 	}
 }

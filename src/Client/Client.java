@@ -53,11 +53,11 @@ public class Client{
 		if(input!=null){
 			System.setIn(input);
 		}
-		Scanner in;
-		in=new Scanner(System.in);
+//		Scanner in;
+//		in=new Scanner(System.in);
 		while(active){
 			cli.outln("\n"+username+"> ");
-			eingabe=in.nextLine();	//The current command saved as String
+			eingabe=cli.readln();//in.nextLine();	//The current command saved as String
 			
 			if(eingabe.startsWith(" ")) eingabe=eingabe.substring(1);
 			//If first char of command string is empty, it will be deleted
@@ -135,7 +135,7 @@ public class Client{
 				
 				//If command is end
 			}else if(eingabe.startsWith("!end")){
-				in.close();	//Free ressources
+//				in.close();	//Free ressources
 				active=false;		//Exits the loop
 				if(username!="")
 					t.logout();

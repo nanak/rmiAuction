@@ -4,6 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import Test.TestEventHandler;
+
 /**
  * Combines all classes and runs them to see the total coverage
  * 
@@ -13,7 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({BillingServerSecureTest.class })
+@SuiteClasses({BillingServerSecureTest.class, TestEventHandler.class })
 public class AllClassesTest {
 	
 }

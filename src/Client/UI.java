@@ -16,4 +16,8 @@ public interface UI {
 	 * @param output	Text
 	 */
 	public void outln(String output);
+	/**
+	 * Reads a line
+	 */
+	public String readln();
 }
