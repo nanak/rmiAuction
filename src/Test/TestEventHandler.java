@@ -35,9 +35,12 @@ public class TestEventHandler {
 	@Before
 	public void setup(){
 		dummyAs = new AnalyticsServer();
-		eh = new EventHandler(dummyAs);
-		Thread t = new Thread(eh);
-		t.start();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Tests if a UserLoginEvent is processed correctly and put into the dispatcher Queue
@@ -49,7 +52,7 @@ public class TestEventHandler {
 		dummyAs.processEvent(ul);
 		//Wait because it is in another thread
 		try {
-			Thread.sleep(50);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +73,7 @@ public class TestEventHandler {
 		dummyAs.processEvent(ul);
 		//Wait because it is in another thread
 		try {
-			Thread.sleep(20);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -124,30 +127,31 @@ public class TestEventHandler {
 		assertEquals(asuc.getValue(), 0,0);
 	}
 	/**
-	 * Tests to place a bid and calculate bidcount per minute, should be 1, because 1 bid is placed in one minute.
+	 * Tests to place a bid because 1 bid is placed in one minute. Thread has to wait one Minute.
 	 * Also the highest bid shall be updated to 100
 	 */
-	@Test
-	public void testPlaceBidAndBPM(){
-		Date d = new Date();
-		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
-		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
-		dummyAs.processEvent(bp);
-		try {
-			Thread.sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//First Event should be BidPlaced
-		assertEquals("BID_PLACED", dummyAs.getDispatchedEvents().poll().getType());
-		//NExt event is new BidPriceMax -> 100
-		BidPriceMax bpmax = (BidPriceMax) dummyAs.getDispatchedEvents().poll();
-		assertEquals(bpmax.getValue(), 100,0);
-		//Next event BPM -> 1
-		BidCountPerMinute bpm = (BidCountPerMinute) dummyAs.getDispatchedEvents().poll();
-		assertEquals(bpm.getValue(), 1,0);
-	}
+//	@Test
+//	public void testPlaceBidAndBPM(){
+//		Date d = new Date();
+//		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
+//		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
+//		dummyAs.processEvent(bp);
+//		try {
+//			Thread.sleep(60000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//First Event should be BidPlaced
+//		assertEquals("BID_PLACED", dummyAs.getDispatchedEvents().poll().getType());
+//		//NExt event is new BidPriceMax -> 100
+//		BidPriceMax bpmax = (BidPriceMax) dummyAs.getDispatchedEvents().poll();
+//		assertEquals(bpmax.getValue(), 100,0);
+//		//NextEvent is BidCount perMinute
+//		BidCountPerMinute bpm = (BidCountPerMinute) dummyAs.getDispatchedEvents().poll();
+//		assertEquals(bpm.getValue(), 1, 0);
+//
+//	}
 	/**
 	 * Test if the auctionSuccessFullRatio will be 1, if there is a bid placed on it
 	 */
@@ -162,7 +166,7 @@ public class TestEventHandler {
 		dummyAs.processEvent(ae);
 		//Wait for processing
 		try {
-			Thread.sleep(100);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,9 +179,6 @@ public class TestEventHandler {
 		//NExt event is new BidPriceMax -> 100
 		BidPriceMax bpmax = (BidPriceMax) dummyAs.getDispatchedEvents().poll();
 		assertEquals(bpmax.getValue(), 100,0);
-		//Next event BPM -> 1
-		BidCountPerMinute bpm = (BidCountPerMinute) dummyAs.getDispatchedEvents().poll();
-		assertEquals(bpm.getValue(), 1,0);
 		assertEquals("AUCTION_ENDED", dummyAs.getDispatchedEvents().poll().getType());
 		//AuctionTime Average should be 50
 		AuctionTimeAvg atavg = (AuctionTimeAvg) dummyAs.getDispatchedEvents().poll();
@@ -186,4 +187,7 @@ public class TestEventHandler {
 		AuctionSuccessRatio asuc = (AuctionSuccessRatio) dummyAs.getDispatchedEvents().poll();
 		assertEquals(asuc.getValue(), 1,0);
 	}
+	/**
+	 * Tests the BidCountPerMinute
+	 */
 }

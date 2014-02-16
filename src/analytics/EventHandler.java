@@ -77,17 +77,19 @@ public class EventHandler implements Runnable{
 	public void run(){
 		System.out.println("Start receiving");
 		while(true){
-//			Thread.sleep(60000);
-			while(!as.getIncomingEvents().isEmpty()){
+			Event event = null;
+			try {
+				event = as.getIncomingEvents().take();
+				System.out.println(event.getType());
+				as.getDispatchedEvents().add(event);
+			} catch (InterruptedException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+//			while(!as.getIncomingEvents().isEmpty()){
 				System.out.println("Got event");
-				Event event = null;
-				try {
-					event = as.getIncomingEvents().take();
-					as.getDispatchedEvents().put(event); //Put them into the dispatcher
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
+				
 				
 				/**
 				 * Check types
@@ -237,22 +239,26 @@ public class EventHandler implements Runnable{
 						}
 							
 						//Get Time how long system is running and calculate bidcount/minute
-						Date now = new Date();
-						int minutes = (int)((now.getTime() - running)/1000)/60 + 1; //Round to full minutes upwards
-						double bpm = bidCount/minutes;
-						//Send event
-						now = new Date();
-						BidCountPerMinute bp = new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bpm);
+//						Date now = new Date();
+//						int minutes = (int)((now.getTime() - running)/1000)/60 + 1; //Round to full minutes upwards
+//						double bpm = bidCount/minutes;
+//						//Send event
+//						now = new Date();
+//						BidCountPerMinute bp = new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bpm);
 						//Try to push event into Queue
-						try {
-							as.getDispatchedEvents().put(bp);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						try {
+//							as.getDispatchedEvents().put(bp);
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 					}
-				}
 			}
 		}
 	}
+
+	public long getBidCount() {
+		return bidCount;
+	}
+
 }

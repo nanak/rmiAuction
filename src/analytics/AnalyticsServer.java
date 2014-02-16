@@ -2,6 +2,7 @@ package analytics;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,33 +13,22 @@ import ServerModel.FileHandler;
 
 public class AnalyticsServer {
  
-	private ConcurrentHashMap<Event, ConcurrentLinkedQueue<ClientInterface>> subscriptions; //Saves 
-	private ConcurrentHashMap<String, ArrayList<Event>> auctionEvents, userEvents, bidEvents, StatisticEvents; 
+	private ConcurrentHashMap<Event, ConcurrentLinkedQueue<ClientInterface>> subscriptions; //Saves the Clients 
 	private LinkedBlockingQueue<Event> incomingEvents;
 	private LinkedBlockingQueue<Event> dispatchedEvents; //Events which shall be sent to the user
+	private EventHandler eh;
 	 
 	public AnalyticsServer(){
 		incomingEvents = new LinkedBlockingQueue<>();
 		dispatchedEvents = new LinkedBlockingQueue<>();
+		eh = new EventHandler(this);
+		Thread t = new Thread(eh);
+		t.start();
+		Timer timer = new Timer();
+		timer.schedule(new BidCountPerMinuteWatcher(this), 60*1000);
+		
 	}
 	
-	public LinkedBlockingQueue<Event> getIncomingEvents() {
-		return incomingEvents;
-	}
-
-	public void setIncomingEvents(LinkedBlockingQueue<Event> incomingEvents) {
-		this.incomingEvents = incomingEvents;
-	}
-
-	public LinkedBlockingQueue<Event> getDispatchedEvents() {
-		return dispatchedEvents;
-	}
-
-	public void setDispatchedEvents(LinkedBlockingQueue<Event> dispatchedEvents) {
-		this.dispatchedEvents = dispatchedEvents;
-	}
-
-	private FileHandler fileHandler;
 	 
 	public void processEvent(Event e) {
 		try {
@@ -53,6 +43,19 @@ public class AnalyticsServer {
 	 
 	}
 
+	public LinkedBlockingQueue<Event> getIncomingEvents() {
+		return incomingEvents;
+	}
+
+	public LinkedBlockingQueue<Event> getDispatchedEvents() {
+		return dispatchedEvents;
+	}
+
+
+
+	public EventHandler getEventHandler() {
+		return eh;
+	}
 	 
 }
  
