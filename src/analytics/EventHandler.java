@@ -2,11 +2,21 @@ package analytics;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+import Event.AuctionEnded;
+import Event.AuctionEvent;
+import Event.AuctionStarted;
+import Event.AuctionSuccessRatio;
+import Event.AuctionTimeAvg;
+import Event.BidCountPerMinute;
+import Event.BidEvent;
+import Event.BidPlaced;
+import Event.BidPriceMax;
 import Event.Event;
 import Event.UserDisconnected;
 import Event.UserEvent;
@@ -26,13 +36,17 @@ public class EventHandler implements Runnable{
 	private AnalyticsServer as;
 	
 	//Auctions
-	private int auctionCount=0; //Count all auctions
+//	private int auctionCount=0; //Count all auctions
 	private int auctionTimeSum = 0; //
-	private HashSet<Integer> bidAuctions; //Saves all auction on which were bid. -> synchronized!
-	
+	private ConcurrentHashMap<Long,AuctionStarted> auctions; //Saves all started auctions
+	private HashSet<Long> bidAuctionIDs; //Saves auctions on which were bid.
+	private long auctionTimeAVG = 0;
+	private long auctionTimeSUM= 0;
+	private long auctionsEnded = 0; //Counts ended auctions
+	private long auctionSuccessfull =0; //Counts auctionSuccessFull
 	
 	//User
-	private long userTimeMin = 0;
+	private long userTimeMin = Long.MAX_VALUE;
 	private double userTimeMax = 0;
 	private long userTimeTotal = 0;
 	private long userTimeAVG = 0;
@@ -40,9 +54,9 @@ public class EventHandler implements Runnable{
 	private ConcurrentHashMap<String, UserEvent> logedInUser; //Saves all currently loggedIn User
 	
 	//Bid
-	private int bidtotal= 0;
-	private int bidMax = 0;
-	private Date running; //Saves the time to calculate how long the System is running
+	private long bidCount= 0;
+	private double bidMax = 0;
+	private long running; //Saves the time to calculate how long the System is running
 	
 	/**
 	 * Creates the EventHandler and sets the analyticsServer
@@ -51,18 +65,21 @@ public class EventHandler implements Runnable{
 	 */
 	public EventHandler(AnalyticsServer a){
 		as = a;
-		running = new Date();
-		
+		logedInUser = new ConcurrentHashMap<>();
+		auctions = new ConcurrentHashMap();
+		bidAuctionIDs = new HashSet();
+		running = new Date().getTime();
 	}
 	
 	/**
 	 * Performs every 60 seconds a processing of all Events
 	 */
 	public void run(){
+		System.out.println("Start receiving");
 		while(true){
 //			Thread.sleep(60000);
-			while(as.getIncomingEvents().isEmpty()){
-				
+			while(!as.getIncomingEvents().isEmpty()){
+				System.out.println("Got event");
 				Event event = null;
 				try {
 					event = as.getIncomingEvents().take();
@@ -74,6 +91,8 @@ public class EventHandler implements Runnable{
 				
 				/**
 				 * Check types
+				 * 
+				 * -----------------------------------------
 				 */
 				//UserEvent
 				if(event instanceof UserEvent){
@@ -139,6 +158,97 @@ public class EventHandler implements Runnable{
 								e.printStackTrace();
 							}
 							
+						}
+					}
+				}
+				/**
+				 * AuctionEvents
+				 * -----------
+				 */
+				else if(event instanceof AuctionEvent){
+					//Check if auctionStarted
+					AuctionEvent aevent = (AuctionEvent)event;
+					//AuctionStarted; put it into the list
+					if(aevent instanceof AuctionStarted){
+						auctions.put(aevent.getAuctionID(), (AuctionStarted)aevent);
+					}
+					else if(aevent instanceof AuctionEnded){
+						auctionsEnded++;
+						//Test if auction was successfull
+						if(bidAuctionIDs.contains(aevent.getAuctionID()))
+							auctionSuccessfull++;
+						//Get corresponding auctionStarted Event
+						AuctionStarted astarted = auctions.get(aevent.getAuctionID());
+						long atime = aevent.getTimestamp() - astarted.getTimestamp();
+						auctionTimeSUM += atime;
+						auctionTimeAVG = auctionTimeSUM/auctionsEnded;
+						//Create auctionAverageTime Event
+						java.util.Date date= new java.util.Date();
+						AuctionTimeAvg atavg = new AuctionTimeAvg("" +UUID.randomUUID().getMostSignificantBits(), "AUCTION_TIME_AVG", date.getTime(), auctionTimeAVG);
+						//Try to push event into Queue
+						try {
+							as.getDispatchedEvents().put(atavg);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						//Calculate successRatio
+						long asuccess = auctionSuccessfull/auctionsEnded;
+						System.out.println(asuccess);
+						//Create Event
+						date= new java.util.Date();
+						AuctionSuccessRatio asuc = new AuctionSuccessRatio("" +UUID.randomUUID().getMostSignificantBits(), "AUCTION_SUCCESS_RATIO", date.getTime(), asuccess);
+						//Try to push event into Queue
+						try {
+							as.getDispatchedEvents().put(asuc);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}//AuctionEvent
+				/**
+				 * BidEvents
+				 * -------------------------------------------------------------------------------------------------------------------
+				 * BidOverBid und BidWon don't need to be handled
+				 */
+				else if(event instanceof BidEvent){
+					BidEvent bevent = (BidEvent) event;
+					//Test if BidPlaced
+					if(bevent instanceof BidPlaced){
+						//Put into successfull Auctions
+						synchronized (bidAuctionIDs) {
+							bidAuctionIDs.add(bevent.getAuctionID());
+						}
+						//Update BidCOunt
+						bidCount++;
+						//Test if bid is higher then highest bid
+						if(bevent.getPrice() > bidMax){
+							bidMax = bevent.getPrice();
+							Date now = new Date();
+							BidPriceMax bm = new BidPriceMax("" +UUID.randomUUID().getMostSignificantBits(), "BID_PRICE_MAX", now.getTime(), bidMax);
+							//Try to push event into Queue
+							try {
+								as.getDispatchedEvents().put(bm);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+							
+						//Get Time how long system is running and calculate bidcount/minute
+						Date now = new Date();
+						int minutes = (int)((now.getTime() - running)/1000)/60 + 1; //Round to full minutes upwards
+						double bpm = bidCount/minutes;
+						//Send event
+						now = new Date();
+						BidCountPerMinute bp = new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bpm);
+						//Try to push event into Queue
+						try {
+							as.getDispatchedEvents().put(bp);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}
 				}
