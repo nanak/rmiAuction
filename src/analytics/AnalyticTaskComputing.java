@@ -2,6 +2,7 @@ package analytics;
 
 import java.rmi.Remote;
 
+import Event.Event;
 import management.ClientInterface;
 
 public class AnalyticTaskComputing implements Remote{
