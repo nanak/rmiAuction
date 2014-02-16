@@ -35,6 +35,7 @@ public class BidCountPerMinuteWatcher extends TimerTask{
 		Date now = new Date();
 		BidCountPerMinute bpm =  new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bidsmin);
 		as.getDispatchedEvents().add(bpm);
+		as.notifyClients();
 	}
 	
 }

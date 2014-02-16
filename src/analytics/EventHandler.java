@@ -253,7 +253,9 @@ public class EventHandler implements Runnable{
 //							e.printStackTrace();
 //						}
 					}
-			}
+				
+			}	
+				as.notifyClients();
 		}
 	}
 

@@ -2,7 +2,11 @@ package Test;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+
+import management.ClientInterface;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,10 +35,13 @@ public class TestEventHandler {
 
 	private EventHandler eh;
 	private AnalyticsServer dummyAs;
+	private MockClientInterface ci;
 	
 	@Before
 	public void setup(){
 		dummyAs = new AnalyticsServer();
+		ci = new MockClientInterface();
+		dummyAs.subscribe("(BID_.*|USER_.*|AUCTION_.*)", ci);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -57,8 +64,11 @@ public class TestEventHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//Tests the Events
+		ArrayList<Event> al = ci.getEvents();
+		Iterator<Event> it = al.iterator();
 		//Event shall now be in DispatchEvents
-		Event comp = dummyAs.getDispatchedEvents().poll();
+		Event comp = it.next();
 		assertEquals(comp, ul);
 	}
 	
@@ -78,9 +88,6 @@ public class TestEventHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//Event shall now be in DispatchEvents
-		Event comp = dummyAs.getDispatchedEvents().poll();
-		assertEquals(comp, ul);
 		
 		//EventQueue empty, log user Out
 		d = new Date();
@@ -93,10 +100,13 @@ public class TestEventHandler {
 			e.printStackTrace();
 		}
 		//Test the Events:
-		assertEquals("USER_LOGOUT", dummyAs.getDispatchedEvents().poll().getType());
-		assertEquals("USER_SESSIONTIME_MAX", dummyAs.getDispatchedEvents().poll().getType());
-		assertEquals("USER_SESSIONTIME_MIN", dummyAs.getDispatchedEvents().poll().getType());
-		assertEquals("USER_SESSIONTIME_AVG", dummyAs.getDispatchedEvents().poll().getType());
+		ArrayList<Event> events = ci.getEvents();
+		Iterator<Event> it = events.iterator();
+		assertEquals("USER_LOGIN", it.next().getType());
+		assertEquals("USER_LOGOUT", it.next().getType());
+		assertEquals("USER_SESSIONTIME_MAX", it.next().getType());
+		assertEquals("USER_SESSIONTIME_MIN", it.next().getType());
+		assertEquals("USER_SESSIONTIME_AVG", it.next().getType());
 	}
 	/**
 	 * Tests if an auction is started an Ended, if i get a successRatio 0 and an AverageTime of 50ms
@@ -116,42 +126,47 @@ public class TestEventHandler {
 			e.printStackTrace();
 		}
 		//Tests the Events
+		ArrayList<Event> al = ci.getEvents();
+		Iterator<Event> it = al.iterator();
 		//AuctionStart
-		assertEquals("AUCTION_STARTED", dummyAs.getDispatchedEvents().poll().getType());
-		assertEquals("AUCTION_ENDED", dummyAs.getDispatchedEvents().poll().getType());
+		assertEquals("AUCTION_STARTED", it.next().getType());
+		assertEquals("AUCTION_ENDED", it.next().getType());
 		//AuctionTime Average should be 50
-		AuctionTimeAvg atavg = (AuctionTimeAvg) dummyAs.getDispatchedEvents().poll();
+		AuctionTimeAvg atavg = (AuctionTimeAvg) it.next();
 		assertEquals(atavg.getValue(), 50,0);
 		//AuctionSuccessRatio should be 0
-		AuctionSuccessRatio asuc = (AuctionSuccessRatio) dummyAs.getDispatchedEvents().poll();
+		AuctionSuccessRatio asuc = (AuctionSuccessRatio) it.next();
 		assertEquals(asuc.getValue(), 0,0);
 	}
 	/**
 	 * Tests to place a bid because 1 bid is placed in one minute. Thread has to wait one Minute.
 	 * Also the highest bid shall be updated to 100
 	 */
-//	@Test
-//	public void testPlaceBidAndBPM(){
-//		Date d = new Date();
-//		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
-//		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
-//		dummyAs.processEvent(bp);
-//		try {
-//			Thread.sleep(60000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		//First Event should be BidPlaced
-//		assertEquals("BID_PLACED", dummyAs.getDispatchedEvents().poll().getType());
-//		//NExt event is new BidPriceMax -> 100
-//		BidPriceMax bpmax = (BidPriceMax) dummyAs.getDispatchedEvents().poll();
-//		assertEquals(bpmax.getValue(), 100,0);
-//		//NextEvent is BidCount perMinute
-//		BidCountPerMinute bpm = (BidCountPerMinute) dummyAs.getDispatchedEvents().poll();
-//		assertEquals(bpm.getValue(), 1, 0);
-//
-//	}
+	@Test
+	public void testPlaceBidAndBPM(){
+		Date d = new Date();
+		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
+		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
+		dummyAs.processEvent(bp);
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Tests the Events
+		ArrayList<Event> al = ci.getEvents();
+		Iterator<Event> it = al.iterator();
+		//First Event should be BidPlaced
+		assertEquals("BID_PLACED", it.next().getType());
+		//NExt event is new BidPriceMax -> 100
+		BidPriceMax bpmax = (BidPriceMax) it.next();
+		assertEquals(bpmax.getValue(), 100,0);
+		//NextEvent is BidCount perMinute
+		BidCountPerMinute bpm = (BidCountPerMinute) it.next();
+		assertEquals(bpm.getValue(), 1, 0);
+
+	}
 	/**
 	 * Test if the auctionSuccessFullRatio will be 1, if there is a bid placed on it
 	 */
@@ -172,19 +187,21 @@ public class TestEventHandler {
 			e.printStackTrace();
 		}
 		//Tests the Events
+		ArrayList<Event> al = ci.getEvents();
+		Iterator<Event> it = al.iterator();
 		//AuctionStart
-		assertEquals("AUCTION_STARTED", dummyAs.getDispatchedEvents().poll().getType());
+		assertEquals("AUCTION_STARTED", it.next().getType());
 		//First Event should be BidPlaced
-		assertEquals("BID_PLACED", dummyAs.getDispatchedEvents().poll().getType());
+		assertEquals("BID_PLACED", it.next().getType());
 		//NExt event is new BidPriceMax -> 100
-		BidPriceMax bpmax = (BidPriceMax) dummyAs.getDispatchedEvents().poll();
+		BidPriceMax bpmax = (BidPriceMax) it.next();
 		assertEquals(bpmax.getValue(), 100,0);
-		assertEquals("AUCTION_ENDED", dummyAs.getDispatchedEvents().poll().getType());
+		assertEquals("AUCTION_ENDED", it.next().getType());
 		//AuctionTime Average should be 50
-		AuctionTimeAvg atavg = (AuctionTimeAvg) dummyAs.getDispatchedEvents().poll();
+		AuctionTimeAvg atavg = (AuctionTimeAvg) it.next();
 		assertEquals(atavg.getValue(), 50,0);
 		//AuctionSuccessRatio should be 1
-		AuctionSuccessRatio asuc = (AuctionSuccessRatio) dummyAs.getDispatchedEvents().poll();
+		AuctionSuccessRatio asuc = (AuctionSuccessRatio) it.next();
 		assertEquals(asuc.getValue(), 1,0);
 	}
 	/**

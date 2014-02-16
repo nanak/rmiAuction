@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import Event.Event;
 import Exceptions.*;
 
 //import analytics.AnalyticTaskComputing;
@@ -68,7 +69,7 @@ public class ManagmentClient implements ClientInterface {
 	/**
 	 * @see management.ClientInterface#notify(java.lang.String)
 	 */
-	public void notify(String s) {
+	public void notify(Event e) {
 
 	}
 
