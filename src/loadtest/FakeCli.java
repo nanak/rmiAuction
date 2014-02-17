@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import Client.BidThread;
 import Client.UI;
 
 /**
@@ -54,9 +53,6 @@ public class FakeCli implements UI{
 				saveIDs=saveLines[i].split("\\s+");
 				a.add(Integer.parseInt(saveIDs[1]));
 			}
-		}
-		else {
-			System.out.println("nope");
 		}
 	}
 	@Override

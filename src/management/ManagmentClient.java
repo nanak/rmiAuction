@@ -3,6 +3,7 @@ package management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -37,8 +38,10 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	private AnalyticTaskComputing atc;
 
 	private static RemoteBillingServerSecure rsbs;
+	
+	private ClientInterface ci;
 
-	private ConcurrentLinkedQueue<String> events;
+	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
 	private Command c;
 	private boolean secure;
@@ -47,7 +50,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	
 	public ManagmentClient(UI ui){
 		// TODO get to know the billing server!!! Creating a new one here is just for now!!
-		this.bs=new BillingServer();
+		//this.bs=new BillingServer();
 		this.ui=ui;
 		cf=new CommandFactory();
 		running=true;
@@ -69,7 +72,12 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	 * @see management.ClientInterface#notify(java.lang.String)
 	 */
 	public void notify(Event e) {
-
+		if(printAutomatic==false){
+			events.add(e);
+		}
+		else{
+			ui.out(e.toString());
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -101,6 +109,26 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						System.out.println(c.execute(cmd));
 						secure=true;
 					}
+					else if(cmd[0].equals("!print")){
+						Iterator<Event> it = events.iterator();
+						while(it.hasNext()){
+							ui.out(it.next().toString());
+						}
+					}
+					else if(cmd[0].equals("!auto")){
+						printAutomatic=true;
+						Iterator<Event> it = events.iterator();
+						while(it.hasNext()){
+							ui.out(it.next().toString());
+						}
+					}
+					else if(cmd[0].equals("!hide")){
+						printAutomatic=false;
+					}
+					else if(cmd[0].equals("!subscribe")){
+						//TODO Check
+						//atc.subscribe(cmd[1], ci);
+					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
 							secure=false;
@@ -110,16 +138,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 					}	
 					else{	
 						c=cf.createCommand(cmd);
-						//null is returned when the command is !print
-						if(c==null){
-							printAutomatic=true;
-						}else{
-							anwser=(String) c.execute(cmd);
-							ui.out(anwser);
-						}
+						anwser=(String) c.execute(cmd);
+						ui.out(anwser);
 					}					
 				}catch(IllegalNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
-					System.err.println(e.getMessage());
+					ui.out(e.getMessage());
 				}
 			}
 			br.close();

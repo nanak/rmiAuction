@@ -1,0 +1,4 @@
+BillingServer RMI Methoden aufufen & Objekt bekommen
+Management Client (Client Interface) in Registry
+Analytcs Server über RMI
+Server über RMI

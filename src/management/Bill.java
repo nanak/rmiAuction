@@ -20,8 +20,8 @@ public class Bill extends SecureCommand<String> {
 			throw new IllegalNumberOfArgumentsException();
 		}
 		this.user=cmd[1];
-		//return bss.getBill(user);
-		return "bill not implemented yet";
+		return bss.getBill(user);
+		//return "bill not implemented yet";
 	}
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;

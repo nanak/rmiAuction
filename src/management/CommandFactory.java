@@ -23,7 +23,8 @@ public class CommandFactory {
 	// TODO CHECK SecurityCommand??
 	public Login createCommand(String[] args) throws CommandNotFoundException, CommandIsSecureException{
 		if(args[0].equals("!login")){
-			return new Login();
+			// TODO check
+			return new Login(args[1],args[2]);
 		}
 		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")||
 				args[0].equals("!print")||args[0].equals("!subscribe")||args[0].equals("!unsubscribe")){
@@ -51,9 +52,6 @@ public class CommandFactory {
 		}
 		else if(args[0].equals("!bill")){
 			return new Bill();
-		}
-		else if(args[0].equals("!print")){
-			return null;
 		}
 		else if(args[0].equals("!subscribe")){
 			return new Subscribe();

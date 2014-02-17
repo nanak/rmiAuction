@@ -1,6 +1,5 @@
-package Client;
+package loadtest;
 
-import loadtest.FakeCli;
 
 public class BidThread implements Runnable{
 	private Thread t;
@@ -32,8 +31,9 @@ public class BidThread implements Runnable{
 			}
 			first=false;
 		}
-		while(true){
+		while(cli.isClientAlive()){
 			id=cli.getRandomID();
+			// TODO nanos (genauer machen)
 			amount=(double)(System.currentTimeMillis()-starttime);
 			System.out.println(amount);
 			cli.write("!bid "+id+" "+amount);
