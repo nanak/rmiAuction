@@ -1,4 +1,4 @@
-package Test;
+package JUnitTests;
 
 import static org.junit.Assert.*;
 
@@ -83,7 +83,7 @@ public class TestEventHandler {
 		dummyAs.processEvent(ul);
 		//Wait because it is in another thread
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -204,7 +204,5 @@ public class TestEventHandler {
 		AuctionSuccessRatio asuc = (AuctionSuccessRatio) it.next();
 		assertEquals(asuc.getValue(), 1,0);
 	}
-	/**
-	 * Tests the BidCountPerMinute
-	 */
+
 }

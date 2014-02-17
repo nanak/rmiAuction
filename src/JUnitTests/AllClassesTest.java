@@ -4,8 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import Test.TestEventHandler;
-
 /**
  * Combines all classes and runs them to see the total coverage
  * 
