@@ -3,6 +3,9 @@ package analytics;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -155,7 +158,21 @@ public class AnalyticsServer {
 				,"BID_PRICE_MAX","BID_COUNT_PER_MINUTE"};
 		return events;
 	}
+	
+	 private static void initRmi(AnalyticTaskComputing atc){
+		 try {
+	            AnalyticTaskComputing stub =
+	                (AnalyticTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
+	            Registry registry = LocateRegistry.getRegistry();
+	            registry.rebind(AnalyticTaskComputing.SERVERNAME, stub);
+	            System.out.println("AnalyticServer bound");
+	            
 
+	            
+	        }catch (Exception e){
+	        	//TODO Handling
+	        }
+	 }
 	 
 }
  
