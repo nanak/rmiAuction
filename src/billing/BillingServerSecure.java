@@ -1,15 +1,10 @@
 package billing;
 
 import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
-import ServerModel.FileHandler;
-import ServerModel.Auction;
 import management.Login;
-import management.Bill;
 
 /**
  * provides the actual functionality of the BillingServer
@@ -31,15 +26,17 @@ public class BillingServerSecure  {
 	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
+		bills=new ConcurrentHashMap<String,Bill>();
 	}
 
 	public String getPriceSteps() {
-		String r="";
-		Iterator i=priceSteps.values().iterator();
+		Iterator<PriceStep> i=priceSteps.values().iterator();
+		PriceStep p=i.next();
+		String r=p.getVariableNames()+"\n"+p.getHeadLine()+"\n"+p.toString();
 		while(i.hasNext()){
 			r=r+"\n"+i.next().toString();
 		}
-		return r;
+		return r+"\n"+p.getHeadLine();
 	}
 
 	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
@@ -70,13 +67,29 @@ public class BillingServerSecure  {
 		return false;
 	}
 
-	public void billAuction(Auction auction) {
-
-	}
-
-	public String getBill(String user) {
-		return null;
+	/**
+	 * This method is called by the auction server as soon as an auction has ended.
+	 * The billing server stores the auction result 
+	 * and later uses this information to calculate the bill for a user.
+	 * @param auction
+	 */
+	public void billAuction(String user, long auctionID, double price) {
+		//TODO Test if auction server is logged in
+		if(bills.containsKey(user)){
+			bills.get(user).addBillingLine(auctionID, price);
+		}else{
+			bills.put(user, new Bill(user, auctionID, price));
+		}
 	}
 	
-
+	/**
+	 * This method calculates and returns the bill for a given user,
+	 * based on the price steps stored within the billing server.
+	 * @param user
+	 * @return
+	 */
+	public String getBill(String user) {
+		if(bills.containsKey(user))return bills.get(user).toString();
+		return "No bill for the user "+user+" available.";
+	}
 }
