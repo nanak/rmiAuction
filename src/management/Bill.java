@@ -3,7 +3,13 @@ package management;
 import billing.BillingServerSecure;
 import Exceptions.IllegalNumberOfArgumentsException;
 
-public class Bill extends SecureCommand {
+/**
+ * This class provides a method to create a bill
+ * 
+ * @author Michaela Lipovits
+ * @version 20140216
+ */
+public class Bill extends SecureCommand<String> {
 
 	private String user;
 	private BillingServerSecure bss;
@@ -14,7 +20,8 @@ public class Bill extends SecureCommand {
 			throw new IllegalNumberOfArgumentsException();
 		}
 		this.user=cmd[1];
-		return bss.getBill(user);
+		//return bss.getBill(user);
+		return "bill not implemented yet";
 	}
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;

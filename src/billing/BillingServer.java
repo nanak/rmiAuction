@@ -23,7 +23,8 @@ public class BillingServer  implements Remote {
 	 *  
 	 */
 	public RemoteBillingServerSecure login(Login login) {
-		return null;
+		// TODO CHECK login data etc. ? && return the right RemoteBIllingServer Instance
+		return new RemoteBillingServerSecure();
 	}
 
 }

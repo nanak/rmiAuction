@@ -21,13 +21,13 @@ public class RemoteBillingServerSecure implements Remote {
 	private BillingServerSecure bss;
 
 	public <T> T executeSecureCommand (SecureCommand<T> sc, String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException, PriceStepIntervalOverlapException {
-		sc.setBillingServerSecure(bss);
-		sc.execute(cmd);
-		return null;
+		// TODO dont create a new one here
+		sc.setBillingServerSecure(new BillingServerSecure());
+		return sc.execute(cmd);
 	}
 
 	public void billAuction(Auction auction) {
-
+		// TODO something
 	}
 
 }

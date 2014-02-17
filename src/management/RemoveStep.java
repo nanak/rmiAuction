@@ -4,7 +4,7 @@ import billing.BillingServerSecure;
 import Exceptions.IllegalNumberOfArgumentsException;
 import Exceptions.WrongInputException;
 
-public class RemoveStep extends SecureCommand {
+public class RemoveStep extends SecureCommand<String> {
 
 	private Double startPrice;
 
@@ -12,7 +12,7 @@ public class RemoveStep extends SecureCommand {
 	private BillingServerSecure bss;
 
 	@Override
-	public Object execute(String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException {
+	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException {
 		if(cmd.length!=3){
 			throw new IllegalNumberOfArgumentsException();
 		}

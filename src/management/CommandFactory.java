@@ -17,12 +17,17 @@ public class CommandFactory {
 	 * @param args String[] of the user input
 	 * @return Command which matches the userinput
 	 * @throws CommandNotFoundException if the input doesnt match any Command
+	 * @throws CommandIsSecureException 
 	 */
 	
 	// TODO CHECK SecurityCommand??
-	public Login createCommand(String[] args) throws CommandNotFoundException{
+	public Login createCommand(String[] args) throws CommandNotFoundException, CommandIsSecureException{
 		if(args[0].equals("!login")){
 			return new Login();
+		}
+		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")||
+				args[0].equals("!print")||args[0].equals("!subscribe")||args[0].equals("!unsubscribe")){
+			throw new CommandIsSecureException();
 		}
 		else{
 			//if command is not one of the above, an exception is thrown
