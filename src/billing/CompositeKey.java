@@ -1,7 +1,14 @@
 package billing;
 
-import Exceptions.PriceStepIntervalOverlapException;
 
+/**
+ * Class to store the interval (keys)(in a Map) for price steps and to compare them
+ * 
+ * @author Rudolf Krepela
+ * @email rkrepela@student.tgm.ac.at
+ * @version 11.02.2014
+ *
+ */
 public class CompositeKey {
    private Double key1, key2;
    
@@ -58,10 +65,18 @@ public boolean matches(Object obj) {
 	 return false;
 }
 
+/**
+ * Getter
+ * @return
+ */
 public Double getKey1() {
 	return key1;
 }
 
+/**
+ * Getter
+ * @return
+ */
 public Double getKey2() {
 	return key2;
 }
