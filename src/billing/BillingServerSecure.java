@@ -28,7 +28,11 @@ public class BillingServerSecure  {
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
 		bills=new ConcurrentHashMap<String,Bill>();
 	}
-
+	/**
+	 * This method returns the current configuration of price steps. 
+	 * (prints all PriceSteps)
+	 * @return
+	 */
 	public String getPriceSteps() {
 		Iterator<PriceStep> i=priceSteps.values().iterator();
 		PriceStep p=i.next();
@@ -38,7 +42,14 @@ public class BillingServerSecure  {
 		}
 		return r+"\n"+p.getHeadLine();
 	}
-
+	/**
+	 * This method allows to create a price step for a given price interval.
+	 * @param startPrice
+	 * @param endPrice
+	 * @param fixedPrice
+	 * @param variablePricePercent
+	 * @throws PriceStepIntervalOverlapException
+	 */
 	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
 		PriceStep p;
 		CompositeKey k;
@@ -57,7 +68,12 @@ public class BillingServerSecure  {
 			}
 
 	}
-
+	/**
+	 * This method allows to delete a price step for the pricing curve.
+	 * @param startPrice
+	 * @param endPrice
+	 * @throws RemoteException if interval does not exist
+	 */
 	public boolean deletePriceStep(Double startPrice, Double endPrice) {
 		CompositeKey k=new CompositeKey(startPrice, endPrice);
 		if(priceSteps.containsKey(k)){

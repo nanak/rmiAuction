@@ -1,8 +1,12 @@
 package billing;
 
+import java.io.UnsupportedEncodingException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -16,6 +20,7 @@ import java.rmi.server.UnicastRemoteObject;
 public class StartBillingServer {
 
 	public static void main(String[] args) {
+		BillingServer bs = new BillingServer (loginTestMap());
 	}
 	
 	/**
@@ -37,5 +42,26 @@ public class StartBillingServer {
 	        }catch (Exception e){
 	        	//TODO Handling
 	        }
+	 }
+	 
+	 /**
+	  * loginMap for testingpurposes
+	  * @return
+	  */
+	 private static ConcurrentHashMap<String,byte[]> loginTestMap(){
+		 byte[] bytesOfMessage;
+			MessageDigest md;
+			try {
+				bytesOfMessage = "test".getBytes("UTF-8");
+				md = MessageDigest.getInstance("MD5");
+				byte[] thedigest = md.digest(bytesOfMessage);
+				ConcurrentHashMap<String,byte[]> ret = new ConcurrentHashMap<String,byte[]>();
+				ret.put("test", thedigest);
+				return ret;
+			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
 	 }
 }
