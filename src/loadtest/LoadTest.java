@@ -48,12 +48,11 @@ public class LoadTest {
 		Properties p = new Properties();
 		//read properties from file
 		//p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/lipovits/loadtest/loadtest.properties");
-		FakeCli cli=new FakeCli(" ");
-		Client c=new Client("localhost", port, cli);
-		c.run();
-		cli.write("!login muh");
+		FakeCli cli=new FakeCli("!login deinemamaaaa");
+		Thread c=new Thread(new Client("localhost", port, cli));
+		c.start();
+		//cli.write("!login muh");
 		cli.write("!bid 111111");
-		
  		//put clients to map
 //		for (int i=0; i<p.getClients(); i++)
 //			clients.put(i, new Client("localhost", port, new FakeCli("!login "+randomAlphaNumeric(10))));

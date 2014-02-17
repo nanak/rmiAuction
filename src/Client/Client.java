@@ -12,7 +12,7 @@ import java.util.Scanner;
  * @author Dominik Valka <dvalka@student.tgm.ac.at>
  * @version 2013-12-10
  */
-public class Client{
+public class Client implements Runnable{
 	private String username;
 	private boolean loggedIn;
 	private String host;
@@ -47,12 +47,13 @@ public class Client{
 	/**
 	 * Reads permantly the user input and calls the methods
 	 */
+	@Override
 	public void run() {
 		String eingabe="";
 //		Scanner in;
 //		in=new Scanner(System.in);
 		while(active){
-			cli.outln("\n"+username+"> ");
+			//cli.outln("\n"+username+"> ");
 			try{
 				eingabe=cli.readln();//in.nextLine();	//The current command saved as String
 			}catch(NoSuchElementException e){
@@ -148,7 +149,7 @@ public class Client{
 				cli.out("Could not recognize input\nPlease try again");
 			}
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
