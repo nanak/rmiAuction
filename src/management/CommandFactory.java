@@ -20,14 +20,20 @@ public class CommandFactory {
 	 */
 	
 	// TODO CHECK SecurityCommand??
-	public Command createCommand(String[] args) throws CommandNotFoundException{
+	public Login createCommand(String[] args) throws CommandNotFoundException{
+		if(args[0].equals("!login")){
+			return new Login();
+		}
+		else{
+			//if command is not one of the above, an exception is thrown
+			throw new CommandNotFoundException();
+		}
+	}
+	public SecureCommand createSecureCommand(String[] args) throws CommandNotFoundException{
 		if(args[0].equals("!addStep")){
 			AddStep a=new AddStep();
 			// TODO check if attributes shal be set here? if yes, setter n the commands
 			return a;
-		}
-		else if(args[0].equals("!login")){
-			return new Login();
 		}
 		else if(args[0].equals("!logout")){
 			return new Logout();

@@ -1,6 +1,7 @@
 package Client;
 
 import java.io.ByteArrayInputStream;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
@@ -19,25 +20,23 @@ public class Client{
 	private int udpPort;
 	private TaskExecuter t;
 	private TCPConnector tcp;
-	private CLI cli;
+	private UI cli;;
 	//private NotificationReceiver nr;
 	private boolean active;
-	private ByteArrayInputStream input;
 	/**
 	 * Constructor sets Server-IP,TCP-Port and UDP-Port
 	 * @param host
 	 * @param tcpPort
 	 * @param udpPort
 	 */
-	public Client(String host,int tcpPort,ByteArrayInputStream input){
-		this.input=input;
+	public Client(String host,int tcpPort,FakeCli cli){
 		active=true;
 		loggedIn=false;
 		username="";
 		this.host=host;
 		this.tcpPort=tcpPort;
 		this.udpPort=udpPort;
-		cli=new CLI();
+		this.cli=cli;
 		tcp=new TCPConnector(tcpPort, cli, this);
 		t=new TaskExecuter(this);
 		new NotificationReceiver(this);
@@ -50,14 +49,15 @@ public class Client{
 	 */
 	public void run() {
 		String eingabe="";
-		if(input!=null){
-			System.setIn(input);
-		}
 //		Scanner in;
 //		in=new Scanner(System.in);
 		while(active){
 			cli.outln("\n"+username+"> ");
-			eingabe=cli.readln();//in.nextLine();	//The current command saved as String
+			try{
+				eingabe=cli.readln();//in.nextLine();	//The current command saved as String
+			}catch(NoSuchElementException e){
+				continue;
+			}
 			
 			if(eingabe.startsWith(" ")) eingabe=eingabe.substring(1);
 			//If first char of command string is empty, it will be deleted
@@ -169,7 +169,7 @@ public class Client{
 	public int getUdpPort() {
 		return udpPort;
 	}
-	public CLI getCli() {
+	public UI getCli() {
 		return cli;
 	}
 	public String getHost() {

@@ -61,9 +61,13 @@ public class BillingServerSecure  {
 
 	}
 
-	public void deletePriceStep(Double startPrice, Double endPrice) {
+	public boolean deletePriceStep(Double startPrice, Double endPrice) {
 		CompositeKey k=new CompositeKey(startPrice, endPrice);
-		if(priceSteps.containsKey(k))priceSteps.remove(k);
+		if(priceSteps.containsKey(k)){
+			priceSteps.remove(k);
+			return true;
+		}
+		return false;
 	}
 
 	public void billAuction(Auction auction) {
