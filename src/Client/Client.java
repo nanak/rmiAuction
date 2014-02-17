@@ -56,6 +56,7 @@ public class Client implements Runnable{
 			//cli.outln("\n"+username+"> ");
 			try{
 				eingabe=cli.readln();//in.nextLine();	//The current command saved as String
+				System.out.println(eingabe);
 			}catch(NoSuchElementException e){
 				continue;
 			}
@@ -149,7 +150,7 @@ public class Client implements Runnable{
 				cli.out("Could not recognize input\nPlease try again");
 			}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

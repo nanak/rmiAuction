@@ -14,7 +14,7 @@ import Client.FakeCli;
 public class LoadTest {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	private Properties properties;
-	private static ConcurrentHashMap<Integer, Client> clients;
+	private static ConcurrentHashMap<Integer, Thread> clients;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -32,6 +32,7 @@ public class LoadTest {
 		return builder.toString();
 	}
 	public static void main(String[] args) {
+		clients=new ConcurrentHashMap<Integer,Thread>();
 		int port;
 		if(args.length!=1){
 			port=5000;
@@ -47,17 +48,17 @@ public class LoadTest {
 		}
 		Properties p = new Properties();
 		//read properties from file
-		//p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/lipovits/loadtest/loadtest.properties");
-		FakeCli cli=new FakeCli("!login deinemamaaaa");
-		Thread c=new Thread(new Client("localhost", port, cli));
-		c.start();
-		//cli.write("!login muh");
-		cli.write("!bid 111111");
+		p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/src/loadtest/loadtest.properties");
+
  		//put clients to map
-//		for (int i=0; i<p.getClients(); i++)
-//			clients.put(i, new Client("localhost", port, new FakeCli("!login "+randomAlphaNumeric(10))));
-//		}
-//	
+		Thread t;
+		int clientcount=p.getClients();
+		for (int i=0; i<1; i++){
+			t=new Thread(new Client("localhost", port, new FakeCli("!login "+randomAlphaNumeric(10),p.getAuctionsPerMin(),p.getAuctionDuration())));
+			clients.put(i, t);
+			t.start();
+		}
+		
 	}
 
 }

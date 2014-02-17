@@ -3,6 +3,8 @@ package Client;
 import java.io.ByteArrayInputStream;
 import java.util.Scanner;
 
+import loadtest.AuctionThread;
+
 /**
  * This implementation defines the input via InputStream
  * 
@@ -13,9 +15,10 @@ public class FakeCli implements UI{
 	private Scanner in;
 	private ByteArrayInputStream is;
 
-	public FakeCli(String cmd){
+	public FakeCli(String cmd,int aucpM, int aucD){
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);
+		new AuctionThread(aucpM, aucD, this);
 		
 	}
 	public void write(String cmd){
