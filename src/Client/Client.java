@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import loadtest.FakeCli;
+
 
 
 /**

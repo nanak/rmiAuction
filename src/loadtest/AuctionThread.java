@@ -1,7 +1,13 @@
 package loadtest;
 
-import Client.FakeCli;
 
+/**
+ * Thread which creates Auctions with certain durations in set Intervals.
+ * 
+ * @author Michaela Lipovits
+ * @version 20140216
+ *
+ */
 public class AuctionThread implements Runnable{
 	private int aucpM,aucD;
 	private FakeCli cli;

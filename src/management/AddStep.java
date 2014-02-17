@@ -5,6 +5,11 @@ import Exceptions.IllegalNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
 
+/**
+ * This class provides a method to add steps.
+ * @author Michaela Lipovits
+ * @version 20140216
+ */
 public class AddStep extends SecureCommand<String> {
 
 	private Double startPrice;

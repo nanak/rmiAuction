@@ -1,9 +1,11 @@
 package loadtest;
 
-import org.omg.CORBA.PRIVATE_MEMBER;
 
-import Client.FakeCli;
-
+/**
+ * Thread, which 
+ * @author Michaela Lipovits
+ * @version 2014
+ */
 public class CheckDuration implements Runnable{
 	private long starttime;
 	private FakeCli cli;
@@ -24,6 +26,7 @@ public class CheckDuration implements Runnable{
 			status=System.currentTimeMillis()-starttime;
 			if(status>=min){
 				cli.write("!end");
+				cli.setClientsAlive(false);
 				System.out.println("client ended");
 			}
 			else{

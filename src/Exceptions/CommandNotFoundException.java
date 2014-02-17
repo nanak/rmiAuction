@@ -1,9 +1,9 @@
 package Exceptions;
 /**
- * This Exception is thrown if the given Command does not exist.
+ * This Exception is thrown if the given Command is a SecureCommand.
  *
  * @author Michaela Lipovits 
- * @version 20140203
+ * @version 20140217
  */
 public class CommandNotFoundException extends Exception{
     /**

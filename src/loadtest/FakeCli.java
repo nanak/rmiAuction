@@ -1,16 +1,16 @@
-package Client;
+package loadtest;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import loadtest.AuctionThread;
-import loadtest.CheckDuration;
-import loadtest.ListThread;
+import Client.BidThread;
+import Client.UI;
 
 /**
- * This implementation defines the input via InputStream
+ * This implementation defines the input via InputStream.
+ * This class also starts the threads which write the input and provides to method to shutdown all threads.
  * 
  * @author Michaela Lipovits
  * @version 2014-02-16
@@ -37,8 +37,6 @@ public class FakeCli implements UI{
 		
 	}
 	public void write(String cmd){
-		if(cmd.equals("!end"))
-			clientsAlive=false;
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);
 	}
@@ -71,5 +69,8 @@ public class FakeCli implements UI{
 	}
 	public boolean isClientAlive(){
 		return clientsAlive;
+	}
+	public void setClientsAlive(boolean clientsAlive) {
+		this.clientsAlive = clientsAlive;
 	}
 }

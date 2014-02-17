@@ -3,8 +3,8 @@ package loadtest;
 import java.io.ByteArrayInputStream;
 import java.util.concurrent.ConcurrentHashMap;
 
+import management.ManagmentClient;
 import Client.Client;
-import Client.FakeCli;
 /**
  * Class LoadTest which starts the Loadtests.
  * 
@@ -15,6 +15,7 @@ public class LoadTest {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
+	private ManagmentClient mc;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -32,28 +33,36 @@ public class LoadTest {
 		return builder.toString();
 	}
 	public static void main(String[] args) {
-		clients=new ConcurrentHashMap<Integer,Thread>();
 		int port;
-		if(args.length!=1){
+		String hostname;
+		if(args.length!=2){
 			port=5000;
-			System.out.println("No port set, default port 5000 used.");
+			hostname="localhost";
+			System.out.println("No/Wrong number of arguments. default (hostname: localhost, port: 5000) used.");
 		}
 		else{
+			hostname=args[0];
 			try{
-				port=Integer.parseInt(args[0]);
+				port=Integer.parseInt(args[1]);
 			}catch(NumberFormatException e){
 				System.out.println("The given port is not a number, default port 5000 used.");
 				port=5000;
 			}
 		}
+		new LoadTest(hostname,port);
+	}
+	public LoadTest(String hostname,int port){
+		clients=new ConcurrentHashMap<Integer,Thread>();
+		
 		Properties p = new Properties();
 		//read properties from file
+		// TODO dehardcode
 		p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/src/loadtest/loadtest.properties");
 
  		//put clients to map
 		Thread t;
 		for (int i=0; i<p.getClients(); i++){
-			t=new Thread(new Client("localhost", port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin())));
+			t=new Thread(new Client(hostname, port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin())));
 			clients.put(i, t);
 			t.start();
 		}

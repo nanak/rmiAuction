@@ -1,5 +1,7 @@
 package Client;
 
+import loadtest.FakeCli;
+
 public class BidThread implements Runnable{
 	private Thread t;
 	private int bidpM;

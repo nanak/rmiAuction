@@ -1,7 +1,12 @@
 package loadtest;
 
-import Client.FakeCli;
 
+/**
+ * Thread, which lists all running auctions in a specified interval
+ * 
+ * @author Michaela Lipovits
+ * @version 20140217
+ */
 public class ListThread implements Runnable{
 	private FakeCli cli;
 	private int update;
