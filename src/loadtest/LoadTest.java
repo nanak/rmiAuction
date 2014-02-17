@@ -50,13 +50,15 @@ public class LoadTest {
 			}
 		}
 		new LoadTest(hostname,port);
+		//subscribe doesnt work yet
+		new ManagmentClient(new FakeCli("!login admin admin\n!subscribe '*'"));
 	}
 	public LoadTest(String hostname,int port){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		
 		Properties p = new Properties();
 		//read properties from file
-		// TODO dehardcode
+		// TODO de-hardcode
 		p.setFromFile("/home/mlipovits/GitRepos/rmiAuction/src/loadtest/loadtest.properties");
 
  		//put clients to map

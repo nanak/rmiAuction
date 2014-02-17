@@ -9,7 +9,7 @@ import Exceptions.IllegalNumberOfArgumentsException;
  * @author Michaela Lipovits
  * @version 20140216
  */
-public class Bill extends SecureCommand {
+public class Bill extends SecureCommand<String> {
 
 	private String user;
 	private BillingServerSecure bss;

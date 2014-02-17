@@ -3,7 +3,7 @@ package management;
 import billing.BillingServerSecure;
 import Exceptions.IllegalNumberOfArgumentsException;
 
-public class Steps extends SecureCommand {
+public class Steps extends SecureCommand<String> {
 	private BillingServerSecure bss;
 
 	@Override

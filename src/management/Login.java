@@ -2,7 +2,7 @@ package management;
 
 import Exceptions.IllegalNumberOfArgumentsException;
 
-public class Login implements Command<Object>{
+public class Login implements Command<String>{
 
 	private String name;
 

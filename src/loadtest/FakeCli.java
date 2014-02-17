@@ -36,6 +36,10 @@ public class FakeCli implements UI{
 		new BidThread(this,bidspM,starttime);
 		
 	}
+	public FakeCli(String cmd) {
+		is=new ByteArrayInputStream(cmd.getBytes());
+		in = new Scanner(is);
+	}
 	public void write(String cmd){
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);

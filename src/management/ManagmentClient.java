@@ -3,10 +3,14 @@ package management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import analytics.AnalyticTaskComputing;
 import billing.BillingServer;
 import billing.RemoteBillingServerSecure;
+import Client.CLI;
+import Client.UI;
 import Event.Event;
 import Exceptions.*;
 
@@ -24,13 +28,13 @@ public class ManagmentClient implements ClientInterface, Runnable {
 
 	private static boolean printAutomatic;
 
-//	private UI ui;
+	private UI ui;
 
 	private static CommandFactory cf;
 
 	private static BillingServer bs;
 
-//	private AnalyticTaskComputing atc;
+	private AnalyticTaskComputing atc;
 
 	private static RemoteBillingServerSecure rsbs;
 
@@ -41,9 +45,10 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	private BufferedReader br;
 	private String[] logout;
 	
-	public ManagmentClient(){
+	public ManagmentClient(UI ui){
 		// TODO get to know the billing server!!! Creating a new one here is just for now!!
 		this.bs=new BillingServer();
+		this.ui=ui;
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -51,10 +56,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		secure=false;
 		logout=new String[1];
 		logout[0]="!logout";
+		new Thread(this).start();
 	}
 
 	public static void main(String[] args){
-		new Thread(new ManagmentClient()).start();
+		new ManagmentClient(new CLI());
 		
 	}
 
@@ -66,20 +72,26 @@ public class ManagmentClient implements ClientInterface, Runnable {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		String[] cmd=null;
 		String line;
+		String anwser;
 		try {
 			while (running) {
-				line = br.readLine();
+				try{
+					line=ui.readln();
+				}catch(NoSuchElementException e){
+					continue;
+				}
 				try{
 					cmd=line.split(" ");
 					if(line.equals("!end")){
 						if(secure==true){
 							System.out.println(rsbs.executeSecureCommand(cf.createSecureCommand(logout),logout));
 						}
-						System.out.println("Management Client is shutting down!");
+						ui.out("Management Client is shutting down!");
 						secure=false;
 						running=false;
 					}
@@ -93,7 +105,8 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						if(cmd[0].equals("!logout")){
 							secure=false;
 						}
-						System.out.println(rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd));
+						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
+						ui.out(anwser);
 					}	
 					else{	
 						c=cf.createCommand(cmd);
@@ -101,7 +114,8 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						if(c==null){
 							printAutomatic=true;
 						}else{
-							System.out.println(c.execute(cmd));
+							anwser=(String) c.execute(cmd);
+							ui.out(anwser);
 						}
 					}					
 				}catch(IllegalNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
