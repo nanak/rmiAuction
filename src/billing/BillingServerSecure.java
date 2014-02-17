@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
+import ServerModel.FileHandler;
 import management.Login;
 
 /**
@@ -22,11 +23,14 @@ public class BillingServerSecure  {
 
 	private ConcurrentHashMap<String,Bill> bills;
 
-	//private FileHandler<K,T> fileHandler;
+	private FileHandler<String,Bill> fileHandler;
 	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
 		bills=new ConcurrentHashMap<String,Bill>();
+		fileHandler= new FileHandler<String,Bill>("Bills");
+		//System.out.println(fileHandler.readObject(null, null).toString());
+		//fileHandler.close();
 	}
 	/**
 	 * This method returns the current configuration of price steps. 
@@ -96,6 +100,7 @@ public class BillingServerSecure  {
 		}else{
 			bills.put(user, new Bill(user, auctionID, price));
 		}
+		//fileHandler.writeObject(user, new Bill(user, auctionID, price));
 	}
 	
 	/**

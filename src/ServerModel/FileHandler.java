@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,12 +21,14 @@ public class FileHandler<K, T> {
 
 	private File file;
 	private String filename;
+	private ObjectInputStream in;
 
 	/**
 	 * default constructor
 	 */
 	public FileHandler() {
 		this.filename = "file.txt";
+		file = new File(filename);
 	}
 	
 	/**
@@ -34,6 +37,40 @@ public class FileHandler<K, T> {
 	 */
 	public FileHandler(String filename){
 		this.filename = filename;
+		file = new File(filename);
+		if(file.exists()){
+			try {
+				this.in=new ObjectInputStream(new FileInputStream(file));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Reads a single Object to file
+	 * @param key the Key to use
+	 * @param value the Value to use
+	 * @return true if successful, false if unsuccessful
+	 */
+	public Object readObject() {
+		Object o = null;
+		//TODO  go to saved position (if is set), test if has next, readObject, save position of stream
+		//TODO return one key-value pair or write a readKey() and readValue() method
+		return o;
+	}
+	
+	/**
+	 * close ObjectInputStream
+	 */
+	public void close(){
+		try {
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -45,7 +82,6 @@ public class FileHandler<K, T> {
 	public boolean writeObject(K key, T value) {
 		ObjectOutputStream out;
 		try {
-			file = new File(filename);
 			out = new ObjectOutputStream(new FileOutputStream(file));
 			out.writeObject(value);
 			out.flush();
