@@ -35,7 +35,7 @@ public class Client implements Runnable{
 		username="";
 		this.host=host;
 		this.tcpPort=tcpPort;
-		this.udpPort=udpPort;
+		this.udpPort=0;
 		this.cli=cli;
 		tcp=new TCPConnector(tcpPort, cli, this);
 		t=new TaskExecuter(this);
@@ -53,7 +53,7 @@ public class Client implements Runnable{
 //		Scanner in;
 //		in=new Scanner(System.in);
 		while(active){
-			//cli.outln("\n"+username+"> ");
+			cli.outln("\n"+username+"> ");
 			try{
 				eingabe=cli.readln();//in.nextLine();	//The current command saved as String
 				System.out.println(eingabe);

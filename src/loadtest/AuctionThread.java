@@ -5,22 +5,34 @@ import Client.FakeCli;
 public class AuctionThread implements Runnable{
 	private int aucpM,aucD;
 	private FakeCli cli;
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private Thread t;
+	private boolean first=true;
 	
 	public AuctionThread(int aucpM, int aucD, FakeCli cli){
 		this.aucD=aucD;
 		this.aucpM=aucpM;
 		this.cli=cli;
-		
-		new Thread(this).start();
+		t= new Thread(this);
+		t.start();
 	}
 
 	@Override
 	public void run() {
-		while(true){
-			cli.write("!create "+randomAlphaNumeric(7)+" "+aucD);
+		if(first){
+			cli.write("!login "+randomAlphaNumeric(10));
+			first=false;
+			try {
+				t.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		while(cli.isClientAlive()){
+			cli.write("!create "+aucD+" "+randomAlphaNumeric(7));
 			try{
-				Thread.sleep(aucpM*60000);
+				t.sleep(aucpM*60000);
 			}catch(InterruptedException e){
 				e.printStackTrace();	
 			}

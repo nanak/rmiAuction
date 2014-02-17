@@ -2,6 +2,8 @@ package server;
 
 import java.util.ArrayList;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 import model.Auction;
 import model.BidMessage;
 import model.Message;
@@ -45,7 +47,13 @@ public class ServerBid implements ServerAction {
 			}
 			else if(auction.getHighestBid() < bid.getAmount()){
 				User lastUser;
-				lastUser = server.getUser().get(auction.getLastUser().getName());
+				try{
+					lastUser = server.getUser().get(auction.getLastUser().getName());
+				}catch(NullPointerException e){
+					lastUser=null;
+				}
+				auction.setHighestBid(bid.getAmount());
+				auction.setLastUser(bidder);
 				
 				if (lastUser != null) { //If there is a previous bidder he gets notified
 					ArrayList<User> al = new ArrayList();
@@ -68,7 +76,7 @@ public class ServerBid implements ServerAction {
 			}
 		}
 		else
-			return "The auction '" + auction.getDescription()+"' is allready over you can not bid on this auction anymore!";
+			return "The auction '" + auction.getDescription()+"' is already over you can not bid on this auction anymore!";
 
 //		for(int i=0;i< server.getAuction().size();i++) {
 //			if(bid.getId() == server.getAuction().get(i).getId()) {

@@ -41,7 +41,7 @@ public class ServerLogin implements ServerAction {
 			loger.setActive(true);
 			loger.setMessages(new ArrayList<String>());
 			server.getUser().put(bid.getName(), loger);
-			return "Successfully suscribed and loged in as: "+loger.getName();
+			return "Successfully suscribed and logged in as: "+loger.getName();
 		}
 		else if (loger != null && loger.isActive()==false){ //if the user exists active is set true
 			loger.setAdresse(bid.getAdresse()); 
@@ -54,9 +54,9 @@ public class ServerLogin implements ServerAction {
 			}
 			else
 				ret ="No Messages";
-			return "Successfully loged in as: "+loger.getName()+"\nUnread messages: "+ret;
+			return "Successfully logged in as: "+loger.getName()+"\nUnread messages: "+ret;
 		}
-		return "This User is allready loged in please log out first!";
+		return "This User is allready logged in please log out first!";
 		
 	}
 }

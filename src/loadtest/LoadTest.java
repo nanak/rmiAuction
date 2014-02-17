@@ -12,7 +12,7 @@ import Client.FakeCli;
  * @version 20140209
  */
 public class LoadTest {
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
 	/**
@@ -52,9 +52,8 @@ public class LoadTest {
 
  		//put clients to map
 		Thread t;
-		int clientcount=p.getClients();
-		for (int i=0; i<1; i++){
-			t=new Thread(new Client("localhost", port, new FakeCli("!login "+randomAlphaNumeric(10),p.getAuctionsPerMin(),p.getAuctionDuration())));
+		for (int i=0; i<p.getClients(); i++){
+			t=new Thread(new Client("localhost", port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin())));
 			clients.put(i, t);
 			t.start();
 		}

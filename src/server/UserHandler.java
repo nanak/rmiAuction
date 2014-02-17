@@ -29,7 +29,7 @@ public class UserHandler implements Runnable{
 	private Socket client; //Socket-Verbindung mit Client
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
-//	private Thread executor; //Fuerht die Aktionen durch.
+	private Thread executor; //Fuerht die Aktionen durch.
 	
 	/**
 	 * Creates the UserHandler and starts the Connection
@@ -51,8 +51,8 @@ public class UserHandler implements Runnable{
 		}catch(Exception e){
 			return ;
 		}
-//		executor = new Thread(this);
-//		executor.start();
+		executor = new Thread(this);
+		executor.start();
 	}
 	@Override
 	public void run() {

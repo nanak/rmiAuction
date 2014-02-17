@@ -51,7 +51,7 @@ public class UDPNotifier implements Notifier{
 			} catch (SocketException e) {} catch (UnknownHostException e) {
 				System.out.println("Hostname could not be resolved");
 			} catch (IOException e) {
-				System.out.println("Could not send Paket");
+				//System.out.println("Could not send Paket");
 			}
 		}
 	}
