@@ -6,11 +6,17 @@ import java.security.NoSuchAlgorithmException;
 
 import Exceptions.IllegalNumberOfArgumentsException;
 
+/**
+ * Class login, which sets username and hashes the password.
+ * 
+ * @author Michaela Lipovits
+ * @version 20140216
+ */
 public class Login implements Command<String>{
 
 	private String name;
 
-	private byte[] pw;//Hashes Password
+	private byte[] pw;//Hashed Password
 
 	
 	/**

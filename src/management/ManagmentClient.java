@@ -55,11 +55,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	private boolean secure;
 	private BufferedReader br;
 	private String[] logout;
+	String username= "";
 	
 	public ManagmentClient(UI ui){
-		// TODO get to know the billing server!!! Creating a new one here is just for now!!
-		//this.bs=new BillingServer();
 		this.ui=ui;
+		initRMI();
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -94,8 +94,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		String[] cmd=null;
 		String line;
 		String anwser;
+		
 		try {
 			while (running) {
+				// TODO get username here
+				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
 				}catch(NoSuchElementException e){
@@ -112,9 +115,9 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						running=false;
 					}
 					else if(cmd[0].equals("!login")){
-						rsbs=bs.login((Login) cf.createCommand(cmd));
-						c=cf.createCommand(cmd);
-						System.out.println(c.execute(cmd));
+						c= cf.createCommand(cmd);
+						ui.out((String) c.execute(cmd));
+						rsbs=bs.login((Login)c);
 						secure=true;
 					}
 					else if(cmd[0].equals("!print")){
@@ -144,13 +147,15 @@ public class ManagmentClient implements ClientInterface, Runnable {
 							throw new WrongInputException();
 						}
 						ui.out("subscription "+id+" terminated");
-						//atc.unubscribe(cmd[1], cit);
+						// TODO UNSUBSCRIBE
+						//atc.unubscribe(cmd[1], this);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						//atc.subscribe(cmd[1], cit);
+						// TODO subscribe
+						atc.subscribe(cmd[1], this);
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
@@ -174,7 +179,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			e1.printStackTrace();
 			
 		}
-		
+
 	}
 	/**
 	 * RMI Initialisation

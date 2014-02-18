@@ -24,7 +24,7 @@ public class CommandFactory {
 	public Login createCommand(String[] args) throws CommandNotFoundException, CommandIsSecureException{
 		if(args[0].equals("!login")){
 			// TODO check
-			return new Login(args[1],args[2]);
+			return new Login();
 		}
 		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")){
 			throw new CommandIsSecureException();
