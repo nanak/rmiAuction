@@ -29,8 +29,11 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 		return sc.execute(cmd);
 	}
 
-	public void billAuction(Auction auction) {
-		// TODO something
+
+	@Override
+	public void billAuction(String name, int id, double highestBid) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

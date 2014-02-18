@@ -8,5 +8,9 @@ public class BidCountPerMinute extends StatisticsEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Bids/Minute: " + value;
+	}
 }
  

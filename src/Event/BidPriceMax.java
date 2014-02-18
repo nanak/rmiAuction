@@ -7,5 +7,9 @@ public class BidPriceMax extends StatisticsEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Bid price max seen so far: " + value;
+	}
 }
  

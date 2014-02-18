@@ -7,5 +7,9 @@ public class UserLogout extends UserEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - User logged out: " + username;
+	}
 }
  

@@ -6,6 +6,11 @@ public class AuctionEnded extends AuctionEvent {
 		super(iD, type, timestamp, auctionID);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Auction ended with id " + auctionID;
+	}
  
 }
  
