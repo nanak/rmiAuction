@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import Client.UI;
 
@@ -23,6 +25,7 @@ public class FakeCli implements UI{
 	private String[] saveLines;
 	private String[] saveIDs;
 	private boolean clientsAlive;
+	private ExecutorService pool;
 
 	public FakeCli(int aucpM, int aucD, int update, int bidspM){
 		starttime=System.currentTimeMillis();
@@ -30,9 +33,15 @@ public class FakeCli implements UI{
 		clientsAlive=true;
 		is=new ByteArrayInputStream("".getBytes());
 		in = new Scanner(is);
+		
+		// TODO ask why i should use a thread pool here?
+//		pool= Executors.newCachedThreadPool();
+//		pool.submit(new AuctionThread(aucpM, aucD, this));
+//		pool.submit(new ListThread(this, update));
+//		pool.submit(new BidThread(this,bidspM,starttime));
+		new AuctionThread(aucpM, aucD, this);
 		new AuctionThread(aucpM, aucD, this);
 		new ListThread(this, update);
-		new BidThread(this,bidspM,starttime);
 		
 	}
 	public FakeCli(String cmd) {

@@ -13,12 +13,13 @@ public class AuctionThread implements Runnable{
 	private FakeCli cli;
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Thread t;
-	private boolean first=true;
+	private boolean first;
 	
 	public AuctionThread(int aucpM, int aucD, FakeCli cli){
 		this.aucD=aucD;
 		this.aucpM=aucpM;
 		this.cli=cli;
+		first=true;
 		t= new Thread(this);
 		t.start();
 	}
@@ -29,13 +30,14 @@ public class AuctionThread implements Runnable{
 			cli.write("!login "+randomAlphaNumeric(10));
 			first=false;
 			try {
-				t.sleep(500);
+				t.sleep(aucpM*60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		while(cli.isClientAlive()){
+			cli.out("HERE");
 			cli.write("!create "+aucD+" "+randomAlphaNumeric(7));
 			try{
 				t.sleep(aucpM*60000);
