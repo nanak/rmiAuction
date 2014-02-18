@@ -1,8 +1,11 @@
 package analytics;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,6 +15,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import billing.BillingServer;
 import management.ClientInterface;
 import Event.Event;
 import ServerModel.FileHandler;
@@ -161,10 +166,37 @@ public class AnalyticsServer {
 	
 	 private static void initRmi(AnalyticTaskComputing atc){
 		 try {
+			 if (System.getSecurityManager() == null) {
+					System.setSecurityManager(new SecurityManager());
+				}
+			 
+			// neues Properties Objekt eerstellen
+				Properties properties = new Properties();
+				// neuen stream mit der messenger.properties Datei erstellen
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+
+				
+				properties.load(stream);
+			
+				stream.close();
+	            Registry registry = null;
+	            try{
+		            registry = LocateRegistry.getRegistry();
+	            }catch(RemoteException re){
+	            	try{
+	            		registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
+	            	}catch(Exception e){//TODO Einschraenken
+	            		System.out.println("Could not bind or locate Registry, stopping Programm");
+	            		System.exit(370);
+	            	}
+	            }
+	            if (registry == null){
+	            	System.out.println("Could not bind or locate Registry, stopping Programm");
+         		System.exit(370);
+	            }
 	            AnalyticTaskComputing stub =
 	                (AnalyticTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
-	            Registry registry = LocateRegistry.getRegistry();
-	            registry.rebind(AnalyticTaskComputing.SERVERNAME, stub);
+	            registry.rebind(properties.getProperty("rmi.analyticsServer"), stub);
 	            System.out.println("AnalyticServer bound");
 	            
 

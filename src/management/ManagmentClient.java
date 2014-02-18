@@ -1,10 +1,18 @@
 package management;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import analytics.AnalyticTaskComputing;
@@ -152,6 +160,45 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			
 		}
 		
+	}
+	/**
+	 * RMI Initialisation
+	 */
+	private void initRMI(){
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+	// neues Properties Objekt erstellen
+		Properties properties = new Properties();
+
+		
+		try {
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("ManagementClient.properties"));
+			properties.load(stream);
+			stream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		Registry registry;
+		try {
+			registry = LocateRegistry.getRegistry(
+					properties.getProperty("rmi.registryURL"),
+					Integer.parseInt(properties.getProperty("rmi.port")));
+			 bs = (BillingServer) registry
+					.lookup(properties.getProperty("rmi.bilingServer"));
+			 atc = (AnalyticTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException nfe) {
+			System.out.println("Properties File Fehlerhaft");
+		}
 	}
 
 }
