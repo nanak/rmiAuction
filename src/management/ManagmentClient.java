@@ -107,6 +107,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 		try {
 			while (running) {
+				// TODO get username here
 				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
@@ -150,20 +151,19 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
 						}
-						try{
-							id=Integer.parseInt(cmd[1]);
-						}catch(NumberFormatException e){
-							throw new WrongInputException();
-						}
-						atc.unsubscribe(cmd[1]);
-						ui.out("subscription "+id+" terminated");
+		
+		
+	
+						// TODO UNSUBSCRIBE
+						String s = atc.unsubscribe(cmd[1]);
+						ui.outln(s);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
 						}
 						//TODO subscribe
-						System.out.println(atc.subscribe(cmd[1],uniqueID, this));
+						System.out.println(atc.subscribe(cmd[1], this));
 					}
 					else if(cmd[0].equals("!logout")){
 						usernameLogout=new String[2];
@@ -196,6 +196,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			}
 			br.close();
 		} catch (IOException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			
 		}
@@ -232,8 +233,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
 			 
 		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File Fehlerhaft");

@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import Event.Event;
 import analytics.AnalyticTaskComputing;
 import billing.BillingServer;
 import billing.BillingServerSecure;
@@ -76,6 +77,14 @@ public class Server {
 	public void notify(ArrayList<User> al, String message) {
 		udp.notify(al,message);
 		System.out.println(message); //TODO only for testing after that delete
+	}
+	
+	/**
+	 * Notifies the analyticsServer of new Events
+	 * @param e
+	 */
+	public void notify(Event e){
+		atc.processEvent(e);
 	}
 	
 

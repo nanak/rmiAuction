@@ -15,7 +15,7 @@ public interface RemoteAnalyticsTaskComputing extends Remote{
 	  * @param ci
 	  * @return
 	  */
-	public String subscribe(String filter,String clientId, ClientInterface ci) throws RemoteException;
+	public String subscribe(String filter, ClientInterface ci) throws RemoteException;
 	 /**
 	  * Terminates a Subsrciption
 	  * @param subscriptionId
