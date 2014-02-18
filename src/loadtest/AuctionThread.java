@@ -11,7 +11,7 @@ package loadtest;
 public class AuctionThread implements Runnable{
 	private int aucpM,aucD;
 	private FakeCli cli;
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Thread t;
 	private boolean first;
 	
@@ -27,18 +27,16 @@ public class AuctionThread implements Runnable{
 	@Override
 	public void run() {
 		if(first){
-			cli.write("!login "+randomAlphaNumeric(10));
+			cli.write("!login "+randomString(10));
 			first=false;
 			try {
-				t.sleep(aucpM*60000);
+				t.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		while(cli.isClientAlive()){
-			cli.out("HERE");
-			cli.write("!create "+aucD+" "+randomAlphaNumeric(7));
+			cli.write("!create "+aucD+" "+randomString(7));
 			try{
 				t.sleep(aucpM*60000);
 			}catch(InterruptedException e){
@@ -47,11 +45,11 @@ public class AuctionThread implements Runnable{
 		}
 		
 	}
-	public static String randomAlphaNumeric(int count) {
+	public static String randomString(int count) {
 		StringBuilder builder = new StringBuilder();
 		while (count-- != 0) {
-			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+			int character = (int)(Math.random()*STRING_CHARS.length());
+			builder.append(STRING_CHARS.charAt(character));
 		}
 		return builder.toString();
 	}

@@ -2,8 +2,11 @@ package server;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.UUID;
 
+import Event.AuctionStarted;
 import model.Auction;
 import model.CreateMessage;
 import model.Message;
@@ -41,6 +44,9 @@ public class ServerCreate implements ServerAction{
 		while(it.hasNext()){
 			al.add(server.getUser().get(it.next()));
 		}
+		Date d = new Date();
+		AuctionStarted as = new AuctionStarted(UUID.randomUUID().toString(), "AUCTION_STARTED", d.getTime(), (long)hilf.getId());
+		server.notify(as);
 		server.notify(al,"An auction '"+hilf.getDescription()+"' with the ID: "
 				+hilf.getId()+" has been created and will end on "
 				+hilf.getDeadline()+".");

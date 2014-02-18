@@ -1,9 +1,13 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import org.omg.PortableInterceptor.SUCCESSFUL;
 
+import Event.BidOverbid;
+import Event.BidPlaced;
 import model.Auction;
 import model.BidMessage;
 import model.Message;
@@ -41,10 +45,14 @@ public class ServerBid implements ServerAction {
 		Auction auction = server.getAuction().get(bid.getId());
 		if(auction == null)
 			return "There is no Auction with this ID!"; //Errormessage if the auction doesn't exists
+		Date d = new Date();
+		BidPlaced bpl = new BidPlaced("", "BID_PLACED", d.getTime(), bid.getName(), bid.getId(), bid.getAmount());
 		if(!auction.isFinished()){
 			if(auction.getOwner().getName().equals(bid.getName())){
 				return "You cannot bid on your own auction!";
 			}
+
+			
 			else if(auction.getHighestBid() < bid.getAmount()){
 				User lastUser;
 				try{
@@ -62,7 +70,9 @@ public class ServerBid implements ServerAction {
 							auction.getDescription()+"' with the ID: "+
 							auction.getId()+".");
 				}
-
+				server.notify(bpl);
+				BidOverbid bo = new BidOverbid(UUID.randomUUID().toString(), "BID_OVERBID", d.getTime(), bid.getName(), bid.getId(), bid.getAmount());
+				server.notify(bo);
 				//Informs if the bid was succesfully
 				//return "You successfully bid with "+bid.getAmount()+" on '"
 				//	+server.getAuction().get(i).getDescription()+"'.";
@@ -71,6 +81,7 @@ public class ServerBid implements ServerAction {
 				+auction.getDescription()+"'.";
 			}
 			else{
+				server.notify(bpl);
 				return "Your bid must be higher then the current bid! The current bid is: "+
 						auction.getHighestBid();
 			}

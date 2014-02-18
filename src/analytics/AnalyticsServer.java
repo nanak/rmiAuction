@@ -41,6 +41,7 @@ public class AnalyticsServer {
 	private LinkedBlockingQueue<Event> incomingEvents;
 	private LinkedBlockingQueue<Event> dispatchedEvents; //Events which shall be sent to the user
 	private EventHandler eh;
+	private static int id = 0; //Saves all subsrciption IDs
 	 
 	/**
 	 * Starts the EventHandler and the Timer to schedule the BidCount per Minute
@@ -86,7 +87,7 @@ public class AnalyticsServer {
 	 * @param regex		Regex which says which Event a User want to receive
 	 * @param ci		ClientInterface which is used for CallBack
 	 */
-	public String subscribe(String regex,String id, ClientInterface ci){
+	public String subscribe(String regex, ClientInterface ci){
 	
 		//Iterate over all Keys
 		Set<String> keyset = subscriptions.keySet();
@@ -111,8 +112,11 @@ public class AnalyticsServer {
 				subscriptions.get(compare).put(subsid, ci);
 			}
 		}
-		if(foundMatch)
+		if(foundMatch){
+			id++;
 			return subsid;
+		}
+			
 		else
 			return "No Matching Events for your pattern found";
 	}
@@ -135,7 +139,12 @@ public class AnalyticsServer {
 			Set<String> clist = cmap.keySet();
 			for (Iterator iterator = clist.iterator(); iterator.hasNext();) {
 				ClientInterface clientInterface =cmap.get(iterator.next());
-				clientInterface.notify(event);
+				try {
+					clientInterface.notify(event);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -187,28 +196,31 @@ public class AnalyticsServer {
 				stream.close();
 	            Registry registry = null;
 	            try{
-		            registry = LocateRegistry.getRegistry();
-	            }catch(RemoteException re){
+	            	System.out.println("Getting registry");
+		            registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
+	            }catch( RemoteException e){
+	            	System.out.println("Could not create registry");
 	            	try{
-	            		registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
-	            	}catch(Exception e){//TODO Einschraenken
+	            		
+	            		registry = LocateRegistry.getRegistry(properties.getProperty("rmi.registryURL"),Integer.parseInt(properties.getProperty("rmi.port")));
+	            	}catch(Exception xe){//TODO Einschraenken
 	            		System.out.println("Could not bind or locate Registry, stopping Programm");
 	            		System.exit(370);
 	            	}
 	            }
 	            if (registry == null){
 	            	System.out.println("Could not bind or locate Registry, stopping Programm");
-         		System.exit(370);
+            		System.exit(370);
 	            }
-	            AnalyticTaskComputing stub =
-	                (AnalyticTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
+	            RemoteAnalyticsTaskComputing stub =
+	                (RemoteAnalyticsTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
 	            registry.rebind(properties.getProperty("rmi.analyticsServer"), stub);
 	            System.out.println("AnalyticServer bound");
 	            
 
 	            
 	        }catch (Exception e){
-	        	//TODO Handling
+	        	e.printStackTrace();
 	        }
 	 }
 	 /**

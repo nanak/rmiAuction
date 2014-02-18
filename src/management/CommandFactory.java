@@ -9,6 +9,9 @@ import Exceptions.*;
  * @version 20140211
  */
 public class CommandFactory {
+	private String allowed="Allowed commands:\n!login <username> <password>\n!logout\n!steps\n!addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>\n"
+			+ "!removeStep <startPrice> <endPrice>\n!bill <userName>\n!subscribe <filterRegex>\n!unsubscribe <subscriptionID>\n"
+			+ "!print\n!auto\n!hide";
 
 	/**
 	 * Method createCommand, which reads the first word of the array, and returns the matching command.
@@ -20,10 +23,8 @@ public class CommandFactory {
 	 * @throws CommandIsSecureException 
 	 */
 	
-	// TODO CHECK SecurityCommand??
 	public Login createCommand(String[] args) throws CommandNotFoundException, CommandIsSecureException{
 		if(args[0].equals("!login")){
-			// TODO check
 			return new Login();
 		}
 		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")){
@@ -31,14 +32,12 @@ public class CommandFactory {
 		}
 		else{
 			//if command is not one of the above, an exception is thrown
-			throw new CommandNotFoundException();
+			throw new CommandNotFoundException(allowed);
 		}
 	}
 	public SecureCommand createSecureCommand(String[] args) throws CommandNotFoundException{
 		if(args[0].equals("!addStep")){
-			AddStep a=new AddStep();
-			// TODO check if attributes shal be set here? if yes, setter n the commands
-			return a;
+			return new AddStep();
 		}
 		else if(args[0].equals("!logout")){
 			return new Logout();
@@ -54,7 +53,7 @@ public class CommandFactory {
 		}
 		else{
 			//if command is not one of the above, an exception is thrown
-			throw new CommandNotFoundException();
+			throw new CommandNotFoundException(allowed);
 		}
 	}
 }

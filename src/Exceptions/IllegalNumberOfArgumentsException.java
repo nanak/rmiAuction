@@ -12,6 +12,9 @@ public class IllegalNumberOfArgumentsException extends Exception{
      * the text of the exception.
      */
     public IllegalNumberOfArgumentsException(){
-  	super("Wrong number of arguments given!");
+    	super("Wrong number of arguments given!");
+    }
+    public IllegalNumberOfArgumentsException(String msg){
+    	super("Wrong number of arguments given!\n"+msg);
     }
 }

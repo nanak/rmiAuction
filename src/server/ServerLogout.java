@@ -1,6 +1,10 @@
 package server;
 
 
+import java.util.Date;
+import java.util.UUID;
+
+import Event.UserLogout;
 import model.LogoutMessage;
 import model.Message;
 import model.User;
@@ -24,6 +28,8 @@ public class ServerLogout implements ServerAction{
 	@Override
 	public String doOperation(Message message, Server server) {
 		LogoutMessage logout = (LogoutMessage) message;
+		Date d = new Date();
+		UserLogout ul = new UserLogout(UUID.randomUUID().toString(), "USER_LOGIN", d.getTime(), message.getName());
 		User loger = null;
 		loger = server.getUser().get(logout.getName());
 //		int ii = 0;
@@ -39,6 +45,7 @@ public class ServerLogout implements ServerAction{
 		else if (loger != null && loger.isActive() == true) { //if it exists logout
 			loger.setActive(false);			
 			//TODO cancel the connections
+			server.notify(ul);
 			return "Succesfully loged out as: "+loger.getName();
 		}
 		return "Error you must log in first!";

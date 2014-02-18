@@ -28,7 +28,7 @@ public class Login implements Command<String>{
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException{
 		if(cmd.length!=3){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !login <username> <password>");
 		}
 		this.name=cmd[1];
 		
@@ -36,15 +36,15 @@ public class Login implements Command<String>{
 		byte[] bytesOfMessage;
 		MessageDigest md;
 		try {
+			System.out.println(cmd[2]);
 			bytesOfMessage = cmd[2].getBytes("UTF-8");
 			md = MessageDigest.getInstance("MD5");
 			byte[] thedigest = md.digest(bytesOfMessage);
 			this.pw = thedigest;
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return name+" successfully logged in";
+		return "Password hashed";
 	}
 	/**
 	 * @return the name

@@ -8,6 +8,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,7 +26,7 @@ import management.Login;
  * @version 11.02.2014
  * 
  */
-public class BillingServer implements Remote {
+public class BillingServer implements RemoteBillingServer {
 	private ConcurrentHashMap<String, byte[]> user;
 
 	public BillingServer(ConcurrentHashMap<String, byte[]> user) {
@@ -35,11 +36,15 @@ public class BillingServer implements Remote {
 	/**
 	 *  
 	 */
-	public RemoteBillingServerSecure login(Login login) {
-
+	public IRemoteBillingServerSecure login(Login login) {
+		System.out.println("login");
 		// TODO Login testen
-		if (user.get(login.getName()) != login.getPw())
+		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(login.getPw()))){
+			System.out.println("incvalid " + " " + Arrays.toString(login.getPw()) + " " + Arrays.toString(user.get(login.getName())));
 			return null;// Password not correct
+			
+		}
+			
 		Properties properties = new Properties();
 		// neuen stream mit der messenger.properties Datei erstellen
 
@@ -55,11 +60,14 @@ public class BillingServer implements Remote {
 		}
 		Registry registry;
 		try {
+			System.out.println("Registry");
 			registry = LocateRegistry.getRegistry(
 					properties.getProperty("rmi.registryURL"),
 					Integer.parseInt(properties.getProperty("rmi.port")));
-			RemoteBillingServerSecure bss = (RemoteBillingServerSecure) registry
-					.lookup(properties.getProperty("rmi.bilingServerSecure"));
+			System.out.println("Got registry");
+			IRemoteBillingServerSecure bss = (IRemoteBillingServerSecure) registry
+					.lookup(properties.getProperty("rmi.billingServerSecure"));
+			System.out.println("Billingserver Secure");
 			return bss;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

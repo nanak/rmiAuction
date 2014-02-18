@@ -17,11 +17,10 @@ public class Bill extends SecureCommand<String> {
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException {
 		if(cmd.length!=2){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !bill <userName>");
 		}
 		this.user=cmd[1];
 		return bss.getBill(user);
-		//return "bill not implemented yet";
 	}
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;

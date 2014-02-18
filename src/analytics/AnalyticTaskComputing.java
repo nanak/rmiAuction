@@ -12,7 +12,7 @@ import management.ClientInterface;
  *
  */
 
-public class AnalyticTaskComputing implements Remote{
+public class AnalyticTaskComputing implements RemoteAnalyticsTaskComputing{
  
 	private AnalyticsServer as;
 	
@@ -26,8 +26,8 @@ public class AnalyticTaskComputing implements Remote{
 	  * @param ci
 	  * @return
 	  */
-	public String subscribe(String filter,String clientId, ClientInterface ci) {
-		return as.subscribe(filter, clientId, ci);
+	public String subscribe(String filter, ClientInterface ci) {
+		return as.subscribe(filter, ci);
 	}
 	 /**
 	  * Terminates a Subsrciption

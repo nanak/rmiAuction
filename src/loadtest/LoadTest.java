@@ -12,7 +12,7 @@ import Client.Client;
  * @version 20140209
  */
 public class LoadTest {
-	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
 	private ManagmentClient mc;
@@ -24,11 +24,11 @@ public class LoadTest {
 	public boolean createSystemDescription() {
 		return false;
 	}
-	public static String randomAlphaNumeric(int count) {
+	public static String randomString(int count) {
 		StringBuilder builder = new StringBuilder();
 		while (count-- != 0) {
-			int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+			int character = (int)(Math.random()*STRING_CHARS.length());
+			builder.append(STRING_CHARS.charAt(character));
 		}
 		return builder.toString();
 	}
@@ -50,16 +50,15 @@ public class LoadTest {
 			}
 		}
 		new LoadTest(hostname,port);
-		//subscribe doesnt work yet
-		//new ManagmentClient(new FakeCli("!login admin admin\n!subscribe '*'"));
+		new ManagmentClient(new FakeCli("!login admin admin\n!auto\n!subscribe '*'"));
+		
 	}
 	public LoadTest(String hostname,int port){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		
 		Properties p = new Properties();
 		//read properties from file
-		// TODO de-hardcode
-		p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/src/loadtest/loadtest.properties");
+		p.setFromFile("loadtest.properties");
 
  		//put clients to map
 		Thread t;

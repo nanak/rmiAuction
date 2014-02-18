@@ -41,7 +41,7 @@ public class TestEventHandler {
 	public void setup(){
 		dummyAs = new AnalyticsServer();
 		ci = new MockClientInterface();
-		dummyAs.subscribe("(BID_.*|USER_.*|AUCTION_.*)","ID", ci);
+		dummyAs.subscribe("(BID_.*|USER_.*|AUCTION_.*)", ci);
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
