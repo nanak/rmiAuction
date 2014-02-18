@@ -64,7 +64,6 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
-		
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -154,8 +153,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 							throw new WrongInputException();
 						}
 						ui.out("subscription "+id+" terminated");
-						// TODO UNSUBSCRIBE
-						//atc.unubscribe(cmd[1], this);
+						atc.unsubscribe(cmd[1]);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){

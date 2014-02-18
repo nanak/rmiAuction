@@ -40,7 +40,7 @@ public class FakeCli implements UI{
 //		pool.submit(new ListThread(this, update));
 //		pool.submit(new BidThread(this,bidspM,starttime));
 		new AuctionThread(aucpM, aucD, this);
-		new AuctionThread(aucpM, aucD, this);
+		new BidThread(this,bidspM,starttime);
 		new ListThread(this, update);
 		
 	}

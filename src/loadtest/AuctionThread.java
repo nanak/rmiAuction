@@ -30,14 +30,13 @@ public class AuctionThread implements Runnable{
 			cli.write("!login "+randomString(10));
 			first=false;
 			try {
-				t.sleep(aucpM*60000);
+				t.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		while(cli.isClientAlive()){
-			cli.out("HERE");
 			cli.write("!create "+aucD+" "+randomString(7));
 			try{
 				t.sleep(aucpM*60000);
