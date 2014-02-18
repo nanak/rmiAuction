@@ -24,7 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StartBillingServer {
 
 	public static void main(String[] args) {
+		
 		BillingServer bs = new BillingServer (loginTestMap());
+		//TODO initRMI
 	}
 	
 	/**
@@ -32,7 +34,10 @@ public class StartBillingServer {
 	 */
 	 private static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
-			// neues Properties Objekt eerstellen
+			 if (System.getSecurityManager() == null) {
+					System.setSecurityManager(new SecurityManager());
+				}
+			// neues Properties Objekt erstellen
 				Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
 				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));

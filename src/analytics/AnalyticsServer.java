@@ -166,6 +166,9 @@ public class AnalyticsServer {
 	
 	 private static void initRmi(AnalyticTaskComputing atc){
 		 try {
+			 if (System.getSecurityManager() == null) {
+					System.setSecurityManager(new SecurityManager());
+				}
 			 
 			// neues Properties Objekt eerstellen
 				Properties properties = new Properties();
