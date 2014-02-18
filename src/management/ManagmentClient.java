@@ -66,7 +66,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
-		
+		events = new ConcurrentLinkedQueue<Event>();
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -164,7 +164,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							throw new IllegalNumberOfArgumentsException();
 						}
 						// TODO subscribe
-						atc.subscribe(cmd[1],uniqueID, this);
+						System.out.println(atc.subscribe(cmd[1],uniqueID, this));
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
