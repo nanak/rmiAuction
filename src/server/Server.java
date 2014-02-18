@@ -197,7 +197,12 @@ public class Server {
 	 * @param auction
 	 */
 	public void billAuction(Auction auction) {
-		bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
+		try {
+			bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }
