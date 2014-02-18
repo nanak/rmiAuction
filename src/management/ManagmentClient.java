@@ -57,6 +57,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	private String[] logout;
 	
 	public ManagmentClient(UI ui){
+		initRMI();
 		// TODO get to know the billing server!!! Creating a new one here is just for now!!
 		//this.bs=new BillingServer();
 		this.ui=ui;

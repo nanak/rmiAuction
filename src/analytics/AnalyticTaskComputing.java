@@ -15,6 +15,10 @@ import management.ClientInterface;
 public class AnalyticTaskComputing implements Remote{
  
 	private AnalyticsServer as;
+	
+	public AnalyticTaskComputing (AnalyticsServer as){
+		this.as=as;
+	}
 	 
 	public boolean subscribe(String filter, ClientInterface ci) {
 		as.subscribe(filter, ci);
