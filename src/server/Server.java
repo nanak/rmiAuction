@@ -184,4 +184,12 @@ public class Server {
 		
 	
 	}
+	/**
+	 * Bills an Auction on the billing server
+	 * @param auction
+	 */
+	public void billAuction(Auction auction) {
+		bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
+		
+	}
 }

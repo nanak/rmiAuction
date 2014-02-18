@@ -1,7 +1,10 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
+import Event.UserLogin;
 import model.LoginMessage;
 import model.Message;
 import model.User;
@@ -22,6 +25,8 @@ public class ServerLogin implements ServerAction {
 	 */
 	@Override
 	public String doOperation(Message message, Server server) {
+		Date d = new Date();
+		UserLogin ul = new UserLogin(UUID.randomUUID().toString(), "USER_LOGIN", d.getTime(), message.getName());
 		LoginMessage bid = (LoginMessage) message;
 		String ret="";
 		User loger = null;
@@ -41,6 +46,7 @@ public class ServerLogin implements ServerAction {
 			loger.setActive(true);
 			loger.setMessages(new ArrayList<String>());
 			server.getUser().put(bid.getName(), loger);
+			server.notify(ul);
 			return "Successfully suscribed and logged in as: "+loger.getName();
 		}
 		else if (loger != null && loger.isActive()==false){ //if the user exists active is set true
@@ -54,6 +60,7 @@ public class ServerLogin implements ServerAction {
 			}
 			else
 				ret ="No Messages";
+			server.notify(ul);
 			return "Successfully logged in as: "+loger.getName()+"\nUnread messages: "+ret;
 		}
 		return "This User is allready logged in please log out first!";

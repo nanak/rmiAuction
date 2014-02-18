@@ -2,7 +2,10 @@ package server;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
+import Event.AuctionEnded;
+import Event.BidWon;
 import model.*;
 
 /**
@@ -41,8 +44,12 @@ public class AuctionHandler implements Runnable {
 			for(int i=0;i< server.getAuction().size();i++) { //Goes through all auctions
 				//Checks if the auction is over
 				if(server.getAuction().get(i).getDeadline().compareTo(now) <= 0 && 
-						server.getAuction().get(i).isFinished() == false) { //TODO Error Line 37 NullPointer Exception
+						server.getAuction().get(i).isFinished() == false) { 
 					server.getAuction().get(i).setFinished(true);
+					//Auction Ended
+					Date d = new Date();
+					AuctionEnded ae = new AuctionEnded(UUID.randomUUID().toString(), "AUCTION_ENDED", d.getTime(), i);
+					server.notify(ae);
 					//System.out.println(server.getAuction().get(i).getDescription()+ " is over.");
 
 					//Checks if somebody bidded on this auction to notfiy the right persons
@@ -70,18 +77,26 @@ public class AuctionHandler implements Runnable {
 						String wert1 = "The auction '"+server.getAuction().get(i).getDescription()+
 								"' has ended. You won with "+
 								server.getAuction().get(i).getHighestBid()+". \n";
-
+						
 						al = new ArrayList();
 						al.add(server.getAuction().get(i).getLastUser());
 						server.notify(al, wert1);
+						//Auction Won
+						BidWon bw = new BidWon(UUID.randomUUID().toString(), "BID_WON", d.getTime(), server.getAuction().get(i).getLastUser().getName(), i, server.getAuction().get(i).getHighestBid());
+						server.notify(bw);
 					}
 					else {
 						//The end of an auction if nobody has bidden. 
 						ArrayList<User> al = new ArrayList();
 						al.add(server.getAuction().get(i).getOwner());
+						//Auction Ended
+						
 						server.notify(al,"The auction '"
 								+server.getAuction().get(i).getDescription()+"' has ended. Nobody bidded.");
 					}
+					//Bill auction
+					server.billAuction(server.getAuction().get(i));
+					
 				}
 			}
 			}catch(Exception e){
