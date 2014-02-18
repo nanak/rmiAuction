@@ -59,7 +59,8 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	private boolean secure;
 	private BufferedReader br;
 	private String[] logout;
-	String username= "";
+	private String username= "";
+	private String[] usernameLogout;
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
@@ -163,9 +164,12 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						atc.subscribe(cmd[1],uniqueID, this);
 					}
 					else if(cmd[0].equals("!logout")){
-						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
+						usernameLogout=new String[2];
+						usernameLogout[0]=cmd[0];
+						usernameLogout[1]=username;
+						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),usernameLogout);
 						ui.out(anwser);
-						username="";
+						username=""; 
 						rsbs=null;
 						secure=false;
 					}

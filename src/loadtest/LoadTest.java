@@ -50,8 +50,7 @@ public class LoadTest {
 			}
 		}
 		new LoadTest(hostname,port);
-		//subscribe doesnt work yet
-		//new ManagmentClient(new FakeCli("!login admin admin\n!subscribe '*'"));
+		new ManagmentClient(new FakeCli("!login admin admin\n!subscribe '*'"));
 	}
 	public LoadTest(String hostname,int port){
 		clients=new ConcurrentHashMap<Integer,Thread>();
