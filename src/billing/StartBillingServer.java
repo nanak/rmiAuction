@@ -3,6 +3,9 @@ package billing;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.BindException;
+import java.rmi.ConnectException;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -39,9 +42,9 @@ public class StartBillingServer {
 	 */
 	 private static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
-			 if (System.getSecurityManager() == null) {
-					System.setSecurityManager(new SecurityManager());
-				}
+//			 if (System.getSecurityManager() == null) {
+//					System.setSecurityManager(new SecurityManager());
+//				}
 			// neues Properties Objekt erstellen
 				Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
@@ -51,15 +54,18 @@ public class StartBillingServer {
 				properties.load(stream);
 			
 				stream.close();
-	            BillingServer stub =
-	                (BillingServer) UnicastRemoteObject.exportObject(bs, 0);
+	            RemoteBillingServer stub =
+	                (RemoteBillingServer) UnicastRemoteObject.exportObject(bs, 0);
 	            Registry registry = null;
 	            try{
-		            registry = LocateRegistry.getRegistry();
-	            }catch(RemoteException re){
+	            	System.out.println("Getting registry");
+		            registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
+	            }catch( RemoteException e){
+	            	System.out.println("Could not create registry");
 	            	try{
-	            		registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
-	            	}catch(Exception e){//TODO Einschraenken
+	            		
+	            		registry = LocateRegistry.getRegistry(properties.getProperty("rmi.registryURL"),Integer.parseInt(properties.getProperty("rmi.port")));
+	            	}catch(Exception xe){//TODO Einschraenken
 	            		System.out.println("Could not bind or locate Registry, stopping Programm");
 	            		System.exit(370);
 	            	}
@@ -72,12 +78,12 @@ public class StartBillingServer {
 	            System.out.println("BillingServer bound");
 	            
 
-	            RemoteBillingServerSecure stubSecure =
-	                (RemoteBillingServerSecure) UnicastRemoteObject.exportObject(bss, 0);
+	            Remote stubSecure =
+	                (Remote) UnicastRemoteObject.exportObject(bss, 0);
 	            registry.rebind(properties.getProperty("rmi.billingServerSecure"), stub);
 	            System.out.println("BillingServerSecure bound");
 	        }catch (Exception e){
-	        	//TODO Handling
+	        	e.printStackTrace();
 	        }
 	 }
 	 

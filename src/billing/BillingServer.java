@@ -25,7 +25,7 @@ import management.Login;
  * @version 11.02.2014
  * 
  */
-public class BillingServer implements Remote {
+public class BillingServer implements RemoteBillingServer {
 	private ConcurrentHashMap<String, byte[]> user;
 
 	public BillingServer(ConcurrentHashMap<String, byte[]> user) {
@@ -38,8 +38,12 @@ public class BillingServer implements Remote {
 	public RemoteBillingServerSecure login(Login login) {
 
 		// TODO Login testen
-		if (user.get(login.getName()) != login.getPw())
+		if (user.get(login.getName()) != login.getPw()){
+			System.out.println("incvalid " + user.get(login.getName()).toString());
 			return null;// Password not correct
+			
+		}
+			
 		Properties properties = new Properties();
 		// neuen stream mit der messenger.properties Datei erstellen
 
@@ -60,6 +64,7 @@ public class BillingServer implements Remote {
 					Integer.parseInt(properties.getProperty("rmi.port")));
 			RemoteBillingServerSecure bss = (RemoteBillingServerSecure) registry
 					.lookup(properties.getProperty("rmi.bilingServerSecure"));
+			System.out.println("Billingserver Secure");
 			return bss;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
