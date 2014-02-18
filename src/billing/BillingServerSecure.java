@@ -39,6 +39,8 @@ public class BillingServerSecure  {
 	 */
 	public String getPriceSteps() {
 		Iterator<PriceStep> i=priceSteps.values().iterator();
+		if(!i.hasNext())
+			return "No Pricesteps yet";
 		PriceStep p=i.next();
 		String r=p.getVariableNames()+"\n"+p.getHeadLine()+"\n"+p.toString();
 		while(i.hasNext()){

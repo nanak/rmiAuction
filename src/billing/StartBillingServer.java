@@ -78,9 +78,9 @@ public class StartBillingServer {
 	            System.out.println("BillingServer bound");
 	            
 
-	            Remote stubSecure =
-	                (Remote) UnicastRemoteObject.exportObject(bss, 0);
-	            registry.rebind(properties.getProperty("rmi.billingServerSecure"), stub);
+	            IRemoteBillingServerSecure stubSecure =
+	                (IRemoteBillingServerSecure) UnicastRemoteObject.exportObject(bss, 0);
+	            registry.rebind(properties.getProperty("rmi.billingServerSecure"), stubSecure);
 	            System.out.println("BillingServerSecure bound");
 	        }catch (Exception e){
 	        	e.printStackTrace();

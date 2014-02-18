@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import analytics.AnalyticTaskComputing;
 import analytics.RemoteAnalyticsTaskComputing;
+import billing.IRemoteBillingServerSecure;
 import billing.RemoteBillingServer;
 import billing.RemoteBillingServerSecure;
 import Client.CLI;
@@ -50,7 +51,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private RemoteAnalyticsTaskComputing atc;
 
-	private static RemoteBillingServerSecure rsbs;
+	private static IRemoteBillingServerSecure rsbs;
 	
 	private String uniqueID;
 //	private ClientInterface ci;

@@ -15,7 +15,7 @@ import ServerModel.Auction;
  * @version 11.02.2014
  *
  */
-public class RemoteBillingServerSecure implements Remote {
+public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 
 	private BillingServerSecure bss;
 	
