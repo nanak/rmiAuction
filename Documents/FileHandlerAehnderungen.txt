@@ -1,0 +1,21 @@
+FileHandler aenderungen zu klassendiagramm
+
++ => dazu
+- => weg
+
+Attribute alle private
+Methoden alle public
+
+
+Attribute:
+
++ String filename
++ ObjectInputStream in;
++ FileInputStream fileIn;
++ FileOutputStream fileOut;
+
+Methoden:
+
++ default Konstruktor
++ Konstruktor(String filename)
++ close()
