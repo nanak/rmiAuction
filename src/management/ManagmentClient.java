@@ -146,25 +146,21 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						printAutomatic=false;
 					}
 					else if(cmd[0].equals("!unsubscribe")){
-						int id;
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						try{
-							id=Integer.parseInt(cmd[1]);
-						}catch(NumberFormatException e){
-							throw new WrongInputException();
-						}
-						ui.out("subscription "+id+" terminated");
+						
+						
 						// TODO UNSUBSCRIBE
-						//atc.unubscribe(cmd[1], this);
+						String s = atc.unsubscribe(cmd[1]);
+						ui.outln(s);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
 						// TODO subscribe
-						System.out.println(atc.subscribe(cmd[1],uniqueID, this));
+						System.out.println(atc.subscribe(cmd[1], this));
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){

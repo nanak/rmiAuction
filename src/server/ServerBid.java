@@ -1,9 +1,12 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import org.omg.PortableInterceptor.SUCCESSFUL;
 
+import Event.BidPlaced;
 import model.Auction;
 import model.BidMessage;
 import model.Message;
@@ -45,6 +48,11 @@ public class ServerBid implements ServerAction {
 			if(auction.getOwner().getName().equals(bid.getName())){
 				return "You cannot bid on your own auction!";
 			}
+			Date d = new Date();
+			BidPlaced bpl = new BidPlaced("", "BID_PLACED", d.getTime(), bid.getName(), bid.getId(), bid.getAmount());
+			
+			
+			
 			else if(auction.getHighestBid() < bid.getAmount()){
 				User lastUser;
 				try{
