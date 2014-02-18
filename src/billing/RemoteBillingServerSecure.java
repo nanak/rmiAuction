@@ -16,7 +16,6 @@ import ServerModel.Auction;
  *
  */
 public class RemoteBillingServerSecure implements Remote {
-	public static final String SERVERNAME = "billingServerSecure";
 
 	private BillingServerSecure bss;
 	

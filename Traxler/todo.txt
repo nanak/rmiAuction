@@ -1,0 +1,6 @@
+Billingserver und Analyticsserve im Auctionserver erstellen und weiterleiten
+Events Triggern im AuctionServer
+
+Managementclient RMI verbindungen initialisieren
+
+TODO's im Code ausbessern

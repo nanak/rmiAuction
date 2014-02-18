@@ -78,9 +78,8 @@ public class UserHandler implements Runnable{
 				if(m instanceof LoginMessage){
 					ret = server.request(m);
 					if(ret.startsWith("Successfully")){
-						User tmp = new User();
-						tmp.setName(m.getName());
-						user = server.getUser().get(server.getUser().indexOf(tmp));
+			
+						user = server.getUser().get(m.getName());
 					}
 				}
 				else{
