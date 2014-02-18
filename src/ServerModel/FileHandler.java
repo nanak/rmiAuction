@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class handles the saving to and reading from file.
- * @author Nanak
+ * @author Nanak Tattyrek
  * 
  * @param <K> Type of the Key to use
  * @param <T> Type of the Value to use
@@ -50,16 +50,30 @@ public class FileHandler<K, T> {
 	}
 	
 	/**
-	 * Reads a single Object to file
+	 * Reads a single Object from file
 	 * @param key the Key to use
 	 * @param value the Value to use
-	 * @return true if successful, false if unsuccessful
+	 * @return the read object
 	 */
-	public Object readObject() {
-		Object o = null;
-		//TODO  go to saved position (if is set), test if has next, readObject, save position of stream
-		//TODO return one key-value pair or write a readKey() and readValue() method
-		return o;
+	public Object readObject(K key, T value) {
+		ObjectInputStream in;
+		Object o;
+		try {
+			in = new ObjectInputStream(new FileInputStream(file));
+			o = in.readObject();
+			in.close();
+			return o;
+		} catch (FileNotFoundException e) {
+			System.out.println("Error with specified file");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Error with I/O processes");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class not found");
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
