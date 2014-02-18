@@ -26,8 +26,7 @@ public class CommandFactory {
 			// TODO check
 			return new Login(args[1],args[2]);
 		}
-		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")||
-				args[0].equals("!print")||args[0].equals("!subscribe")||args[0].equals("!unsubscribe")){
+		else if(args[0].equals("!logout")||args[0].equals("!addStep")||args[0].equals("!steps")||args[0].equals("!removeStep")||args[0].equals("!bill")){
 			throw new CommandIsSecureException();
 		}
 		else{
@@ -52,12 +51,6 @@ public class CommandFactory {
 		}
 		else if(args[0].equals("!bill")){
 			return new Bill();
-		}
-		else if(args[0].equals("!subscribe")){
-			return new Subscribe();
-		}
-		else if(args[0].equals("!unsubscribe")){
-			return new Unsubscribe();
 		}
 		else{
 			//if command is not one of the above, an exception is thrown

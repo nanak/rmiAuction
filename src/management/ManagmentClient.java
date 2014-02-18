@@ -125,9 +125,24 @@ public class ManagmentClient implements ClientInterface, Runnable {
 					else if(cmd[0].equals("!hide")){
 						printAutomatic=false;
 					}
+					else if(cmd[0].equals("!unsubscribe")){
+						int id;
+						if(cmd.length!=2){
+							throw new IllegalNumberOfArgumentsException();
+						}
+						try{
+							id=Integer.parseInt(cmd[1]);
+						}catch(NumberFormatException e){
+							throw new WrongInputException();
+						}
+						ui.out("subscription "+id+" terminated");
+						//atc.unubscribe(cmd[1], cit);
+					}
 					else if(cmd[0].equals("!subscribe")){
-						//TODO Check
-						//atc.subscribe(cmd[1], ci);
+						if(cmd.length!=2){
+							throw new IllegalNumberOfArgumentsException();
+						}
+						//atc.subscribe(cmd[1], cit);
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
