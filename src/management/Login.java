@@ -12,11 +12,13 @@ public class Login implements Command<String>{
 
 	private byte[] pw;//Hashes Password
 
-	public Login(String name, String pw) {
-		this.name = name;
-		
-	}
 	
+	/**
+	 * Execute der Loginklasse, uebernimmt aus den Parametern der Eingabe Loginname und Passwort
+	 * cmd[1] = Login
+	 * cmd[2] = passwort
+	 * Passwort wird gehasht gesendet.
+	 */
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException{
 		if(cmd.length!=3){

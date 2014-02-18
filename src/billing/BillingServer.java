@@ -22,7 +22,6 @@ import management.Login;
  *
  */
 public class BillingServer  implements Remote {
-	public static final String SERVERNAME = "billingServer";
 	private ConcurrentHashMap<String,byte[]> user;
 	
 	public BillingServer (ConcurrentHashMap<String,byte[]> user){
