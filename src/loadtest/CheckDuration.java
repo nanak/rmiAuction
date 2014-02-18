@@ -9,7 +9,7 @@ package loadtest;
 public class CheckDuration implements Runnable{
 	private long starttime;
 	private FakeCli cli;
-	private long min=1*60000;
+	private long min=8*60000;
 	private Thread t;
 	private long status;
 

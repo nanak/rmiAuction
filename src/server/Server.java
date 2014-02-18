@@ -1,11 +1,24 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import analytics.AnalyticTaskComputing;
+import billing.BillingServer;
+import billing.BillingServerSecure;
 import connect.Notifier;
 import connect.NotifierFactory;
 import model.*;
@@ -24,6 +37,8 @@ public class Server {
 	private AuctionHandler ahandler;
 	private RequestHandler rhandler; 
 	private Notifier udp;
+	private BillingServerSecure bss;
+	private AnalyticTaskComputing atc;
 	private boolean active;
 	
 	/**
@@ -31,6 +46,7 @@ public class Server {
 	 * initialised.
 	 */
 	public Server() {
+		rmiInit();
 		user= new ConcurrentHashMap<String, User>(); //Only way to get ConcurrendHashSet
 		active = true;
 		auction=new ConcurrentHashMap<Integer, Auction>();
@@ -118,5 +134,45 @@ public class Server {
 	}
 	public void setActive(boolean active){
 		this.active=active;
+	}
+	
+	private void rmiInit(){
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+	// neues Properties Objekt erstellen
+		Properties properties = new Properties();
+
+		
+		try {
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			properties.load(stream);
+			stream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		Registry registry = null;
+		try {
+			registry = LocateRegistry.getRegistry(
+					properties.getProperty("rmi.registryURL"),
+					Integer.parseInt(properties.getProperty("rmi.port")));
+			 bss = (BillingServerSecure) registry
+					.lookup(properties.getProperty("rmi.bilingServerSecure"));
+			 atc = (AnalyticTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
+			 
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException nfe) {
+			System.out.println("Properties File Fehlerhaft");
+		} 
+		
+	
 	}
 }
