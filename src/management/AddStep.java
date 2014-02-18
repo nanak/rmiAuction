@@ -34,7 +34,6 @@ public class AddStep extends SecureCommand<String> {
 			try {
 				bss.createPriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
 			} catch (PriceStepIntervalOverlapException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			

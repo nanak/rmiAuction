@@ -27,7 +27,6 @@ public class ListThread implements Runnable{
 			try {
 				t.sleep(600);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			first=false;
@@ -37,7 +36,6 @@ public class ListThread implements Runnable{
 			try {
 				t.sleep(update*1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

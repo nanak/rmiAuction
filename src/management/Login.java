@@ -42,7 +42,6 @@ public class Login implements Command<String>{
 			byte[] thedigest = md.digest(bytesOfMessage);
 			this.pw = thedigest;
 		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "Password hashed";

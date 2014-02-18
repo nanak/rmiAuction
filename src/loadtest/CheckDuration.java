@@ -32,7 +32,6 @@ public class CheckDuration implements Runnable{
 				try {
 					t.sleep(50000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

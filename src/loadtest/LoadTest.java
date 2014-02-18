@@ -58,8 +58,6 @@ public class LoadTest {
 		
 		Properties p = new Properties();
 		//read properties from file
-		// TODO de-hardcode
-		//p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/src/loadtest/loadtest.properties");
 		p.setFromFile("loadtest.properties");
 
  		//put clients to map

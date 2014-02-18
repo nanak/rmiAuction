@@ -107,7 +107,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 		try {
 			while (running) {
-				// TODO get username here
 				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
@@ -156,8 +155,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						}catch(NumberFormatException e){
 							throw new WrongInputException();
 						}
-						ui.out("subscription "+id+" terminated");
 						atc.unsubscribe(cmd[1]);
+						ui.out("subscription "+id+" terminated");
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
@@ -192,12 +191,11 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						ui.out(anwser);
 					}					
 				}catch(IllegalNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
-					ui.out(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 			br.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			
 		}
@@ -220,7 +218,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			properties.load(stream);
 			stream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -235,10 +232,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
 			 
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File Fehlerhaft");
@@ -257,7 +252,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		} catch (AccessException e) {
 			System.err.println("Access violation");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
