@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class handles the saving to and reading from file.
- * @author Nanak
+ * @author Nanak Tattyrek
  * 
  * @param <K> Type of the Key to use
  * @param <T> Type of the Value to use
@@ -22,6 +22,8 @@ public class FileHandler<K, T> {
 	private File file;
 	private String filename;
 	private ObjectInputStream in;
+	private FileInputStream fileIn;
+	private FileOutputStream fileOut;
 
 	/**
 	 * default constructor
@@ -41,25 +43,15 @@ public class FileHandler<K, T> {
 		if(file.exists()){
 			try {
 				this.in=new ObjectInputStream(new FileInputStream(file));
+				fileIn = new FileInputStream(file);
+				fileOut = new FileOutputStream(file);
 			} catch (FileNotFoundException e) {
+				System.out.println("Error with specified file");
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	/**
-	 * Reads a single Object to file
-	 * @param key the Key to use
-	 * @param value the Value to use
-	 * @return true if successful, false if unsuccessful
-	 */
-	public Object readObject() {
-		Object o = null;
-		//TODO  go to saved position (if is set), test if has next, readObject, save position of stream
-		//TODO return one key-value pair or write a readKey() and readValue() method
-		return o;
 	}
 	
 	/**
@@ -74,20 +66,48 @@ public class FileHandler<K, T> {
 	}
 
 	/**
+	 * Reads a single Object from file
+	 * @param key the Key to use
+	 * @param value the Value to use
+	 * @return the read object
+	 */
+	public Object readObject(K key, T value) { // TODO: Key, value lesen
+		ConcurrentHashMap<K, T> map = new ConcurrentHashMap<K, T>();
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream(filename));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("Error with I/O processes");
+			e.printStackTrace();
+		}
+		prop.putAll(map);
+		return map.get(key);
+	}
+
+	/**
 	 * Writes a single Object to file
 	 * @param key the Key to use
 	 * @param value the Value to use
 	 * @return true if successful, false if unsuccessful
 	 */
-	public boolean writeObject(K key, T value) {
-		ObjectOutputStream out;
+	public boolean writeObject(K key, T value) { // TODO: key, value speichern
+		ConcurrentHashMap<K, T> map = new ConcurrentHashMap<K, T>();
+		Properties prop1 = new Properties();
+		Properties prop2 = new Properties();
 		try {
-			out = new ObjectOutputStream(new FileOutputStream(file));
-			out.writeObject(value);
-			out.flush();
-			out.close();
+			prop1.load(new FileInputStream(filename));
+			prop1.putAll(map);
+			map.put(key, value);
+			
+			for (ConcurrentHashMap.Entry<K, T> entry : map.entrySet()) {
+				prop2.put(entry.getKey(), entry.getValue());
+			}
+			prop2.store(new FileOutputStream(filename), null);
 		} catch (FileNotFoundException e) {
-			System.out.println("Error with specified file");
+			System.out.println("File not found.");
 			e.printStackTrace();
 			return false;
 		} catch (IOException e) {
@@ -108,7 +128,6 @@ public class FileHandler<K, T> {
 		for (ConcurrentHashMap.Entry<K, T> entry : map.entrySet()) {
 			prop.put(entry.getKey(), entry.getValue());
 		}
-
 		try {
 			prop.store(new FileOutputStream(filename), null);
 		} catch (FileNotFoundException e) {
