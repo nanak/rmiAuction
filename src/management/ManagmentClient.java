@@ -62,7 +62,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	private boolean secure;
 	private BufferedReader br;
 	private String[] logout;
-	String username= "";
+	private String username= "";
+	private String[] usernameLogout;
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
@@ -146,11 +147,13 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						printAutomatic=false;
 					}
 					else if(cmd[0].equals("!unsubscribe")){
+						int id;
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						
-						
+		
+		
+	
 						// TODO UNSUBSCRIBE
 						String s = atc.unsubscribe(cmd[1]);
 						ui.outln(s);
@@ -159,8 +162,19 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						// TODO subscribe
+						//TODO subscribe
 						System.out.println(atc.subscribe(cmd[1], this));
+					}
+					else if(cmd[0].equals("!logout")){
+						usernameLogout=new String[2];
+						usernameLogout[0]=cmd[0];
+						usernameLogout[1]=username;
+						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),usernameLogout);
+						ui.out(anwser);
+						username=""; 
+						rsbs=null;
+						secure=false;
+
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
@@ -177,7 +191,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						ui.out(anwser);
 					}					
 				}catch(IllegalNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
-					ui.out(e.getMessage());
+					e.printStackTrace();
 				}
 			}
 			br.close();
@@ -205,7 +219,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			properties.load(stream);
 			stream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -242,7 +255,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		} catch (AccessException e) {
 			System.err.println("Access violation");
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

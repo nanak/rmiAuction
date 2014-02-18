@@ -18,7 +18,6 @@ public class CheckDuration implements Runnable{
 		this.starttime=starttime;
 		t=new Thread(this);
 		t.start();
-		min=1*30;
 	}
 	@Override
 	public void run() {
@@ -27,14 +26,12 @@ public class CheckDuration implements Runnable{
 			if(status>=min){
 				cli.write("!end");
 				cli.setClientsAlive(false);
-				System.out.println("client ended");
+				System.out.println("client ended. time passed:"+status/60000);
 			}
 			else{
-				System.out.println(status);
 				try {
 					t.sleep(50000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

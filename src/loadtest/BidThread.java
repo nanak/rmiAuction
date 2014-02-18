@@ -17,7 +17,6 @@ public class BidThread implements Runnable{
 		first=true;
 		t= new Thread(this);
 		t.start();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -26,14 +25,13 @@ public class BidThread implements Runnable{
 			try {
 				t.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			first=false;
 		}
 		while(cli.isClientAlive()){
 			id=cli.getRandomID();
-			// TODO nanos (genauer machen)
+			//evtl genauer machen mit nano-s
 			amount=(double)(System.currentTimeMillis()-starttime);
 			System.out.println(amount);
 			cli.write("!bid "+id+" "+amount);
