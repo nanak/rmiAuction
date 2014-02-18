@@ -18,8 +18,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import Event.Event;
 import analytics.AnalyticTaskComputing;
+import analytics.RemoteAnalyticsTaskComputing;
 import billing.BillingServer;
 import billing.BillingServerSecure;
+import billing.IRemoteBillingServerSecure;
+import billing.RemoteBillingServerSecure;
 import connect.Notifier;
 import connect.NotifierFactory;
 import model.*;
@@ -38,8 +41,8 @@ public class Server {
 	private AuctionHandler ahandler;
 	private RequestHandler rhandler; 
 	private Notifier udp;
-	private BillingServerSecure bss;
-	private AnalyticTaskComputing atc;
+	private IRemoteBillingServerSecure bss;
+	private RemoteAnalyticsTaskComputing atc;
 	private boolean active;
 	
 	/**
@@ -84,7 +87,12 @@ public class Server {
 	 * @param e
 	 */
 	public void notify(Event e){
-		atc.processEvent(e);
+		try {
+			atc.processEvent(e);
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 	
 
@@ -168,9 +176,9 @@ public class Server {
 			registry = LocateRegistry.getRegistry(
 					properties.getProperty("rmi.registryURL"),
 					Integer.parseInt(properties.getProperty("rmi.port")));
-			 bss = (BillingServerSecure) registry
-					.lookup(properties.getProperty("rmi.bilingServerSecure"));
-			 atc = (AnalyticTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
+			 bss = (IRemoteBillingServerSecure) registry
+					.lookup(properties.getProperty("rmi.billingServerSecure"));
+			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
 			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
