@@ -135,7 +135,12 @@ public class AnalyticsServer {
 			Set<String> clist = cmap.keySet();
 			for (Iterator iterator = clist.iterator(); iterator.hasNext();) {
 				ClientInterface clientInterface =cmap.get(iterator.next());
-				clientInterface.notify(event);
+				try {
+					clientInterface.notify(event);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -187,7 +192,8 @@ public class AnalyticsServer {
 				stream.close();
 	            Registry registry = null;
 	            try{
-		            registry = LocateRegistry.getRegistry();
+		            registry = LocateRegistry.getRegistry(properties.getProperty("rmi.registryURL"),Integer.parseInt(properties.getProperty("rmi.port")));
+		            System.out.println("Got registry");
 	            }catch(RemoteException re){
 	            	try{
 	            		registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
@@ -198,17 +204,17 @@ public class AnalyticsServer {
 	            }
 	            if (registry == null){
 	            	System.out.println("Could not bind or locate Registry, stopping Programm");
-         		System.exit(370);
+	            	System.exit(370);
 	            }
-	            AnalyticTaskComputing stub =
-	                (AnalyticTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
+	            RemoteAnalyticsTaskComputing stub =
+	                (RemoteAnalyticsTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
 	            registry.rebind(properties.getProperty("rmi.analyticsServer"), stub);
 	            System.out.println("AnalyticServer bound");
 	            
 
 	            
 	        }catch (Exception e){
-	        	//TODO Handling
+	        	e.printStackTrace();
 	        }
 	 }
 	 /**

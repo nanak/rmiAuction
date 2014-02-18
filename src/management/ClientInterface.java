@@ -1,11 +1,13 @@
 package management;
 
+import java.io.Serializable;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import Event.Event;
 
-public interface ClientInterface extends Remote {
+public interface ClientInterface extends Remote, Serializable {
 
-	public abstract void notify(Event e);
+	public void notify(Event e) throws RemoteException;
 
 }

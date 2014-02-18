@@ -12,7 +12,7 @@ import management.ClientInterface;
  *
  */
 
-public class AnalyticTaskComputing implements Remote{
+public class AnalyticTaskComputing implements RemoteAnalyticsTaskComputing{
  
 	private AnalyticsServer as;
 	

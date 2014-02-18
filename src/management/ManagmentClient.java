@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
@@ -19,7 +20,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import analytics.AnalyticTaskComputing;
-import billing.BillingServer;
+import analytics.RemoteAnalyticsTaskComputing;
+import billing.IRemoteBillingServerSecure;
+import billing.RemoteBillingServer;
 import billing.RemoteBillingServerSecure;
 import Client.CLI;
 import Client.UI;
@@ -36,7 +39,7 @@ import Exceptions.*;
  * @author Michaela Lipovits
  * @version 20140211
  */
-public class ManagmentClient implements ClientInterface, Runnable {
+public class ManagmentClient implements Serializable, ClientInterface, Runnable {
 
 	private static boolean printAutomatic;
 
@@ -44,11 +47,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 
 	private static CommandFactory cf;
 
-	private static BillingServer bs;
+	private static RemoteBillingServer bs;
 
-	private AnalyticTaskComputing atc;
+	private RemoteAnalyticsTaskComputing atc;
 
-	private static RemoteBillingServerSecure rsbs;
+	private static IRemoteBillingServerSecure rsbs;
 	
 	private String uniqueID;
 //	private ClientInterface ci;
@@ -64,6 +67,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
+		events = new ConcurrentLinkedQueue<Event>();
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -103,6 +107,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		
 		try {
 			while (running) {
+				// TODO get username here
 				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
@@ -123,7 +128,6 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						c= cf.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
 						rsbs=bs.login((Login)c);
-						username=cmd[1];
 						secure=true;
 					}
 					else if(cmd[0].equals("!print")){
@@ -159,7 +163,8 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						atc.subscribe(cmd[1],uniqueID, this);
+						//TODO subscribe
+						System.out.println(atc.subscribe(cmd[1],uniqueID, this));
 					}
 					else if(cmd[0].equals("!logout")){
 						usernameLogout=new String[2];
@@ -170,8 +175,14 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						username=""; 
 						rsbs=null;
 						secure=false;
+
 					}
 					else if(secure==true){
+						if(cmd[0].equals("!logout")){
+							secure=false;
+						}
+						System.out.println(cmd.length);
+						System.out.println(rsbs.toString());
 						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
 						ui.out(anwser);
 					}	
@@ -196,9 +207,9 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	 * RMI Initialisation
 	 */
 	private void initRMI(){
-		if (System.getSecurityManager() == null) {
-			System.setSecurityManager(new SecurityManager());
-		}
+//		if (System.getSecurityManager() == null) {
+//			System.setSecurityManager(new SecurityManager());
+//		}
 	// neues Properties Objekt erstellen
 		Properties properties = new Properties();
 
@@ -218,9 +229,10 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			registry = LocateRegistry.getRegistry(
 					properties.getProperty("rmi.registryURL"),
 					Integer.parseInt(properties.getProperty("rmi.port")));
-			 bs = (BillingServer) registry
-					.lookup(properties.getProperty("rmi.bilingServer"));
-			 atc = (AnalyticTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
+			System.out.println(properties.getProperty("rmi.registryURL"));
+			 bs = (RemoteBillingServer) registry
+					.lookup(properties.getProperty("rmi.billingServer"));
+			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
 			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -233,12 +245,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		} 
 		//Try to bind ManagementClient to registry for Callback
 		try{
-			if(this==null){
-				System.out.println("This is null");
-			}
+
 			if(registry != null)
-				System.out.println("Registry null");
-			registry.bind(uniqueID, this);
+				System.out.println("Registry not null");
+			ClientInterface ci = (ClientInterface) UnicastRemoteObject.exportObject(this,0);
+			registry.bind(uniqueID, ci);
 			
 		}
 		catch(AlreadyBoundException e){
