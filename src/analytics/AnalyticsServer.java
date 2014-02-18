@@ -47,6 +47,7 @@ public class AnalyticsServer {
 	 * 
 	 */
 	public AnalyticsServer(){
+		
 		incomingEvents = new LinkedBlockingQueue<>();
 		dispatchedEvents = new LinkedBlockingQueue<>();
 		//Initialize EventHashMap
@@ -57,7 +58,7 @@ public class AnalyticsServer {
 //			System.out.println(type);
 		}
 		eh = new EventHandler(this);
-		
+		initRmi(new AnalyticTaskComputing(this));
 		Thread t = new Thread(eh);
 		t.start();
 		Timer timer = new Timer();
