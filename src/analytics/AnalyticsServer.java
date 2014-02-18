@@ -37,7 +37,7 @@ import ServerModel.FileHandler;
  */
 public class AnalyticsServer {
  
-	private ConcurrentHashMap<String, ConcurrentLinkedQueue<ClientInterface>> subscriptions; //Saves the Clients, per Event
+	private ConcurrentHashMap<String, ConcurrentHashMap<String, ClientInterface>> subscriptions; //Saves the SubscriptionId+Clientinterface, per Event 
 	private LinkedBlockingQueue<Event> incomingEvents;
 	private LinkedBlockingQueue<Event> dispatchedEvents; //Events which shall be sent to the user
 	private EventHandler eh;
@@ -54,7 +54,7 @@ public class AnalyticsServer {
 		subscriptions = new ConcurrentHashMap<>();
 		//Now put every EventType in it
 		for(String type : getEventTypes()){
-			subscriptions.put(type, new ConcurrentLinkedQueue<ClientInterface>());
+			subscriptions.put(type, new ConcurrentHashMap<String, ClientInterface>());
 //			System.out.println(type);
 		}
 		eh = new EventHandler(this);
@@ -86,7 +86,8 @@ public class AnalyticsServer {
 	 * @param regex		Regex which says which Event a User want to receive
 	 * @param ci		ClientInterface which is used for CallBack
 	 */
-	public void subscribe(String regex, ClientInterface ci){
+	public String subscribe(String regex,String id, ClientInterface ci){
+	
 		//Iterate over all Keys
 		Set<String> keyset = subscriptions.keySet();
 		Iterator<String> it = keyset.iterator();
@@ -96,18 +97,24 @@ public class AnalyticsServer {
 		}
 		catch(Exception e){
 			System.out.println("INVALID PATTERN");
-			return;
+			return "Your pattern is invalid!";
 		}
-		
+		boolean foundMatch = false;
+		String subsid=id+"_"+pattern;
 		while(it.hasNext()){
 			String compare = it.next();
 			System.out.println(compare);
 			
 			Matcher matcher = pattern.matcher(compare);
 			if(matcher.matches()){
-				subscriptions.get(compare).add(ci);
+				foundMatch = true;
+				subscriptions.get(compare).put(subsid, ci);
 			}
 		}
+		if(foundMatch)
+			return subsid;
+		else
+			return "No Matching Events for your pattern found";
 	}
 	
 	/**
@@ -122,13 +129,12 @@ public class AnalyticsServer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//Get List with Interfaces of the Clients who want notification
-			ConcurrentLinkedQueue<ClientInterface> clist = subscriptions.get(event.getType());
+			//Get Map with Interfaces of the SubscriptionId/Clients who want notification
+			ConcurrentHashMap<String, ClientInterface> cmap = subscriptions.get(event.getType());
 			//Notify
-			
+			Set<String> clist = cmap.keySet();
 			for (Iterator iterator = clist.iterator(); iterator.hasNext();) {
-				ClientInterface clientInterface = (ClientInterface) iterator
-						.next();
+				ClientInterface clientInterface =cmap.get(iterator.next());
 				clientInterface.notify(event);
 			}
 		}
@@ -205,7 +211,8 @@ public class AnalyticsServer {
 	        }
 	 }
 
-	public void unsubscribe(ClientInterface ci) {
+	public String unsubscribe(String subsId) {
+		return subsId;
 		// TODO Auto-generated method stub
 		
 	}

@@ -19,15 +19,23 @@ public class AnalyticTaskComputing implements Remote{
 	public AnalyticTaskComputing (AnalyticsServer as){
 		this.as=as;
 	}
-	 
-	public boolean subscribe(String filter, ClientInterface ci) {
-		as.subscribe(filter, ci);
-		return true;
+	 /**
+	  * Created Subsrciption with callback
+	  * @param filter
+	  * @param clientId
+	  * @param ci
+	  * @return
+	  */
+	public String subscribe(String filter,String clientId, ClientInterface ci) {
+		return as.subscribe(filter, clientId, ci);
 	}
-	 
-	public boolean unsubscribe(ClientInterface ci) {
-		as.unsubscribe(ci);//TODO Funktion im Analyticsserver ueberarbeiten, ID
-		return false;
+	 /**
+	  * Terminates a Subsrciption
+	  * @param subscriptionId
+	  * @return
+	  */
+	public String unsubscribe(String subscriptionId) {
+		return as.unsubscribe(subscriptionId);//TODO Funktion im Analyticsserver ueberarbeiten, ID;
 	}
 	 
 	public void processEvent(Event e) {

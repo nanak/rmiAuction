@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -13,6 +15,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import analytics.AnalyticTaskComputing;
@@ -47,7 +50,8 @@ public class ManagmentClient implements ClientInterface, Runnable {
 
 	private static RemoteBillingServerSecure rsbs;
 	
-	private ClientInterface ci;
+	private String uniqueID;
+//	private ClientInterface ci;
 
 	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
@@ -67,6 +71,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		secure=false;
 		logout=new String[1];
 		logout[0]="!logout";
+		uniqueID = UUID.randomUUID().toString();
 		new Thread(this).start();
 	}
 
@@ -155,7 +160,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 							throw new IllegalNumberOfArgumentsException();
 						}
 						// TODO subscribe
-						atc.subscribe(cmd[1], this);
+						atc.subscribe(cmd[1],uniqueID, this);
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
@@ -202,7 +207,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			e.printStackTrace();
 		}
 	
-		Registry registry;
+		Registry registry = null;
 		try {
 			registry = LocateRegistry.getRegistry(
 					properties.getProperty("rmi.registryURL"),
@@ -210,6 +215,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			 bs = (BillingServer) registry
 					.lookup(properties.getProperty("rmi.bilingServer"));
 			 atc = (AnalyticTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
+			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -218,6 +224,19 @@ public class ManagmentClient implements ClientInterface, Runnable {
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File Fehlerhaft");
+		} 
+		//Try to bind ManagementClient to registry for Callback
+		try{
+			registry.bind(uniqueID, this);
+			
+		}
+		catch(AlreadyBoundException e){
+			System.out.println("Client is already bound to registry");
+		} catch (AccessException e) {
+			System.err.println("Access violation");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
