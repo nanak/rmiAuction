@@ -204,6 +204,11 @@ public class AnalyticsServer {
 	        	//TODO Handling
 	        }
 	 }
+
+	public void unsubscribe(ClientInterface ci) {
+		// TODO Auto-generated method stub
+		
+	}
 	 
 }
  

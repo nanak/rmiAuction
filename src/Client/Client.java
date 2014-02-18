@@ -31,7 +31,7 @@ public class Client implements Runnable{
 	 * @param tcpPort
 	 * @param udpPort
 	 */
-	public Client(String host,int tcpPort,FakeCli cli){
+	public Client(String host,int tcpPort,UI cli){
 		active=true;
 		loggedIn=false;
 		username="";
