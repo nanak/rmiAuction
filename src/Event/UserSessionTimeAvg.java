@@ -10,7 +10,7 @@ public class UserSessionTimeAvg extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User Session Time Average: " + value;
+		return "" + type + ": "+timestamp + " - User Session Time Average: "+  (int)value/1000 + " seconds";
 	}
 }
  

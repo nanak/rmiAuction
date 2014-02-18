@@ -10,7 +10,7 @@ public class UserSessionTimeMax extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User Session Time Max: " + value;
+		return "" + type + ": "+timestamp + " - User Session Time Max: " + (int)value/1000 + " seconds";
 	}
 }
  
