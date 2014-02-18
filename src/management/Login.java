@@ -28,7 +28,7 @@ public class Login implements Command<String>{
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException{
 		if(cmd.length!=3){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !login <username> <password>");
 		}
 		this.name=cmd[1];
 		

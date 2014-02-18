@@ -14,14 +14,14 @@ public class RemoveStep extends SecureCommand<String> {
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException {
 		if(cmd.length!=3){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !removeStep <startPrice> <endPrice>");
 		}
 		try{
 			startPrice=Double.parseDouble(cmd[1]);
 			endPrice=Double.parseDouble(cmd[2]);
 		}
 		catch(NumberFormatException e){
-			throw new WrongInputException();
+			throw new WrongInputException("Usage: !removeStep <startPrice> <endPrice>");
 		}
 		
 		boolean success=bss.deletePriceStep(startPrice, endPrice);
