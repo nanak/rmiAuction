@@ -8,5 +8,9 @@ public class UserDisconnected extends UserEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - User diconnected: " + username;
+	}
 }
  

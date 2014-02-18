@@ -8,5 +8,9 @@ public class BidWon extends BidEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Bid won on auction: " + auctionID + " with value " + price;
+	}
 }
  

@@ -7,5 +7,9 @@ public class AuctionStarted extends AuctionEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Auction started with id " + auctionID;
+	}
 }
  

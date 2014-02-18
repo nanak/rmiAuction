@@ -19,5 +19,7 @@ public abstract class AuctionEvent extends Event {
 		return auctionID;
 	}
 	
+	
+	
 }
  

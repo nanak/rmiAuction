@@ -8,5 +8,9 @@ public class UserSessionTimeMax extends StatisticsEvent {
 		// TODO Auto-generated constructor stub
 	}
  
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - User Session Time Max: " + value;
+	}
 }
  

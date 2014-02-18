@@ -6,6 +6,9 @@ public class AuctionTimeAvg extends StatisticsEvent {
 		super(iD, type, timestamp, value);
 		// TODO Auto-generated constructor stub
 	}
- 
+	@Override
+	public String toString(){
+		return "" + type + ": "+timestamp + " - Auction Time Average: " + value;
+	}
 }
  
