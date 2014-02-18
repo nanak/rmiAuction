@@ -10,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -26,6 +27,10 @@ public class StartBillingServer {
 	public static void main(String[] args) {
 		
 		BillingServer bs = new BillingServer (loginTestMap());
+		BillingServerSecure bss = new BillingServerSecure();
+		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
+		initRmi(bs, rbss);
+		new Scanner(System.in).nextLine();
 		//TODO initRMI
 	}
 	

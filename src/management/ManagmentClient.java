@@ -63,7 +63,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
-		initRMI();
+		
 		cf=new CommandFactory();
 		running=true;
 		c=null;
@@ -73,6 +73,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		logout[0]="!logout";
 		uniqueID = UUID.randomUUID().toString();
 		new Thread(this).start();
+		initRMI();
 	}
 
 	public static void main(String[] args){
@@ -227,6 +228,11 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		} 
 		//Try to bind ManagementClient to registry for Callback
 		try{
+			if(this==null){
+				System.out.println("This is null");
+			}
+			if(registry != null)
+				System.out.println("Registry null");
 			registry.bind(uniqueID, this);
 			
 		}

@@ -140,7 +140,8 @@ public class AnalyticsServer {
 		}
 	}
 	public static void main(String[] args) {
-	 
+		AnalyticsServer as = new AnalyticsServer();
+		new AnalyticTaskComputing(as);
 	}
 
 	public LinkedBlockingQueue<Event> getIncomingEvents() {
