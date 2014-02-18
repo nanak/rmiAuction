@@ -102,7 +102,6 @@ public class ManagmentClient implements ClientInterface, Runnable {
 		
 		try {
 			while (running) {
-				// TODO get username here
 				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
@@ -123,6 +122,7 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						c= cf.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
 						rsbs=bs.login((Login)c);
+						username=cmd[1];
 						secure=true;
 					}
 					else if(cmd[0].equals("!print")){
@@ -159,13 +159,16 @@ public class ManagmentClient implements ClientInterface, Runnable {
 						if(cmd.length!=2){
 							throw new IllegalNumberOfArgumentsException();
 						}
-						// TODO subscribe
 						atc.subscribe(cmd[1],uniqueID, this);
 					}
+					else if(cmd[0].equals("!logout")){
+						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
+						ui.out(anwser);
+						username="";
+						rsbs=null;
+						secure=false;
+					}
 					else if(secure==true){
-						if(cmd[0].equals("!logout")){
-							secure=false;
-						}
 						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
 						ui.out(anwser);
 					}	
