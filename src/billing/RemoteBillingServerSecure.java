@@ -33,4 +33,10 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 		// TODO something
 	}
 
+	@Override
+	public void billAuction(String name, int id, double highestBid) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
