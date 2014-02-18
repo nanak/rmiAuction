@@ -8,7 +8,7 @@ public class AuctionTimeAvg extends StatisticsEvent {
 	}
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Auction Time Average: " + value;
+		return "" + type + ": "+timestamp + " - Auction Time Average: " + (int)value/1000 + " seconds";
 	}
 }
  

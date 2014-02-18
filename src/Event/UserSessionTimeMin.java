@@ -10,7 +10,7 @@ public class UserSessionTimeMin extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User Session Time Min: " + value;
+		return "" + type + ": "+timestamp + " - User Session Time Min: " + (int)value/1000 + " seconds";
 	}
 }
  
