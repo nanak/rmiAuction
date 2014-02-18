@@ -9,7 +9,7 @@ public class Steps extends SecureCommand<String> {
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException {
 		if(cmd.length!=1){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !steps");
 		}
 		String ps=bss.getPriceSteps();
 		if(ps.equals("")){

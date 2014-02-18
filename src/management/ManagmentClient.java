@@ -148,7 +148,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					else if(cmd[0].equals("!unsubscribe")){
 						int id;
 						if(cmd.length!=2){
-							throw new IllegalNumberOfArgumentsException();
+							throw new IllegalNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
 						}
 						try{
 							id=Integer.parseInt(cmd[1]);
@@ -160,7 +160,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
-							throw new IllegalNumberOfArgumentsException();
+							throw new IllegalNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
 						}
 						//TODO subscribe
 						System.out.println(atc.subscribe(cmd[1],uniqueID, this));

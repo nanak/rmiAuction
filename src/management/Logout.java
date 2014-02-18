@@ -9,7 +9,7 @@ public class Logout extends SecureCommand<String> {
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException {
 		if(cmd.length!=2){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !logout");
 		}
 		return cmd[1]+" successfully logged out";
 	}

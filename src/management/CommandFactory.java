@@ -9,6 +9,9 @@ import Exceptions.*;
  * @version 20140211
  */
 public class CommandFactory {
+	private String allowed="Allowed commands:\n!login <username> <password>\n!logout\n!steps\n!addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>\n"
+			+ "!removeStep <startPrice> <endPrice>\n!bill <userName>\n!subscribe <filterRegex>\n!unsubscribe <subscriptionID>\n"
+			+ "!print\n!auto\n!hide";
 
 	/**
 	 * Method createCommand, which reads the first word of the array, and returns the matching command.
@@ -29,7 +32,7 @@ public class CommandFactory {
 		}
 		else{
 			//if command is not one of the above, an exception is thrown
-			throw new CommandNotFoundException();
+			throw new CommandNotFoundException(allowed);
 		}
 	}
 	public SecureCommand createSecureCommand(String[] args) throws CommandNotFoundException{
@@ -50,7 +53,7 @@ public class CommandFactory {
 		}
 		else{
 			//if command is not one of the above, an exception is thrown
-			throw new CommandNotFoundException();
+			throw new CommandNotFoundException(allowed);
 		}
 	}
 }

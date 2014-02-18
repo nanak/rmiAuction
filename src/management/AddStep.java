@@ -24,7 +24,7 @@ public class AddStep extends SecureCommand<String> {
 	@Override
 	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException{
 		if(cmd.length!=5){
-			throw new IllegalNumberOfArgumentsException();
+			throw new IllegalNumberOfArgumentsException("Usage: !addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>");
 		}
 		try{
 			startPrice=Double.parseDouble(cmd[1]);
@@ -39,7 +39,7 @@ public class AddStep extends SecureCommand<String> {
 			
 		}
 		catch(NumberFormatException e){
-			throw new WrongInputException();
+			throw new WrongInputException("Usage: !addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>");
 		}
 		if(endPrice==0){
 			return "Step ["+startPrice+" INFINITY] successfully added";
