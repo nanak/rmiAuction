@@ -26,9 +26,7 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 		return sc.execute(cmd);
 	}
 
-
-		bss.billAuction(name, id, highestBid);
-
-
 	public void billAuction(String name, int id, double highestBid) throws RemoteException {
+		bss.billAuction(name, id, highestBid);
+	}
 }
