@@ -1,5 +1,6 @@
 package billing;
 
+import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -16,31 +17,37 @@ public class Bill{
 	private String user;
 	private LinkedList<Long> auctionID;
 	private LinkedList<Double> price;
+	private LinkedList<Double> fixedPrice;
+	private LinkedList<Double> variablePricePercent;
 	
-	public Bill(String user, long auctionID, double price){
+	public Bill(String user, long auctionID, double price,double fixedPrice, double variablePricePercent) {
 		this.user=user;
 		this.auctionID=new LinkedList<Long>();
-		this.auctionID.add(auctionID);
 		this.price= new LinkedList<Double>();
-		this.price.add(price);
+		this.fixedPrice= new LinkedList<Double>();
+		this.variablePricePercent= new LinkedList<Double>();
+		addBillingLine(auctionID, price, fixedPrice, variablePricePercent);
 	}
-	
+
+
 	/**
 	 * shows the total history and the total price
 	 */
 	@Override
 	public String toString() {
-		String r="Bill for "+user;
-		int total=0;
+		DecimalFormat f = new DecimalFormat("#0.00");
+		String r=String.format("%s\t%s\t%s\t%s\t%s","auction_ID","strike_price","fee_fixed","fee_variable","fee_total")+"\n";
 		Iterator<Long> a=auctionID.iterator();
 		Iterator<Double> b=price.iterator();
-		Double p;
+		Iterator<Double> c=fixedPrice.iterator();
+		Iterator<Double> d=variablePricePercent.iterator();
+		Double p,var,fix;
 		while(b.hasNext()){
 			p=b.next();
-			total+=p;
-			r=r+"\n"+"ID: "+a.next().toString()+" Price: "+p.toString();
+			var=c.next();
+			fix=d.next();
+			r=r+String.format("%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t",f.format(a.next().doubleValue()) ,f.format(p),f.format(fix),f.format(var/100*p),f.format(fix+var/100*p))+"\n";
 		}
-		r=r+"\n"+"total: "+total;
 		return r;
 	}
 
@@ -48,10 +55,13 @@ public class Bill{
 	 * saves a billing line
 	 * @param auctionID
 	 * @param price
+	 * @param step 
 	 */
-	public void addBillingLine(long auctionID, double price){
+	public void addBillingLine(long auctionID, double price, double fixedPrice, double variablePricePercent){
 		this.auctionID.add(auctionID);
 		this.price.add(price);
+		this.fixedPrice.add(fixedPrice);
+		this.variablePricePercent.add(variablePricePercent);
 	}
 
 	public String getUser() {

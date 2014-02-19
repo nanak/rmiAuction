@@ -33,8 +33,7 @@ public class BillingServerSecureTest{
 			s.createPriceStep(10, 100, 5, 10);
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
-			System.out.println(s.getPriceSteps());
-			assertTrue(true);
+			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n300,00		INFINITY	5,00		6,00\n200,00		300,00		7,00		9,00");
 		} catch (PriceStepIntervalOverlapException e) {
 		}
 	}
@@ -76,7 +75,7 @@ public class BillingServerSecureTest{
 	public void toStringTest(){
 		try {
 			PriceStep p= new PriceStep(0, 10, 5, 5);
-			assertEquals(p.toString(), "|      0,000|     10,00|      5,000 |                5,000|");
+			assertEquals(p.toString(),"0,00		10,00		5,00		5,00");
 		} catch (IllegalValueException e) {
 		}
 		
@@ -85,11 +84,28 @@ public class BillingServerSecureTest{
 	@Test
 	public void billAuctionAndGetBillTest(){
 		BillingServerSecure s= new BillingServerSecure();
-		s.billAuction("test", 1, 10);
-		s.billAuction("test", 1, 20);
+		try {
+			s.createPriceStep(0, 10, 5.6,5);
+			s.createPriceStep(10, 30, 10,10);
+		} catch (PriceStepIntervalOverlapException e) {
+			e.printStackTrace();
+		}
+		s.billAuction("test", 1, 9);
+		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
-		assertEquals("Bill for test\nID: 1 Price: 10.0\nID: 1 Price: 20.0\nID: 3 Price: 10.0\ntotal: 40", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1,00		9,00		5,00		0,50		5,50		\n2,00		20,00		10,00		2,00		12,00		\n3,00		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+	}
+	@Test
+	public void billAuctionAndGetBillTestIntervalDoesNotExist(){
+		BillingServerSecure s= new BillingServerSecure();
+		try {
+			s.createPriceStep(0, 10, 5.6,5);
+		} catch (PriceStepIntervalOverlapException e) {
+			e.printStackTrace();
+		}
+		s.billAuction("test", 1, 100);
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1,00		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
 	}
 	@Test
 	public void getBillTestFalse(){

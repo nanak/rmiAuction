@@ -53,15 +53,13 @@ public class CompositeKey {
    }
 
 /**
- * tests if keys are the same
+ * tests if value is between interval
  * @param obj
  * @return
  */
-public boolean matches(Object obj) {
-	 if(obj != null && obj instanceof CompositeKey) {
-  	   CompositeKey o = (CompositeKey)obj;
-  		return o.getKey1() == this.key1 && this.key2 == o.getKey2();
-	 }
+public boolean matches(Double value) {
+	if(this.key2==0&&this.key1<=value)return true;
+	 if(this.key1<=value&&this.key2>value)return true;
 	 return false;
 }
 

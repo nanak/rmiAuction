@@ -17,7 +17,7 @@ import management.Login;
  */
 public class BillingServerSecure  {
 
-	private ConcurrentHashMap<String,Login> user;
+	//private ConcurrentHashMap<String,Login> user;
 
 	private ConcurrentHashMap<CompositeKey,PriceStep> priceSteps;
 
@@ -28,7 +28,7 @@ public class BillingServerSecure  {
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
 		bills=new ConcurrentHashMap<String,Bill>();
-		fileHandler= new FileHandler<String,Bill>("Bills");
+	//	fileHandler= new FileHandler<String,Bill>("Bills");
 		//System.out.println(fileHandler.readObject(null, null).toString());
 		//fileHandler.close();
 	}
@@ -42,11 +42,11 @@ public class BillingServerSecure  {
 		if(!i.hasNext())
 			return "No Pricesteps yet";
 		PriceStep p=i.next();
-		String r=p.getVariableNames()+"\n"+p.getHeadLine()+"\n"+p.toString();
+		String r=p.getVariableNames()+"\n"+p.toString();
 		while(i.hasNext()){
 			r=r+"\n"+i.next().toString();
 		}
-		return r+"\n"+p.getHeadLine();
+		return r;
 	}
 	/**
 	 * This method allows to create a price step for a given price interval.
@@ -93,14 +93,31 @@ public class BillingServerSecure  {
 	 * This method is called by the auction server as soon as an auction has ended.
 	 * The billing server stores the auction result 
 	 * and later uses this information to calculate the bill for a user.
+	 * 
+	 * if price step does not exist adds 0,0 as pricing curve
 	 * @param auction
 	 */
 	public void billAuction(String user, long auctionID, double price) {
-		//TODO Test if auction server is logged in
-		if(bills.containsKey(user)){
-			bills.get(user).addBillingLine(auctionID, price);
-		}else{
-			bills.put(user, new Bill(user, auctionID, price));
+		boolean fail=true;
+		Iterator<CompositeKey> it=priceSteps.keySet().iterator();
+		while(it.hasNext()){
+			CompositeKey key=(CompositeKey) it.next();
+			if(key.matches(price)){
+				fail=false;
+				PriceStep step=priceSteps.get(key);
+				if(bills.containsKey(user)){
+					bills.get(user).addBillingLine(auctionID, price,step.getFixedPrice(),step.getVariablePricePercent());
+				}else{
+					bills.put(user, new Bill(user, auctionID, price,step.getFixedPrice(),step.getVariablePricePercent()));
+				}
+			}
+		}
+		if(fail){
+			if(bills.containsKey(user)){
+				bills.get(user).addBillingLine(auctionID, price,0,0);
+			}else{
+				bills.put(user, new Bill(user, auctionID, price,0,0));
+			}
 		}
 		//fileHandler.writeObject(user, new Bill(user, auctionID, price));
 	}

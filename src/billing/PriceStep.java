@@ -1,5 +1,7 @@
 package billing;
 
+import java.text.DecimalFormat;
+
 import Exceptions.IllegalValueException;
 
 
@@ -14,10 +16,17 @@ import Exceptions.IllegalValueException;
  *
  */
 public class PriceStep{
-	
 	private double startPrice, endPrice, fixedPrice, variablePricePercent;
-	private String[] desc= {"startPrice", "endPrice", "fixedPrice", "variablePricePercent"};
-	
+	private String[] desc= {"Min_Price", "Max_Price", "Max_Price", "Fee_Variable"};
+
+	/**
+	 * Constructor
+	 * @param startPrice
+	 * @param endPrice
+	 * @param fixedPrice
+	 * @param variablePricePercent
+	 * @throws IllegalValueException
+	 */
 	public PriceStep(double startPrice,double endPrice,double fixedPrice,double variablePricePercent) throws IllegalValueException{
 		if(startPrice<0||endPrice<0||fixedPrice<0||variablePricePercent<0)throw new IllegalValueException("values below zero");
 		if (startPrice >= endPrice && endPrice != 0)throw new IllegalValueException("endprice must be bigger than startprice");
@@ -32,23 +41,7 @@ public class PriceStep{
  * @return
  */
 	public String getVariableNames(){
-		return String.format("|%s | %s | %s | %s|",desc[0], desc[1], desc[2],desc[3]);
-	}
-	
-	/**
-	 * writes a line |---| with the right number of '-' for table output
-	 * @return
-	 */
-	public String getHeadLine(){
-		String s="";
-		String r="|";
-		for(int i=0;i<desc.length;i++){
-			 s=s+desc[i];
-		}
-		for(int i=0;i<s.length()+desc.length*3-3;i++){
-			r=r+"-";
-		}
-		return r+"|";
+		return String.format("%s\t%s\t%s\t%s",desc[0], desc[1], desc[2],desc[3]);
 	}
 	
 	/**
@@ -56,7 +49,22 @@ public class PriceStep{
 	 */
 	@Override
 	public String toString() {
-		return String.format("|      %.4g|     %.4g|      %.4g |                %.4g|", startPrice,endPrice,fixedPrice,variablePricePercent);
+		DecimalFormat f = new DecimalFormat("#0.00");
+		String endp="";
+		if(endPrice==0){
+			endp="INFINITY";
+			return String.format("%s\t\t%s\t%s\t\t%s", f.format(startPrice),endp,f.format(fixedPrice),f.format(variablePricePercent));
+		}
+		endp=f.format(endPrice);
+		return String.format("%s\t\t%s\t\t%s\t\t%s", f.format(startPrice),endp,f.format(fixedPrice),f.format(variablePricePercent));
+	}
+
+	public double getFixedPrice() {
+		return fixedPrice;
+	}
+
+	public double getVariablePricePercent() {
+		return variablePricePercent;
 	}
 
 }
