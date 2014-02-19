@@ -49,7 +49,7 @@ public class StartBillingServer {
 				Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
 				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-
+				//TODO catch file not found exception
 				
 				properties.load(stream);
 			

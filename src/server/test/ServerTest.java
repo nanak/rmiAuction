@@ -6,6 +6,8 @@ package server.test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import model.Auction;
 import model.BidMessage;
@@ -232,8 +234,8 @@ public class ServerTest {
 	public void testSetUser() {
 		User user = new User();
 		user.setName("name");
-		ArrayList<User> users = new ArrayList();
-		users.add(user);
+		ConcurrentHashMap<String,User> users = new ConcurrentHashMap<String, User>();
+		users.put("test",user);
 		server.setUser(users);
 		assertEquals(server.getUser().get(0).getName(),"name");
 	}
@@ -246,8 +248,8 @@ public class ServerTest {
 		User user = new User();
 		user.setName("name");
 		Auction auction = new Auction(user ,"auction",10L);
-		ArrayList<Auction> auctions = new ArrayList();
-		auctions.add(auction);
+		ConcurrentHashMap<Integer,Auction> auctions = new ConcurrentHashMap<Integer, Auction>();
+		auctions.put(1, auction);
 		server.setAuction(auctions);
 		assertEquals(server.getAuction().get(0).getDescription(),"auction");
 	}
