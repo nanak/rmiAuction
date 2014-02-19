@@ -24,6 +24,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import rmi.InitRMI;
 import billing.BillingServer;
 import management.ClientInterface;
 import Event.Event;
@@ -181,42 +182,17 @@ public class AnalyticsServer {
 	
 	 private static void initRmi(AnalyticTaskComputing atc){
 		 try {
-			 if (System.getSecurityManager() == null) {
-					System.setSecurityManager(new SecurityManager());
-				}
-			 
-			// neues Properties Objekt eerstellen
-				Properties properties = new Properties();
+			 Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
 				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-
 				
 				properties.load(stream);
 			
 				stream.close();
-	            Registry registry = null;
-	            try{
-	            	System.out.println("Getting registry");
-		            registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
-	            }catch( RemoteException e){
-	            	System.out.println("Could not create registry");
-	            	try{
-	            		
-	            		registry = LocateRegistry.getRegistry(properties.getProperty("rmi.registryURL"),Integer.parseInt(properties.getProperty("rmi.port")));
-	            	}catch(Exception xe){//TODO Einschraenken
-	            		System.out.println("Could not bind or locate Registry, stopping Programm");
-	            		System.exit(370);
-	            	}
-	            }
-	            if (registry == null){
-	            	System.out.println("Could not bind or locate Registry, stopping Programm");
-            		System.exit(370);
-	            }
-	            RemoteAnalyticsTaskComputing stub =
-	                (RemoteAnalyticsTaskComputing) UnicastRemoteObject.exportObject(atc, 0);
-	            registry.rebind(properties.getProperty("rmi.analyticsServer"), stub);
-	            System.out.println("AnalyticServer bound");
-	            
+				InitRMI ir = new InitRMI(properties);
+				ir.init();
+				ir.rebind(atc, properties.getProperty("rmi.analyticsServer"));
+	            System.out.println("AnalyticsServer bound");
 
 	            
 	        }catch (Exception e){

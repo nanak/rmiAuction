@@ -3,6 +3,7 @@ package management;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
@@ -19,6 +20,7 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import rmi.InitRMI;
 import analytics.AnalyticTaskComputing;
 import analytics.RemoteAnalyticsTaskComputing;
 import billing.IRemoteBillingServerSecure;
@@ -210,28 +212,23 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 //			System.setSecurityManager(new SecurityManager());
 //		}
 	// neues Properties Objekt erstellen
-		Properties properties = new Properties();
 
-		
+
 		try {
+			Properties properties = new Properties();
 			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("ManagementClient.properties"));
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
 			properties.load(stream);
+		
 			stream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry(
-					properties.getProperty("rmi.registryURL"),
-					Integer.parseInt(properties.getProperty("rmi.port")));
-			System.out.println(properties.getProperty("rmi.registryURL"));
-			 bs = (RemoteBillingServer) registry
-					.lookup(properties.getProperty("rmi.billingServer"));
-			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
-			 
+			InitRMI ir = new InitRMI(properties);
+			ir.init();
+			
+			bs= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
+			atc = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
+			ir.rebind(this,uniqueID);
+			
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -240,23 +237,13 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File Fehlerhaft");
-		} 
-		//Try to bind ManagementClient to registry for Callback
-		try{
-
-			if(registry != null)
-				System.out.println("Registry not null");
-			ClientInterface ci = (ClientInterface) UnicastRemoteObject.exportObject(this,0);
-			registry.bind(uniqueID, ci);
-			
-		}
-		catch(AlreadyBoundException e){
-			System.out.println("Client is already bound to registry");
-		} catch (AccessException e) {
-			System.err.println("Access violation");
-		} catch (RemoteException e) {
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 	}
 
 }
