@@ -16,6 +16,8 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 
+import rmi.InitRMI;
+
 
 /**
  * main class and startpoint for the billing server
@@ -42,49 +44,25 @@ public class StartBillingServer {
 	 */
 	 private static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
-//			 if (System.getSecurityManager() == null) {
-//					System.setSecurityManager(new SecurityManager());
-//				}
-			// neues Properties Objekt erstellen
-				Properties properties = new Properties();
-				// neuen stream mit der messenger.properties Datei erstellen
-				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			 
+			 Properties properties = new Properties();
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 				//TODO catch file not found exception
-				
-				properties.load(stream);
-			
-				stream.close();
-	            RemoteBillingServer stub =
-	                (RemoteBillingServer) UnicastRemoteObject.exportObject(bs, 0);
-	            Registry registry = null;
-	            try{
-	            	System.out.println("Getting registry");
-		            registry = LocateRegistry.createRegistry(Integer.parseInt(properties.getProperty("rmi.port")));
-	            }catch( RemoteException e){
-	            	System.out.println("Could not create registry");
-	            	try{
-	            		
-	            		registry = LocateRegistry.getRegistry(properties.getProperty("rmi.registryURL"),Integer.parseInt(properties.getProperty("rmi.port")));
-	            	}catch(Exception xe){//TODO Einschraenken
-	            		System.out.println("Could not bind or locate Registry, stopping Programm");
-	            		System.exit(370);
-	            	}
-	            }
-	            if (registry == null){
-	            	System.out.println("Could not bind or locate Registry, stopping Programm");
-            		System.exit(370);
-	            }
-	            registry.rebind(properties.getProperty("rmi.billingServer"), stub);
-	            System.out.println("BillingServer bound");
-	            
+			properties.load(stream);
+		
+			stream.close();
+			InitRMI ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
+            System.out.println("BillingServer bound");
+			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
+            System.out.println("BillingServerSecure bound");
+			 
+		 }catch(Exception e){
+			 //TODO Handeln
+		 }
 
-	            IRemoteBillingServerSecure stubSecure =
-	                (IRemoteBillingServerSecure) UnicastRemoteObject.exportObject(bss, 0);
-	            registry.rebind(properties.getProperty("rmi.billingServerSecure"), stubSecure);
-	            System.out.println("BillingServerSecure bound");
-	        }catch (Exception e){
-	        	e.printStackTrace();
-	        }
 	 }
 	 
 	 /**

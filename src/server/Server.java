@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import rmi.InitRMI;
 import Event.Event;
 import analytics.AnalyticTaskComputing;
 import analytics.RemoteAnalyticsTaskComputing;
@@ -154,41 +155,23 @@ public class Server {
 	}
 	
 	private void rmiInit(){
-		if (System.getSecurityManager() == null) {
-			System.setSecurityManager(new SecurityManager());
-		}
-	// neues Properties Objekt erstellen
-		Properties properties = new Properties();
+		try {
+			 Properties properties = new Properties();
+				// neuen stream mit der messenger.properties Datei erstellen
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				
+				properties.load(stream);
+			
+				stream.close();
+				InitRMI ir = new InitRMI(properties);
+				ir.init();
+				bss = (IRemoteBillingServerSecure) ir.lookup(properties.getProperty("rmi.billingServerSecure"));
+				atc = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
 
-		
-		try {
-			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-			properties.load(stream);
-			stream.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		Registry registry = null;
-		try {
-			registry = LocateRegistry.getRegistry(
-					properties.getProperty("rmi.registryURL"),
-					Integer.parseInt(properties.getProperty("rmi.port")));
-			 bss = (IRemoteBillingServerSecure) registry
-					.lookup(properties.getProperty("rmi.billingServerSecure"));
-			 atc = (RemoteAnalyticsTaskComputing) registry.lookup(properties.getProperty("rmi.analyticsServer"));
-			 
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NumberFormatException nfe) {
-			System.out.println("Properties File Fehlerhaft");
-		} 
+	            
+	        }catch (Exception e){
+	        	e.printStackTrace();
+	        }
 		
 	
 	}
