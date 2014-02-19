@@ -1,13 +1,10 @@
 package billing;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-
 import management.SecureCommand;
 import Exceptions.IllegalNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
-import ServerModel.Auction;
 
 /**
  * BillingServer RMI object (which basically just provides login capability)
@@ -21,7 +18,6 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 	private BillingServerSecure bss;
 	
 	public RemoteBillingServerSecure(BillingServerSecure bss){
-		// WOOOHER?
 		this.bss=bss;
 	}
 
@@ -31,6 +27,7 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 	}
 
 
+		bss.billAuction(name, id, highestBid);
 
 
 	public void billAuction(String name, int id, double highestBid) throws RemoteException {
