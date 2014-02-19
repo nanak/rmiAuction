@@ -29,7 +29,7 @@ public class ServerLogout implements ServerAction{
 	public String doOperation(Message message, Server server) {
 		LogoutMessage logout = (LogoutMessage) message;
 		Date d = new Date();
-		UserLogout ul = new UserLogout(UUID.randomUUID().toString(), "USER_LOGIN", d.getTime(), message.getName());
+		UserLogout ul = new UserLogout(UUID.randomUUID().toString(), "USER_LOGOUT", d.getTime(), message.getName());
 		User loger = null;
 		loger = server.getUser().get(logout.getName());
 //		int ii = 0;

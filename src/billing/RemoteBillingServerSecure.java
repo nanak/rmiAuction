@@ -1,6 +1,7 @@
 package billing;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import management.SecureCommand;
 import Exceptions.IllegalNumberOfArgumentsException;
@@ -30,14 +31,10 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 	}
 
 
-	@Override
-	public void billAuction(String name, int id, double highestBid) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	@Override
-	public void billAuction(String name, int id, double highestBid) {
+	public void billAuction(String name, int id, double highestBid) throws RemoteException {
 		// TODO Auto-generated method stub
 		
 	}
