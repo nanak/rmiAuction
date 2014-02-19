@@ -40,13 +40,12 @@ public class InitRMI {
 		registry = null;
         try{
         	System.out.println("Getting registry");
-        	registry = LocateRegistry.getRegistry(p.getProperty("rmi.registryURL"),Integer.parseInt(p.getProperty("rmi.port")));
+            registry = LocateRegistry.createRegistry(Integer.parseInt(p.getProperty("rmi.port")));        	
         }catch( RemoteException | NumberFormatException e){
         	System.out.println("Could not locate RMI registry, creating RMI registry");
         	try{
-                registry = LocateRegistry.createRegistry(Integer.parseInt(p.getProperty("rmi.port")));
+            	registry = LocateRegistry.getRegistry(p.getProperty("rmi.registryURL"),Integer.parseInt(p.getProperty("rmi.port")));
         	}catch(Exception xe){//TODO Einschraenken
-        		
         		return COULD_NOT_BIND_OR_LOCATE_REGISTRY;
         	}
         }

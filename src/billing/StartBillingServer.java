@@ -61,6 +61,7 @@ public class StartBillingServer {
 			 
 		 }catch(Exception e){
 			 //TODO Handeln
+			 e.printStackTrace();
 		 }
 
 	 }

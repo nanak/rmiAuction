@@ -46,7 +46,7 @@ public class Bill{
 			p=b.next();
 			var=c.next();
 			fix=d.next();
-			r=r+String.format("%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t",f.format(a.next().doubleValue()) ,f.format(p),f.format(fix),f.format(var/100*p),f.format(fix+var/100*p))+"\n";
+			r=r+String.format("%s\t\t%s\t\t%s\t\t%s\t\t%s\t\t",""+a.next() ,f.format(p),f.format(fix),f.format(var/100*p),f.format(fix+var/100*p))+"\n";
 		}
 		return r;
 	}

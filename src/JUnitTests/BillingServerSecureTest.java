@@ -94,7 +94,7 @@ public class BillingServerSecureTest{
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1,00		9,00		5,00		0,50		5,50		\n2,00		20,00		10,00		2,00		12,00		\n3,00		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,00		0,50		5,50		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
 	}
 	@Test
 	public void billAuctionAndGetBillTestIntervalDoesNotExist(){
@@ -105,7 +105,7 @@ public class BillingServerSecureTest{
 			e.printStackTrace();
 		}
 		s.billAuction("test", 1, 100);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1,00		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
 	}
 	@Test
 	public void getBillTestFalse(){
