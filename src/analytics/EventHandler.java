@@ -37,26 +37,25 @@ public class EventHandler implements Runnable{
 	
 	//Auctions
 //	private int auctionCount=0; //Count all auctions
-	private int auctionTimeSum = 0; //
 	private ConcurrentHashMap<Long,AuctionStarted> auctions; //Saves all started auctions
 	private HashSet<Long> bidAuctionIDs; //Saves auctions on which were bid.
-	private long auctionTimeAVG = 0;
-	private long auctionTimeSUM= 0;
-	private long auctionsEnded = 0; //Counts ended auctions
-	private long auctionSuccessfull =0; //Counts auctionSuccessFull
+	private long auctionTimeAVG = 0L;
+	private long auctionTimeSUM= 0L;
+	private long auctionsEnded = 0L; //Counts ended auctions
+	private static long auctionSuccessfull =0L; //Counts auctionSuccessFull
 	
 	//User
 	private long userTimeMin = Long.MAX_VALUE;
-	private double userTimeMax = 0;
-	private long userTimeTotal = 0;
-	private long userTimeAVG = 0;
-	private long userSessionsTotal = 0; //Saves how many user were loggend in (In Order to allow login/logout counting)
+	private double userTimeMax = 0L;
+	private long userTimeTotal = 0L;
+	private long userTimeAVG = 0L;
+	private long userSessionsTotal = 0L; //Saves how many user were loggend in (In Order to allow login/logout counting)
 	private ConcurrentHashMap<String, UserEvent> logedInUser; //Saves all currently loggedIn User
 	
 	//Bid
-	private long bidCount= 0;
+	private static long  bidCount= 0L;
 	private double bidMax = 0;
-	private long running; //Saves the time to calculate how long the System is running
+
 	
 	/**
 	 * Creates the EventHandler and sets the analyticsServer
@@ -68,7 +67,6 @@ public class EventHandler implements Runnable{
 		logedInUser = new ConcurrentHashMap<>();
 		auctions = new ConcurrentHashMap();
 		bidAuctionIDs = new HashSet();
-		running = new Date().getTime();
 	}
 	
 	/**
@@ -76,11 +74,12 @@ public class EventHandler implements Runnable{
 	 */
 	public void run(){
 		System.out.println("Start receiving");
-		while(true){
+		while(true){				
+			
 			Event event = null;
 			try {
 				event = as.getIncomingEvents().take();
-				System.out.println(event.getType());
+				
 				as.getDispatchedEvents().add(event);
 			} catch (InterruptedException e2) {
 				// TODO Auto-generated catch block
@@ -88,7 +87,7 @@ public class EventHandler implements Runnable{
 			}
 //			while(!as.getIncomingEvents().isEmpty()){
 				System.out.println("Got event");
-				
+				System.out.println(event.getType());
 				
 				
 				/**
@@ -175,7 +174,9 @@ public class EventHandler implements Runnable{
 						auctions.put(aevent.getAuctionID(), (AuctionStarted)aevent);
 					}
 					else if(aevent instanceof AuctionEnded){
+						
 						auctionsEnded++;
+						System.out.println(aevent.getAuctionID());
 						//Test if auction was successfull
 						if(bidAuctionIDs.contains(aevent.getAuctionID()))
 							auctionSuccessfull++;
@@ -195,10 +196,13 @@ public class EventHandler implements Runnable{
 							e.printStackTrace();
 						}
 						//Calculate successRatio
-						long asuccess = auctionSuccessfull/auctionsEnded;
+						System.out.println("Successfull " + auctionSuccessfull);
+						System.out.println("Ended " + auctionsEnded);
+						float asuccess = ((float)auctionSuccessfull)/auctionsEnded;
 						System.out.println(asuccess);
 						//Create Event
 						date= new java.util.Date();
+						System.err.println("AuctionSucess");
 						AuctionSuccessRatio asuc = new AuctionSuccessRatio("" +UUID.randomUUID().getMostSignificantBits(), "AUCTION_SUCCESS_RATIO", date.getTime(), asuccess);
 						//Try to push event into Queue
 						try {
@@ -257,6 +261,7 @@ public class EventHandler implements Runnable{
 			}	
 				as.notifyClients();
 		}
+		
 	}
 
 	public long getBidCount() {

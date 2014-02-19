@@ -63,7 +63,7 @@ public class AnalyticsServer {
 		Thread t = new Thread(eh);
 		t.start();
 		Timer timer = new Timer();
-		timer.schedule(new BidCountPerMinuteWatcher(this), 60*1000);
+		timer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
 		
 	}
 	

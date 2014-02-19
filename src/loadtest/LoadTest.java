@@ -60,9 +60,19 @@ public class LoadTest {
 		//read properties from file
 		p.setFromFile("loadtest.properties");
 
+		/**
+		 * 
+		 * UNBEDINGT THREADPOOL
+		 */
  		//put clients to map
 		Thread t;
 		for (int i=0; i<p.getClients(); i++){
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			t=new Thread(new Client(hostname, port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin())));
 			clients.put(i, t);
 			t.start();

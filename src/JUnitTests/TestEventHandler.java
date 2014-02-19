@@ -138,35 +138,35 @@ public class TestEventHandler {
 		AuctionSuccessRatio asuc = (AuctionSuccessRatio) it.next();
 		assertEquals(asuc.getValue(), 0,0);
 	}
-//	/**
-//	 * Tests to place a bid because 1 bid is placed in one minute. Thread has to wait one Minute.
-//	 * Also the highest bid shall be updated to 100
-//	 */
-//	@Test
-//	public void testPlaceBidAndBPM(){
-//		Date d = new Date();
-//		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
-//		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
-//		dummyAs.processEvent(bp);
-//		try {
-//			Thread.sleep(60000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		//Tests the Events
-//		ArrayList<Event> al = ci.getEvents();
-//		Iterator<Event> it = al.iterator();
-//		//First Event should be BidPlaced
-//		assertEquals("BID_PLACED", it.next().getType());
-//		//NExt event is new BidPriceMax -> 100
-//		BidPriceMax bpmax = (BidPriceMax) it.next();
-//		assertEquals(bpmax.getValue(), 100,0);
-//		//NextEvent is BidCount perMinute
-//		BidCountPerMinute bpm = (BidCountPerMinute) it.next();
-//		assertEquals(bpm.getValue(), 1, 0);
-//
-//	}
+	/**
+	 * Tests to place a bid because 1 bid is placed in one minute. Thread has to wait one Minute.
+	 * Also the highest bid shall be updated to 100
+	 */
+	@Test
+	public void testPlaceBidAndBPM(){
+		Date d = new Date();
+		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
+		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
+		dummyAs.processEvent(bp);
+		try {
+			Thread.sleep(60000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//Tests the Events
+		ArrayList<Event> al = ci.getEvents();
+		Iterator<Event> it = al.iterator();
+		//First Event should be BidPlaced
+		assertEquals("BID_PLACED", it.next().getType());
+		//NExt event is new BidPriceMax -> 100
+		BidPriceMax bpmax = (BidPriceMax) it.next();
+		assertEquals(bpmax.getValue(), 100,0);
+		//NextEvent is BidCount perMinute
+		BidCountPerMinute bpm = (BidCountPerMinute) it.next();
+		assertEquals(bpm.getValue(), 1, 0);
+
+	}
 	/**
 	 * Test if the auctionSuccessFullRatio will be 1, if there is a bid placed on it
 	 */

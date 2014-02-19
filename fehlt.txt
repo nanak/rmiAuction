@@ -1,4 +1,22 @@
-BillingServer RMI Methoden aufufen & Objekt bekommen
-Management Client (Client Interface) in Registry
-Analytcs Server über RMI
-Server über RMI
+﻿KD
+
+initRMI in den Kosntruktor with Exception
+Testklasse raus aus KD
+Analytics Bidirektional
+Billing kliner Machen
+Attribute missing in Billling
+loginTestMap delete
+ManagementCLient rename
+Attribute namin Conventions
+Static Main Method in LoadTest
+Client bidirektional
+LoadTest main ist nich t static
+
+Klassen übersichtlich bidirektional
+Interfaces mit Klassen darsellen
+
+----------------------------------------
+Execption in Packages außer generell
+Packages kleinschreiben
+Enhance Exception
+Java Naming Convention
