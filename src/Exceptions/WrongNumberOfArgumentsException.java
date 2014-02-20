@@ -6,15 +6,15 @@ package Exceptions;
  * @author Michaela Lipovits
  * @version 20140203
  */
-public class IllegalNumberOfArgumentsException extends Exception{
+public class WrongNumberOfArgumentsException extends Exception{
     /**
      * Constructor, which calls the superclasses constructor with 
      * the text of the exception.
      */
-    public IllegalNumberOfArgumentsException(){
+    public WrongNumberOfArgumentsException(){
     	super("Wrong number of arguments given!");
     }
-    public IllegalNumberOfArgumentsException(String msg){
+    public WrongNumberOfArgumentsException(String msg){
     	super("Wrong number of arguments given!\n"+msg);
     }
 }

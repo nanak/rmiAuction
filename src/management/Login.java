@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import Exceptions.IllegalNumberOfArgumentsException;
+import Exceptions.WrongNumberOfArgumentsException;
 
 /**
  * Class login, which sets username and hashes the password.
@@ -26,9 +26,9 @@ public class Login implements Command<String>{
 	 * Passwort wird gehasht gesendet.
 	 */
 	@Override
-	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException{
+	public String execute(String[] cmd) throws WrongNumberOfArgumentsException{
 		if(cmd.length!=3){
-			throw new IllegalNumberOfArgumentsException("Usage: !login <username> <password>");
+			throw new WrongNumberOfArgumentsException("Usage: !login <username> <password>");
 		}
 		this.name=cmd[1];
 		

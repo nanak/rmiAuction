@@ -1,7 +1,9 @@
 package loadtest;
 
+import java.util.TimerTask;
 
-public class BidThread implements Runnable{
+
+public class BidThread extends TimerTask{
 	private Thread t;
 	private int bidpM;
 	private long starttime;
@@ -15,31 +17,16 @@ public class BidThread implements Runnable{
 		this.bidpM=bidspM;
 		this.starttime=starttime;
 		first=true;
-		t= new Thread(this);
-		t.start();
 	}
 
 	@Override
 	public void run() {
-		if(first){
-			try {
-				t.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			first=false;
-		}
-		while(cli.isClientAlive()){
+		if(cli.isClientAlive()){
 			id=cli.getRandomID();
 			//evtl genauer machen mit nano-s
 			amount=(double)(System.currentTimeMillis()-starttime);
 			System.out.println(amount);
 			cli.write("!bid "+id+" "+amount);
-			try{
-				t.sleep(bidpM*60000);
-			}catch(InterruptedException e){
-				e.printStackTrace();	
-			}
 		}
 		
 	}

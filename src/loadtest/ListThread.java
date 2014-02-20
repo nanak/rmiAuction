@@ -1,5 +1,7 @@
 package loadtest;
 
+import java.util.TimerTask;
+
 
 /**
  * Thread, which lists all running auctions in a specified interval
@@ -7,7 +9,7 @@ package loadtest;
  * @author Michaela Lipovits
  * @version 20140217
  */
-public class ListThread implements Runnable{
+public class ListThread extends TimerTask{
 	private FakeCli cli;
 	private int update;
 	private Thread t;
@@ -17,30 +19,13 @@ public class ListThread implements Runnable{
 		this.cli=cli;
 		this.update=update;
 		first=true;
-		t= new Thread(this);
-		t.start();
 	}
 
 	@Override
 	public void run() {
-		if(first){
-			try {
-				t.sleep(600);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			first=false;
-		}
-		while(cli.isClientAlive()){
+		if(cli.isClientAlive()){
 			cli.write("!list");
-			try {
-				t.sleep(update*1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
-		
-		
 	}
 
 }
