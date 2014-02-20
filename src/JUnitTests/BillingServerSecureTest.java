@@ -1,14 +1,11 @@
 package JUnitTests;
 
 import static org.junit.Assert.*;
-
 import java.rmi.RemoteException;
-
 import org.junit.Before;
 import org.junit.Test;
 import billing.BillingServerSecure;
 import billing.PriceStep;
-import billing.RemoteBillingServerSecure;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 
@@ -89,14 +86,12 @@ public class BillingServerSecureTest{
 		try {
 			s.createPriceStep(0, 10, 5.6,5);
 			s.createPriceStep(10, 30, 10,10);
-		} catch (PriceStepIntervalOverlapException e) {
-			e.printStackTrace();
-		}
+		} catch (PriceStepIntervalOverlapException e) {}
 		s.billAuction("test", 1, 9);
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,00		0,50		5,50		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
 	}
 	@Test
 	public void billAuctionAndGetBillTestIntervalDoesNotExist(){
@@ -106,7 +101,8 @@ public class BillingServerSecureTest{
 		} catch (PriceStepIntervalOverlapException e) {
 		}
 		s.billAuction("test", 1, 100);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
+		s.billAuction("test", 1, 100);
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100,00		0,00		0,00		0,00		\n1		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
 	}
 	@Test
 	public void getBillTestFalse(){
