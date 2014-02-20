@@ -1,19 +1,22 @@
-package loadtest;
+package loadtest2;
 
 import java.util.TimerTask;
 
+import Client.TaskExecuter;
 
-public class BidThread extends TimerTask{
-	private Thread t;
+
+public class BidTask extends TimerTask{
 	private int bidpM;
 	private long starttime;
 	private boolean first;
-	private FakeCli cli;
 	private int id;
 	private double amount;
+	private TaskExecuter t;
+	private FakeCli cli;
 
-	public BidThread(FakeCli cli, int bidspM, long starttime) {
+	public BidTask(int bidspM, long starttime, TaskExecuter t, FakeCli cli) {
 		this.cli=cli;
+		this.t=t;
 		this.bidpM=bidspM;
 		this.starttime=starttime;
 		first=true;
@@ -21,13 +24,13 @@ public class BidThread extends TimerTask{
 
 	@Override
 	public void run() {
-		if(cli.isClientAlive()){
+//		if(cli.isClientAlive()){
+		System.out.println(id);
 			id=cli.getRandomID();
 			//evtl genauer machen mit nano-s
 			amount=(double)(System.currentTimeMillis()-starttime);
-			System.out.println(amount);
-			cli.write("!bid "+id+" "+amount);
-		}
+			t.bid(id, amount);
+//		}
 		
 	}
 

@@ -18,7 +18,7 @@ import loadtest.FakeCli;
  * @author Dominik Valka <dvalka@student.tgm.ac.at>
  * @version 2013-12-10
  */
-public class Client implements Runnable{
+public class Client{
 	private String username;
 	private boolean loggedIn;
 	private String host;
@@ -53,7 +53,6 @@ public class Client implements Runnable{
 	/**
 	 * Reads permantly the user input and calls the methods
 	 */
-	@Override
 	public void run() {
 		String eingabe="";
 //		Scanner in;
@@ -209,4 +208,9 @@ public class Client implements Runnable{
 	public void setActive(boolean active) {
 		this.active=active;
 	}
+
+	public TaskExecuter getT() {
+		return t;
+	}
+	
 }

@@ -1,12 +1,15 @@
-package loadtest;
+package loadtest2;
 
 import java.io.ByteArrayInputStream;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import management.ManagmentClient;
 import Client.Client;
+import Client.TCPConnector;
+import Client.TaskExecuter;
 /**
  * Class LoadTest which starts the Loadtests.
  * 
@@ -18,7 +21,15 @@ public class LoadTest {
 	private Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
 	private ManagmentClient mc;
-	private ExecutorService pool;
+	private Client c;
+	private TaskExecuter t;
+	private int tcp;
+	private Timer create;
+	private Timer bid;
+	private long starttime;
+	private Timer list;
+	private FakeCli cli;
+	private Timer checker;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -52,8 +63,9 @@ public class LoadTest {
 				port=5000;
 			}
 		}
-		new LoadTest(hostname,port);
 		new ManagmentClient(new FakeCli("!subscribe .* \n!auto"));
+		new LoadTest(hostname,port);
+		
 		
 	}
 	public LoadTest(String hostname,int port){
@@ -61,25 +73,29 @@ public class LoadTest {
 		
 		Properties p = new Properties();
 		//read properties from file
-		//p.setFromFile("loadtest.properties");
-		p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/loadtest.properties");
+		p.setFromFile("loadtest.properties");
+		//p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/loadtest.properties");
 
 		/**
 		 * 
 		 * UNBEDINGT THREADPOOL
 		 */
-		pool= Executors.newCachedThreadPool();
  		//put clients to map
-		Thread t;
+		
 		for (int i=0; i<p.getClients(); i++){
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			pool.submit(new Thread(new Client(hostname, port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin()))));
-			
+			starttime=System.currentTimeMillis();
+			cli=new FakeCli("");
+			c= new Client(hostname, port, cli);
+			t=c.getT();
+			tcp=c.getTcpPort();
+			create=new Timer();
+			bid=new Timer();
+			list=new Timer();
+			checker=new Timer();
+			create.schedule(new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp), 0, 60000/p.getAuctionsPerMin());
+			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
+			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
+			checker.schedule(new CheckTimeTask(starttime, list, create, bid), 1000, 30000);
 		}
 		
 	}

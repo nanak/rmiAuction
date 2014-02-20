@@ -1,4 +1,4 @@
-package loadtest;
+package loadtest2;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -31,20 +31,20 @@ public class FakeCli implements UI{
 	private Timer create;
 	private Timer list;
 
-	public FakeCli(int aucpM, int aucD, int update, int bidspM){
-		starttime=System.currentTimeMillis();
-		new CheckDuration(this,starttime);
-		clientsAlive=true;
-		is=new ByteArrayInputStream("".getBytes());
-		in = new Scanner(is);
-		new AuctionThread(aucpM, aucD, this);
-		bid= new Timer();
-		create=new Timer();
-		list=new Timer();
-		create.schedule(new AuctionThread(aucpM, aucD, this), 0, 60000/aucpM);
-		bid.schedule(new BidThread(this,bidspM,starttime), 500,60000/bidspM); 
-		list.schedule(new ListThread(this, update), 1000, update*1000);	
-	}
+//	public FakeCli(int aucpM, int aucD, int update, int bidspM){
+//		starttime=System.currentTimeMillis();
+//		new CheckDuration(this,starttime);
+//		clientsAlive=true;
+//		is=new ByteArrayInputStream("".getBytes());
+//		in = new Scanner(is);
+//		new AuctionThread(aucpM, aucD, this);
+//		bid= new Timer();
+//		create=new Timer();
+//		list=new Timer();
+//		create.schedule(new AuctionThread(aucpM, aucD, this), 0, 60000/aucpM);
+//		bid.schedule(new BidThread(this,bidspM,starttime), 500,60000/bidspM); 
+//		list.schedule(new ListThread(this, update), 1000, update*1000);	
+//	}
 	public FakeCli(String cmd) {
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);

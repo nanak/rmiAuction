@@ -1,6 +1,8 @@
-package loadtest;
+package loadtest2;
 
 import java.util.TimerTask;
+
+import Client.TaskExecuter;
 
 
 /**
@@ -10,35 +12,35 @@ import java.util.TimerTask;
  * @version 20140216
  *
  */
-public class AuctionThread extends TimerTask{
+public class CreateTask extends TimerTask{
 	private int aucpM,aucD;
-	private FakeCli cli;
+	private TaskExecuter t;
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private Thread t;
 	private boolean first;
+	private int tcpPort;
 	
-	public AuctionThread(int aucpM, int aucD, FakeCli cli){
+	public CreateTask(int aucpM, int aucD, TaskExecuter t, int tcpPort){
+		this.tcpPort=tcpPort;
 		this.aucD=aucD;
 		this.aucpM=aucpM;
-		this.cli=cli;
+		this.t=t;
 		first=true;
 	}
 
 	@Override
 	public void run() {
 		if(first){
-			cli.write("!login "+randomString(10));
-			System.out.println("login");
+			t.login(randomString(10), tcpPort, 0);
 			first=false;
 			try {
-				t.sleep(500);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		if(cli.isClientAlive()){
-			cli.write("!create "+aucD+" "+randomString(7));
-		}
+//		if(cli.isClientAlive()){
+		t.create((long) aucD, randomString(7));
+//		}
 		
 	}
 	public static String randomString(int count) {
