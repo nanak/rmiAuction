@@ -17,6 +17,7 @@ public class InitRMI {
 	private Properties p;
 	private boolean init;
 	private Registry registry;
+	private Remote ro; //Remote Object, so it isn't deleted by garbage collector
 	
 	public static final int COULD_NOT_BIND_OR_LOCATE_REGISTRY = 370;
 	public static final int REGISTRY_BOUND = 0;
@@ -60,8 +61,8 @@ public class InitRMI {
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{
 		if(!init)
 			init();
-		r= UnicastRemoteObject.exportObject(r, 0);
-		registry.rebind(rmiIdentifier, r);
+		ro= UnicastRemoteObject.exportObject(r, 0);
+		registry.rebind(rmiIdentifier, ro);
 		
 		return REMOTE_BOUND;
 	}
