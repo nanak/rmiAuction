@@ -60,8 +60,8 @@ public class InitRMI {
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{
 		if(!init)
 			init();
-		Remote ro = UnicastRemoteObject.exportObject(r, 0);
-		registry.rebind(rmiIdentifier, ro);
+		r= UnicastRemoteObject.exportObject(r, 0);
+		registry.rebind(rmiIdentifier, r);
 		
 		return REMOTE_BOUND;
 	}
