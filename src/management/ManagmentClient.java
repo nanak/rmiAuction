@@ -73,7 +73,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		uniqueID = UUID.randomUUID().toString();
 		initRMI();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -224,7 +224,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			stream.close();
 			InitRMI ir = new InitRMI(properties);
 			ir.init();
-			
+			System.out.println("Getting server: " + properties.getProperty("rmi.analyticsServer"));
 			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
 			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
 			ir.rebind(this,uniqueID);

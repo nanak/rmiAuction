@@ -1,0 +1,6 @@
+Die Server müssen in folgender Reihenfolge gestartet werden.
+
+1. Billing/Analytics
+2. Analytics/Billing
+
+Erst danach die Server bzw (Mgmt-)Clients
