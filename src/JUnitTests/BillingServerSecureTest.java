@@ -27,8 +27,8 @@ public class BillingServerSecureTest{
 	public void createPriceStepTest() {
 		BillingServerSecure s= new BillingServerSecure();
 		try {
-			s.createPriceStep(0, 10, 5, 10);
 			s.createPriceStep(10, 100, 5, 10);
+			s.createPriceStep(0, 10, 5, 10);
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
 			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n200,00		300,00		7,00		9,00\n300,00		INFINITY	5,00		6,00");

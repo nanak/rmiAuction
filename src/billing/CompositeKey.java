@@ -25,9 +25,6 @@ public class CompositeKey implements Comparable<CompositeKey>{
 	   if (this.key2 == 0 && s.getKey2() == 0) {
 			return true;
 		}
-		if (this.key1 == 0) {
-			return !(s.getKey2() <= this.key1);
-		}
 		if (this.key2 == 0) {
 			return (this.key1 < s.getKey2());
 		}
@@ -36,11 +33,6 @@ public class CompositeKey implements Comparable<CompositeKey>{
 		}
 	return !(this.key2 <= s.getKey1() || this.key1 >= s.getKey2());
 }
-
-@Override
-   public int hashCode() {
-       return key1.hashCode() + key2.hashCode();
-   }
 
 /**
  * tests if value is between interval
