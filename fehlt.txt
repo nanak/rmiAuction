@@ -21,3 +21,7 @@ Execption in Packages außer generell
 Packages kleinschreiben
 Enhance Exception
 Java Naming Convention
+
+You should not use a Security Manager. So you do not need policy files.
+ant file
+persistence
