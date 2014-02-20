@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import billing.BillingServerSecure;
 import billing.PriceStep;
+import billing.RemoteBillingServerSecure;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 
@@ -33,7 +34,7 @@ public class BillingServerSecureTest{
 			s.createPriceStep(10, 100, 5, 10);
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
-			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n300,00		INFINITY	5,00		6,00\n200,00		300,00		7,00		9,00");
+			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n200,00		300,00		7,00		9,00\n300,00		INFINITY	5,00		6,00");
 		} catch (PriceStepIntervalOverlapException e) {
 		}
 	}
@@ -65,6 +66,7 @@ public class BillingServerSecureTest{
 		try {
 			s.createPriceStep(0, 10, 5, 10);
 			s.deletePriceStep((double)0, (double)10);
+			s.createPriceStep(0, 10, 5, 10);
 			s.createPriceStep(0, 10, 5, 10);
 			assertTrue(true);
 		} catch (RemoteException e) {
@@ -102,7 +104,6 @@ public class BillingServerSecureTest{
 		try {
 			s.createPriceStep(0, 10, 5.6,5);
 		} catch (PriceStepIntervalOverlapException e) {
-			e.printStackTrace();
 		}
 		s.billAuction("test", 1, 100);
 		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100,00		0,00		0,00		0,00		\n", s.getBill("test"));

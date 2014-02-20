@@ -2,6 +2,7 @@ package billing;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
@@ -19,14 +20,14 @@ public class BillingServerSecure  {
 
 	//private ConcurrentHashMap<String,Login> user;
 
-	private ConcurrentHashMap<CompositeKey,PriceStep> priceSteps;
+	private ConcurrentSkipListMap<CompositeKey,PriceStep> priceSteps;
 
 	private ConcurrentHashMap<String,Bill> bills;
 
 	private FileHandler<String,Bill> fileHandler;
 	
 	public BillingServerSecure(){
-		priceSteps=new ConcurrentHashMap<CompositeKey,PriceStep>();
+		priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
 		bills=new ConcurrentHashMap<String,Bill>();
 	//	fileHandler= new FileHandler<String,Bill>("Bills");
 		//System.out.println(fileHandler.readObject(null, null).toString());
@@ -70,7 +71,7 @@ public class BillingServerSecure  {
 				}
 				priceSteps.put(k, p);
 			} catch (IllegalValueException e) {
-				e.printStackTrace();
+				System.err.println(e);
 			}
 
 	}

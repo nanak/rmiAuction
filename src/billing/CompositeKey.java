@@ -9,7 +9,7 @@ package billing;
  * @version 11.02.2014
  *
  */
-public class CompositeKey {
+public class CompositeKey implements Comparable<CompositeKey>{
    private Double key1, key2;
    
    public CompositeKey(double startPrice,double endPrice){
@@ -17,35 +17,25 @@ public class CompositeKey {
 	   this.key2=endPrice;
    }
    
-   
-   @Override
-   public boolean equals(Object obj) {
-       if(obj != null && obj instanceof CompositeKey) {
-    	   CompositeKey s = (CompositeKey)obj;
-           return key1.equals(s.getKey1()) && key2.equals(s.getKey2());
-       }
-       return false;
-   }
-   
 /**
  * Tests if an pricestep interval overlaps with another pricestep
  * return true if they overlap
  */
    public boolean overlaps(CompositeKey s) {
-    	   if (this.key2 == 0 && s.getKey2() == 0) {
-				return true;
-			}
-			if (this.key1 == 0) {
-				return !(s.getKey2() <= this.key1);
-			}
-			if (this.key2 == 0) {
-				return (this.key1 < s.getKey2());
-			}
-			if (s.getKey2() == 0) {
-				return !(this.key2 <= s.getKey1());
-			}
-		return !(this.key2 <= s.getKey1() || this.key1 >= s.getKey2());
-   }
+	   if (this.key2 == 0 && s.getKey2() == 0) {
+			return true;
+		}
+		if (this.key1 == 0) {
+			return !(s.getKey2() <= this.key1);
+		}
+		if (this.key2 == 0) {
+			return (this.key1 < s.getKey2());
+		}
+		if (s.getKey2() == 0) {
+			return !(this.key2 <= s.getKey1());
+		}
+	return !(this.key2 <= s.getKey1() || this.key1 >= s.getKey2());
+}
 
 @Override
    public int hashCode() {
@@ -77,6 +67,16 @@ public Double getKey1() {
  */
 public Double getKey2() {
 	return key2;
+}
+
+/**
+ * Methode zum Vergleichen- Sortieren
+ */
+@Override
+public int compareTo(CompositeKey o) {
+	if(o == null ||this.key1<o.getKey1()) return -1;
+    if(this.key1>o.getKey1())return 1;
+	return 0;
 }
 
 }
