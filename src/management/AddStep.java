@@ -1,7 +1,7 @@
 package management;
 
 import billing.BillingServerSecure;
-import Exceptions.IllegalNumberOfArgumentsException;
+import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
 
@@ -22,9 +22,9 @@ public class AddStep extends SecureCommand<String> {
 	private BillingServerSecure bss;
 
 	@Override
-	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException{
+	public String execute(String[] cmd) throws WrongNumberOfArgumentsException, WrongInputException{
 		if(cmd.length!=5){
-			throw new IllegalNumberOfArgumentsException("Usage: !addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>");
+			throw new WrongNumberOfArgumentsException("Usage: !addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>");
 		}
 		try{
 			startPrice=Double.parseDouble(cmd[1]);

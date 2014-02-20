@@ -1,7 +1,7 @@
 package management;
 
 import billing.BillingServerSecure;
-import Exceptions.IllegalNumberOfArgumentsException;
+import Exceptions.WrongNumberOfArgumentsException;
 
 /**
  * This class provides a method to create a bill
@@ -15,9 +15,9 @@ public class Bill extends SecureCommand<String> {
 	private BillingServerSecure bss;
 
 	@Override
-	public String execute(String[] cmd) throws IllegalNumberOfArgumentsException {
+	public String execute(String[] cmd) throws WrongNumberOfArgumentsException {
 		if(cmd.length!=2){
-			throw new IllegalNumberOfArgumentsException("Usage: !bill <userName>");
+			throw new WrongNumberOfArgumentsException("Usage: !bill <userName>");
 		}
 		this.user=cmd[1];
 		return bss.getBill(user);

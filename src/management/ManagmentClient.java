@@ -7,13 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -21,22 +16,21 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import rmi.InitRMI;
-import analytics.AnalyticTaskComputing;
-import analytics.RemoteAnalyticsTaskComputing;
-import billing.IRemoteBillingServerSecure;
-import billing.RemoteBillingServer;
-import billing.RemoteBillingServerSecure;
 import Client.CLI;
 import Client.UI;
 import Event.Event;
-import Exceptions.*;
+import Exceptions.CommandIsSecureException;
+import Exceptions.CommandNotFoundException;
+import Exceptions.WrongNumberOfArgumentsException;
+import Exceptions.WrongInputException;
+import analytics.RemoteAnalyticsTaskComputing;
+import billing.IRemoteBillingServerSecure;
+import billing.RemoteBillingServer;
 
-//import analytics.AnalyticTaskComputing;
-//import billing.RemoteBillingServerSecure;
 
 /**
  * Class ManagementClient which creates a new ManagmentClient.
- * The Userinput is read and the matchig Commands are executed.
+ * The Userinput is read and the manalyticTaskComputinghig Commands are executed.
  * 
  * @author Michaela Lipovits
  * @version 20140211
@@ -47,16 +41,15 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private UI ui;
 
-	private static CommandFactory cf;
+	private static CommandFactory commandFactory;
 
-	private static RemoteBillingServer bs;
+	private static RemoteBillingServer billingServer;
 
-	private RemoteAnalyticsTaskComputing atc;
+	private RemoteAnalyticsTaskComputing analyticTaskComputing;
 
-	private static IRemoteBillingServerSecure rsbs;
+	private static IRemoteBillingServerSecure billingServerSecure;
 	
 	private String uniqueID;
-//	private ClientInterface ci;
 
 	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
@@ -70,7 +63,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	public ManagmentClient(UI ui){
 		this.ui=ui;
 		events = new ConcurrentLinkedQueue<Event>();
-		cf=new CommandFactory();
+		commandFactory=new CommandFactory();
 		running=true;
 		c=null;
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -78,8 +71,14 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		logout=new String[1];
 		logout[0]="!logout";
 		uniqueID = UUID.randomUUID().toString();
-		new Thread(this).start();
 		initRMI();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		new Thread(this).start();
 	}
 
 	public static void main(String[] args){
@@ -120,16 +119,16 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					cmd=line.split(" ");
 					if(line.equals("!end")){
 						if(secure==true){
-							System.out.println(rsbs.executeSecureCommand(cf.createSecureCommand(logout),logout));
+							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
 						}
 						ui.out("Management Client is shutting down!");
 						secure=false;
 						running=false;
 					}
 					else if(cmd[0].equals("!login")){
-						c= cf.createCommand(cmd);
+						c= commandFactory.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
-						rsbs=bs.login((Login)c);
+						billingServerSecure=billingServer.login((Login)c);
 						secure=true;
 					}
 					else if(cmd[0].equals("!print")){
@@ -151,30 +150,31 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					else if(cmd[0].equals("!unsubscribe")){
 						int id;
 						if(cmd.length!=2){
-							throw new IllegalNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
+							throw new WrongNumberOfArgumentsException("Usage: !unsubillingServercribe <subillingServercriptionID>");
 						}
 		
 		
 	
 						// TODO UNSUBSCRIBE
-						String s = atc.unsubscribe(cmd[1]);
+						String s = analyticTaskComputing.unsubscribe(cmd[1]);
 						ui.outln(s);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
-							throw new IllegalNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
+							throw new WrongNumberOfArgumentsException("Usage: !subillingServercribe <filterRegex>");
 						}
-						//TODO subscribe
-						System.out.println(atc.subscribe(cmd[1], this));
+						//TODO subillingServercribe
+						
+						ui.out(analyticTaskComputing.subscribe(cmd[1], this));
 					}
 					else if(cmd[0].equals("!logout")){
 						usernameLogout=new String[2];
 						usernameLogout[0]=cmd[0];
 						usernameLogout[1]=username;
-						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),usernameLogout);
+						anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
 						ui.out(anwser);
 						username=""; 
-						rsbs=null;
+						billingServerSecure=null;
 						secure=false;
 
 					}
@@ -183,17 +183,17 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							secure=false;
 						}
 						System.out.println(cmd.length);
-						System.out.println(rsbs.toString());
-						anwser=rsbs.executeSecureCommand(cf.createSecureCommand(cmd),cmd);
+						System.out.println(billingServerSecure.toString());
+						anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
 						ui.out(anwser);
 					}	
 					else{	
-						c=cf.createCommand(cmd);
+						c=commandFactory.createCommand(cmd);
 						anwser=(String) c.execute(cmd);
 						ui.out(anwser);
 					}					
-				}catch(IllegalNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
-					e.printStackTrace();
+				}catch(WrongNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
+					ui.out(e.getMessage());
 				}
 			}
 			br.close();
@@ -225,8 +225,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			InitRMI ir = new InitRMI(properties);
 			ir.init();
 			
-			bs= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
-			atc = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
+			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
+			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
 			ir.rebind(this,uniqueID);
 			
 		} catch (RemoteException e) {

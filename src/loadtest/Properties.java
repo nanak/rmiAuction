@@ -113,8 +113,7 @@ public class Properties {
 				}
 			}
 		} catch (IOException | ArrayIndexOutOfBoundsException e) {
-			System.err.println("An error reading the properties file occured:");
-			e.printStackTrace();
+			System.err.println("An error reading the properties file occured.");
 		} finally {
 			try {
 				if (br != null)br.close();

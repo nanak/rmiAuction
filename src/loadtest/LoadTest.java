@@ -2,6 +2,8 @@ package loadtest;
 
 import java.io.ByteArrayInputStream;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import management.ManagmentClient;
 import Client.Client;
@@ -16,6 +18,7 @@ public class LoadTest {
 	private Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
 	private ManagmentClient mc;
+	private ExecutorService pool;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -50,7 +53,7 @@ public class LoadTest {
 			}
 		}
 		new LoadTest(hostname,port);
-		new ManagmentClient(new FakeCli("!login admin admin\n!auto\n!subscribe '*'"));
+		new ManagmentClient(new FakeCli("!subscribe .* \n!auto"));
 		
 	}
 	public LoadTest(String hostname,int port){
@@ -58,12 +61,14 @@ public class LoadTest {
 		
 		Properties p = new Properties();
 		//read properties from file
-		p.setFromFile("loadtest.properties");
+		//p.setFromFile("loadtest.properties");
+		p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/loadtest.properties");
 
 		/**
 		 * 
 		 * UNBEDINGT THREADPOOL
 		 */
+		pool= Executors.newCachedThreadPool();
  		//put clients to map
 		Thread t;
 		for (int i=0; i<p.getClients(); i++){
@@ -73,9 +78,8 @@ public class LoadTest {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			t=new Thread(new Client(hostname, port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin())));
-			clients.put(i, t);
-			t.start();
+			pool.submit(new Thread(new Client(hostname, port, new FakeCli(p.getAuctionsPerMin(),p.getAuctionDuration(),p.getUpdateIntervalSec(),p.getBidsPerMin()))));
+			
 		}
 		
 	}

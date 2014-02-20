@@ -1,5 +1,7 @@
 package loadtest;
 
+import java.util.TimerTask;
+
 
 /**
  * Thread which creates Auctions with certain durations in set Intervals.
@@ -8,7 +10,7 @@ package loadtest;
  * @version 20140216
  *
  */
-public class AuctionThread implements Runnable{
+public class AuctionThread extends TimerTask{
 	private int aucpM,aucD;
 	private FakeCli cli;
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -20,14 +22,13 @@ public class AuctionThread implements Runnable{
 		this.aucpM=aucpM;
 		this.cli=cli;
 		first=true;
-		t= new Thread(this);
-		t.start();
 	}
 
 	@Override
 	public void run() {
 		if(first){
 			cli.write("!login "+randomString(10));
+			System.out.println("login");
 			first=false;
 			try {
 				t.sleep(500);
@@ -35,13 +36,8 @@ public class AuctionThread implements Runnable{
 				e.printStackTrace();
 			}
 		}
-		while(cli.isClientAlive()){
+		if(cli.isClientAlive()){
 			cli.write("!create "+aucD+" "+randomString(7));
-			try{
-				t.sleep(aucpM*60000);
-			}catch(InterruptedException e){
-				e.printStackTrace();	
-			}
 		}
 		
 	}

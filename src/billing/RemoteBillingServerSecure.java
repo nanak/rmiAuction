@@ -2,7 +2,7 @@ package billing;
 
 import java.rmi.RemoteException;
 import management.SecureCommand;
-import Exceptions.IllegalNumberOfArgumentsException;
+import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
 
@@ -21,7 +21,7 @@ public class RemoteBillingServerSecure implements IRemoteBillingServerSecure {
 		this.bss=bss;
 	}
 
-	public <T> T executeSecureCommand (SecureCommand<T> sc, String[] cmd) throws IllegalNumberOfArgumentsException, WrongInputException, PriceStepIntervalOverlapException {
+	public <T> T executeSecureCommand (SecureCommand<T> sc, String[] cmd) throws WrongNumberOfArgumentsException, WrongInputException, PriceStepIntervalOverlapException {
 		sc.setBillingServerSecure(bss);
 		return sc.execute(cmd);
 	}

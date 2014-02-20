@@ -4,6 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import Exceptions.CommandNotFoundException;
+import Exceptions.IllegalValueException;
+import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
 import loadtest.FakeCli;
 
 
@@ -55,10 +59,11 @@ public class Client implements Runnable{
 //		Scanner in;
 //		in=new Scanner(System.in);
 		while(active){
+			
 			cli.outln("\n"+username+"> ");
 			try{
-				eingabe=cli.readln();//in.nextLine();	//The current command saved as String
-				System.out.println(eingabe);
+				eingabe=cli.readln();	//The current command saved as String
+				cli.out(eingabe);
 			}catch(NoSuchElementException e){
 				continue;
 			}
@@ -88,10 +93,18 @@ public class Client implements Runnable{
 							erg=Math.rint(erg*100)/100;
 							t.bid(Integer.parseInt(werte[1]),erg);
 						}catch(NumberFormatException e){
-							cli.out("ID or Amount entered incorrect");
+							try {
+								throw new WrongInputException();
+							} catch (WrongInputException e1) {
+								cli.out(e1.getMessage());
+							}
 						}
 					}else{
-						cli.out("Please enter ID and Amount like:\n!bid ID Amount");
+						try {
+							throw new WrongNumberOfArgumentsException("Usage !bid ID Amount");
+						} catch (WrongNumberOfArgumentsException e) {
+							cli.out(e.getMessage());
+						}
 					}
 				}else{
 					cli.out("Currently not logged in\nPlease login first");
@@ -103,10 +116,14 @@ public class Client implements Runnable{
 					if(werte.length==2){
 						t.login(werte[1],tcpPort,udpPort);
 						//Wait for Server response and then: set Username und loggedIn=true
-//						username=werte[1];
-//						loggedIn=true;
+						username=werte[1];
+						loggedIn=true;
 					}else{
-					cli.out("Please enter User like:\n!login Username");
+						try {
+							throw new WrongNumberOfArgumentsException("Usage: !login Username");
+						} catch (WrongNumberOfArgumentsException e) {
+							cli.out(e.getMessage());
+						}
 					}
 				}else{
 					cli.out("Already logged in, logout first!");
@@ -149,7 +166,11 @@ public class Client implements Runnable{
 			}
 				//If command is not recognized, another try will be granted
 			else{
-				cli.out("Could not recognize input\nPlease try again");
+				try {
+					throw new CommandNotFoundException("Could not recognize input\nPlease try again");
+				} catch (CommandNotFoundException e) {
+					cli.out(e.getMessage());
+				}
 			}
 			try {
 				Thread.sleep(50);

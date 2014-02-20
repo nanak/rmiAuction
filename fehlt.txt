@@ -1,4 +1,5 @@
-﻿KD
+﻿AnalyticsServer Management CLient tot
+KD
 
 initRMI in den Kosntruktor with Exception
 Testklasse raus aus KD

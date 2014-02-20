@@ -4,9 +4,11 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import analytics.BidCountPerMinuteWatcher;
 import Client.UI;
 
 /**
@@ -25,7 +27,9 @@ public class FakeCli implements UI{
 	private String[] saveLines;
 	private String[] saveIDs;
 	private boolean clientsAlive;
-	private ExecutorService pool;
+	private Timer bid;
+	private Timer create;
+	private Timer list;
 
 	public FakeCli(int aucpM, int aucD, int update, int bidspM){
 		starttime=System.currentTimeMillis();
@@ -33,16 +37,13 @@ public class FakeCli implements UI{
 		clientsAlive=true;
 		is=new ByteArrayInputStream("".getBytes());
 		in = new Scanner(is);
-		
-		// TODO ask why i should use a thread pool here?
-//		pool= Executors.newCachedThreadPool();
-//		pool.submit(new AuctionThread(aucpM, aucD, this));
-//		pool.submit(new ListThread(this, update));
-//		pool.submit(new BidThread(this,bidspM,starttime));
 		new AuctionThread(aucpM, aucD, this);
-		new BidThread(this,bidspM,starttime);
-		new ListThread(this, update);
-		
+		bid= new Timer();
+		create=new Timer();
+		list=new Timer();
+		create.schedule(new AuctionThread(aucpM, aucD, this), 0, 60000/aucpM);
+		bid.schedule(new BidThread(this,bidspM,starttime), 500,60000/bidspM); 
+		list.schedule(new ListThread(this, update), 1000, update*1000);	
 	}
 	public FakeCli(String cmd) {
 		is=new ByteArrayInputStream(cmd.getBytes());
@@ -73,7 +74,11 @@ public class FakeCli implements UI{
 		return in.nextLine();
 	}
 	public int getRandomID(){
-		return r.nextInt(a.size());
+		if(a!=null){
+			return r.nextInt(a.size());
+		}else{
+			return 0;
+		}
 		
 	}
 	public boolean isClientAlive(){
