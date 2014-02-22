@@ -12,9 +12,9 @@ public class WrongInputException extends Exception{
      * the text of the exception.
      */
     public WrongInputException(){
-    	super("One or more arguments are invalid!");
+    	super("ERROR: One or more arguments are invalid!");
     }
     public WrongInputException(String msg){
-    	super("One or more arguments are invalid!\n"+msg);
+    	super("ERROR: One or more arguments are invalid!\n"+msg);
     }
 }

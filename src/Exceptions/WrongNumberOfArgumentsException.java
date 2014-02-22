@@ -12,9 +12,9 @@ public class WrongNumberOfArgumentsException extends Exception{
      * the text of the exception.
      */
     public WrongNumberOfArgumentsException(){
-    	super("Wrong number of arguments given!");
+    	super("ERROR: Wrong number of arguments given!");
     }
     public WrongNumberOfArgumentsException(String msg){
-    	super("Wrong number of arguments given!\n"+msg);
+    	super("ERROR: Wrong number of arguments given!\n"+msg);
     }
 }

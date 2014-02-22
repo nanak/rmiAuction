@@ -11,9 +11,9 @@ public class CommandNotFoundException extends Exception{
      * the text of the exception.
      */
     public CommandNotFoundException(){
-    	super("This Command does not exist!");
+    	super("ERROR: This Command does not exist!");
     }
     public CommandNotFoundException(String msg){
-    	super("This Command does not exist!\n"+msg);
+    	super("ERROR: This Command does not exist!\n"+msg);
     }
 }

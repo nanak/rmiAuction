@@ -11,9 +11,9 @@ public class CommandIsSecureException extends Exception{
      * the text of the exception.
      */
     public CommandIsSecureException(){
-    	super("This command is secure. You have to log in first!");
+    	super("ERROR: This command is secure. You have to log in first!");
     }
     public CommandIsSecureException(String msg){
-    	super("This command is secure. You have to log in first!\n"+msg);
+    	super("ERROR: This command is secure. You have to log in first!\n"+msg);
     }
 }

@@ -177,7 +177,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							secure=false;
 						}
 						else{
-							System.out.println(billingServerSecure.toString());
 							anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
 							ui.out(anwser);
 						}
@@ -225,11 +224,12 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			ir.rebind(this,uniqueID);
 			
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			
+			running=false;
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
+			running=false;
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File Fehlerhaft");
 		} catch (FileNotFoundException e) {
