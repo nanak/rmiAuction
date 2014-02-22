@@ -67,9 +67,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		running=true;
 		c=null;
 		br = new BufferedReader(new InputStreamReader(System.in));
-		secure=false;
-		logout=new String[1];
-		logout[0]="!logout";
+		secure=true;
+		logout=new String[2];
+		
 		uniqueID = UUID.randomUUID().toString();
 		initRMI();
 		try {
@@ -108,7 +108,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 		try {
 			while (running) {
-				// TODO get username here
 				ui.outln("\n"+username+"> ");
 				try{
 					line=ui.readln();
@@ -119,7 +118,11 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					cmd=line.split(" ");
 					if(line.equals("!end")){
 						if(secure==true){
+							logout[0]="!logout";
+							logout[1]=username;
 							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
+							billingServerSecure=null;
+							username="";
 						}
 						ui.out("Management Client is shutting down!");
 						secure=false;
@@ -150,42 +153,33 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					else if(cmd[0].equals("!unsubscribe")){
 						int id;
 						if(cmd.length!=2){
-							throw new WrongNumberOfArgumentsException("Usage: !unsubillingServercribe <subillingServercriptionID>");
+							throw new WrongNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
 						}
-		
-		
-	
-						// TODO UNSUBSCRIBE
 						String s = analyticTaskComputing.unsubscribe(cmd[1]);
 						ui.outln(s);
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
-							throw new WrongNumberOfArgumentsException("Usage: !subillingServercribe <filterRegex>");
+							throw new WrongNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
 						}
-						//TODO subillingServercribe
-						
 						ui.out(analyticTaskComputing.subscribe(cmd[1], this));
-					}
-					else if(cmd[0].equals("!logout")){
-						usernameLogout=new String[2];
-						usernameLogout[0]=cmd[0];
-						usernameLogout[1]=username;
-						anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
-						ui.out(anwser);
-						username=""; 
-						billingServerSecure=null;
-						secure=false;
-
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){
+							usernameLogout=new String[2];
+							usernameLogout[0]=cmd[0];
+							usernameLogout[1]=username;
+							anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
+							ui.out(anwser);
+							username=""; 
+							billingServerSecure=null;
 							secure=false;
 						}
-						System.out.println(cmd.length);
-						System.out.println(billingServerSecure.toString());
-						anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
-						ui.out(anwser);
+						else{
+							System.out.println(billingServerSecure.toString());
+							anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
+							ui.out(anwser);
+						}
 					}	
 					else{	
 						c=commandFactory.createCommand(cmd);
@@ -244,6 +238,19 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+	}
+
+	public static void setBillingServer(RemoteBillingServer billingServer) {
+		ManagmentClient.billingServer = billingServer;
+	}
+
+	public void setAnalyticTaskComputing(
+			RemoteAnalyticsTaskComputing analyticTaskComputing) {
+		this.analyticTaskComputing = analyticTaskComputing;
+	}
+
+	public void setSecure(boolean secure) {
+		this.secure = secure;
 	}
 
 }

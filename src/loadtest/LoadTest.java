@@ -18,7 +18,7 @@ import Client.TaskExecuter;
  */
 public class LoadTest {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private Properties properties;
+	public Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
 	private ManagmentClient mc;
 	private Client c;
