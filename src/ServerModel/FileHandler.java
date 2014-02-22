@@ -93,7 +93,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 *             if the map can't be casted to ConcurrentHashMap
 	 */
 	public boolean writeObject(K key, T value) throws IOException,
-			CannotCastToMapException { // TODO: key, value speichern
+			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
@@ -146,6 +146,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public ConcurrentHashMap<K, T> readAll() throws IOException,
 			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
+		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
 		try {
 			map = (ConcurrentHashMap<K, T>) ois.readObject();
