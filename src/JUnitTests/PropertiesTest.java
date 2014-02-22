@@ -2,6 +2,7 @@ package JUnitTests;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import loadtest.Properties;
@@ -23,7 +24,7 @@ public class PropertiesTest {
 	public void setFromFileTest(){
 		p.setFromFile("loadtest.properties");
 	}
-	@Test(expected=IOException.class)
+	@Test(expected=FileNotFoundException.class)
 	public void setFromFileErrorTest(){
 		p.setFromFile("iwo/loadtest.properties");
 	}

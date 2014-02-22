@@ -240,6 +240,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			e.printStackTrace();
 		} 
 	}
-
+	public void setRunning(boolean running){
+		this.running=running;
+	}
 
 }

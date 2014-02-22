@@ -101,19 +101,25 @@ public class Properties {
 					// = and : are used, split String on either of those
 					s = sCurrentLine.split("(=)|(\\:)");
 					//if two numbers have a mulilicaton sign inbetween
-					if(s[1].contains("*")){
-						numb=s[1].split("\\*");
-						n1=Integer.parseInt(numb[0].replaceAll("\\s+",""));
-						n2=Integer.parseInt(numb[1].replaceAll("\\s+",""));
-						val[i]=n1*n2;
-					}
-					else
-						val[i]=Integer.parseInt(s[1].replaceAll("\\s+",""));
+					try{
+						if(s[1].contains("*")){
+							numb=s[1].split("\\*");
+							n1=Integer.parseInt(numb[0].replaceAll("\\s+",""));
+							n2=Integer.parseInt(numb[1].replaceAll("\\s+",""));
+							val[i]=n1*n2;
+						}
+						else
+							val[i]=Integer.parseInt(s[1].replaceAll("\\s+",""));
+					}catch(Exception e){
+						//ignore-mode on
+					}	
 					i++;
 				}
 			}
 		} catch (IOException | ArrayIndexOutOfBoundsException e) {
 			System.err.println("An error reading the properties file occured.");
+			e.printStackTrace();
+			
 		} finally {
 			try {
 				if (br != null)br.close();

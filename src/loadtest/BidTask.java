@@ -25,7 +25,6 @@ public class BidTask extends TimerTask{
 	@Override
 	public void run() {
 //		if(cli.isClientAlive()){
-		System.out.println(id);
 			id=cli.getRandomID();
 			//evtl genauer machen mit nano-s
 			amount=(double)(System.currentTimeMillis()-starttime);

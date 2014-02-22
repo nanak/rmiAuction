@@ -2,6 +2,7 @@ package loadtest;
 
 import java.io.ByteArrayInputStream;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,6 +11,7 @@ import management.ManagmentClient;
 import Client.Client;
 import Client.TCPConnector;
 import Client.TaskExecuter;
+import Client.UI;
 /**
  * Class LoadTest which starts the Loadtests.
  * 
@@ -20,6 +22,8 @@ public class LoadTest {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
+	private static ManagmentClient m;
+	private static FakeCli mcli;
 	private ManagmentClient mc;
 	private Client c;
 	private TaskExecuter t;
@@ -48,14 +52,16 @@ public class LoadTest {
 	}
 	public static void main(String[] args) {
 		int port;
-		String hostname;
+		String hostname,filename;
 		if(args.length!=2){
 			port=5000;
 			hostname="localhost";
-			System.out.println("No/Wrong number of arguments. default (hostname: localhost, port: 5000) used.");
+			filename="loadtest.properties";
+			System.out.println("No/Wrong number of arguments. default (hostname: localhost, port: 5000, filename: loadtest.properties) used.");
 		}
 		else{
 			hostname=args[0];
+			filename=args[2];
 			try{
 				port=Integer.parseInt(args[1]);
 			}catch(NumberFormatException e){
@@ -63,25 +69,19 @@ public class LoadTest {
 				port=5000;
 			}
 		}
-		new ManagmentClient(new FakeCli("!subscribe .* \n!auto"));
-		new LoadTest(hostname,port);
+		mcli=new FakeCli("!subscribe .* \n!auto");
+		m =new ManagmentClient(mcli);
+		new LoadTest(hostname,port,filename);
 		
 		
 	}
-	public LoadTest(String hostname,int port){
+	public LoadTest(String hostname,int port, String filename){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		
 		Properties p = new Properties();
 		//read properties from file
-		p.setFromFile("loadtest.properties");
-		//p.setFromFile("/home/mlipovits/gitRepos/rmiAuction/loadtest.properties");
+		p.setFromFile(filename);
 
-		/**
-		 * 
-		 * UNBEDINGT THREADPOOL
-		 */
- 		//put clients to map
-		
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();
 			cli=new FakeCli("");
@@ -92,10 +92,11 @@ public class LoadTest {
 			bid=new Timer();
 			list=new Timer();
 			checker=new Timer();
-			create.schedule(new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp), 0, 60000/p.getAuctionsPerMin());
+			TimerTask c=new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp);
+			create.schedule(c, 0, 60000/p.getAuctionsPerMin());
 			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
 			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
-			checker.schedule(new CheckTimeTask(starttime, list, create, bid), 1000, 30000);
+			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli), 1000, 10000);
 		}
 		
 	}

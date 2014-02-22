@@ -51,5 +51,7 @@ public class CreateTask extends TimerTask{
 		}
 		return builder.toString();
 	}
-
+	public void setFirst(boolean first){
+		this.first=first;
+	}
 }
