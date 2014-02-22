@@ -161,11 +161,6 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 * @return true if successful, false if unsuccessful
 	 */
 	public boolean deleteFile() {
-		file = new File(filename);
-		if (file.delete()) {
-			return true;
-		} else {
-			return false;
-		}
+		return file.delete();
 	}
 }
