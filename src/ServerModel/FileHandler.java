@@ -27,8 +27,6 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 
 	private File file;
 	private String filename;
-//	private FileInputStream fileIn;
-//	private FileOutputStream fileOut;
 
 	/**
 	 * constructor, sets the filename to use for the program
@@ -41,20 +39,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public FileHandler(String filename) throws IOException {
 		this.filename = filename;
 		file = new File(filename);
-//		fileOut = new FileOutputStream(file);
-//		fileIn = new FileInputStream(file);
 	}
-
-	/**
-	 * close streams
-	 * 
-	 * @throws IOException
-	 *             if any input/output operations fail
-	 */
-//	public void close() throws IOException {
-//		fileIn.close();
-//		fileOut.close();
-//	}
 
 	/**
 	 * Reads a single Object from file
