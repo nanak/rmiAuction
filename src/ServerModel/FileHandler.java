@@ -109,13 +109,8 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 		try {
 			ostream.writeObject(map);
 			ostream.flush();
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found.");
-			e.printStackTrace();
-			return false;
 		} catch (IOException e) {
 			System.out.println("Error with I/O processes");
-			e.printStackTrace();
 			return false;
 		}
 		return true;

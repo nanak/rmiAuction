@@ -1,4 +1,4 @@
-package ServerModel;
+package JUnitTests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +12,7 @@ import model.Message;
 import org.junit.Test;
 
 import Exceptions.CannotCastToMapException;
+import ServerModel.FileHandler;
 
 public class FileHandlerUnitTest {
 	private FileHandler<Integer, Message> fh;
