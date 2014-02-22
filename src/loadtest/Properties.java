@@ -1,4 +1,4 @@
-package loadtest2;
+package loadtest;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
