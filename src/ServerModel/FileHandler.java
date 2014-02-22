@@ -27,8 +27,8 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 
 	private File file;
 	private String filename;
-	private FileInputStream fileIn;
-	private FileOutputStream fileOut;
+//	private FileInputStream fileIn;
+//	private FileOutputStream fileOut;
 
 	/**
 	 * constructor, sets the filename to use for the program
@@ -41,8 +41,8 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public FileHandler(String filename) throws IOException {
 		this.filename = filename;
 		file = new File(filename);
-		fileOut = new FileOutputStream(file);
-		fileIn = new FileInputStream(file);
+//		fileOut = new FileOutputStream(file);
+//		fileIn = new FileInputStream(file);
 	}
 
 	/**
@@ -51,10 +51,10 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 * @throws IOException
 	 *             if any input/output operations fail
 	 */
-	public void close() throws IOException {
-		fileIn.close();
-		fileOut.close();
-	}
+//	public void close() throws IOException {
+//		fileIn.close();
+//		fileOut.close();
+//	}
 
 	/**
 	 * Reads a single Object from file
@@ -69,6 +69,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 */
 	public Object readObject(K key) throws IOException,
 			CannotCastToMapException {
+		FileInputStream fileIn = new FileInputStream(file);
 		ConcurrentHashMap<K, T> map;
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
 		try {
@@ -118,6 +119,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 *             if any input/output operations fail
 	 */
 	public boolean writeMap(ConcurrentHashMap<K, T> map) throws IOException {
+		FileOutputStream fileOut = new FileOutputStream(file);
 		ObjectOutputStream ostream = new ObjectOutputStream(fileOut);
 		try {
 			ostream.writeObject(map);
