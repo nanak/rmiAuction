@@ -67,7 +67,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		running=true;
 		c=null;
 		br = new BufferedReader(new InputStreamReader(System.in));
-		secure=true;
+		secure=false;
 		logout=new String[2];
 		
 		uniqueID = UUID.randomUUID().toString();
@@ -129,6 +129,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						running=false;
 					}
 					else if(cmd[0].equals("!login")){
+						System.out.println("here");
 						c= commandFactory.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
 						billingServerSecure=billingServer.login((Login)c);
@@ -240,17 +241,5 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		} 
 	}
 
-	public static void setBillingServer(RemoteBillingServer billingServer) {
-		ManagmentClient.billingServer = billingServer;
-	}
-
-	public void setAnalyticTaskComputing(
-			RemoteAnalyticsTaskComputing analyticTaskComputing) {
-		this.analyticTaskComputing = analyticTaskComputing;
-	}
-
-	public void setSecure(boolean secure) {
-		this.secure = secure;
-	}
 
 }

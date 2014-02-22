@@ -42,7 +42,7 @@ public class StartBillingServer {
 	/**
 	 * Initialisiert den RMI-stub fuer den Billingserver
 	 */
-	 private static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
+	 public static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
 			 
 			 Properties properties = new Properties();
@@ -70,7 +70,7 @@ public class StartBillingServer {
 	  * loginMap for testingpurposes
 	  * @return
 	  */
-	 private static ConcurrentHashMap<String,byte[]> loginTestMap(){
+	 public static ConcurrentHashMap<String,byte[]> loginTestMap(){
 		 byte[] bytesOfMessage;
 			MessageDigest md;
 			try {

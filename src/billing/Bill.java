@@ -1,5 +1,6 @@
 package billing;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Iterator;
@@ -14,7 +15,7 @@ import java.util.List;
  * @version 12.02.2014
  *
  */
-public class Bill{
+public class Bill implements Serializable{
 	
 	private List<BillingLine> billigLines;
 	
