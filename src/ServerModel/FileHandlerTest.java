@@ -26,12 +26,14 @@ public class FileHandlerTest {
 		ConcurrentHashMap<Integer, Message> hm = new ConcurrentHashMap<>();
 		hm.put(1, new LoginMessage());
 		hm.put(2, new LoginMessage());
+		
 		try {
 			fh.writeMap(hm);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		try {
 			System.out.println(fh.readAll().toString());
 		} catch (IOException e) {
