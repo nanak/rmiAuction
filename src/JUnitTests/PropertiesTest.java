@@ -21,11 +21,11 @@ public class PropertiesTest {
 		p=new Properties();	
 	}
 	@Test
-	public void setFromFileTest(){
+	public void setFromFileTest() throws IOException{
 		p.setFromFile("loadtest.properties");
 	}
 	@Test(expected=FileNotFoundException.class)
-	public void setFromFileErrorTest(){
+	public void setFromFileErrorTest() throws IOException{
 		p.setFromFile("iwo/loadtest.properties");
 	}
 	@Test

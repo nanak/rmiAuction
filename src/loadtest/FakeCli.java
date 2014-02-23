@@ -30,6 +30,7 @@ public class FakeCli implements UI{
 	private Timer bid;
 	private Timer create;
 	private Timer list;
+	private String lastOutput;
 
 //	public FakeCli(int aucpM, int aucD, int update, int bidspM){
 //		starttime=System.currentTimeMillis();
@@ -55,6 +56,7 @@ public class FakeCli implements UI{
 	}
 	@Override
 	public void out(String output) {
+		this.lastOutput=output;
 		System.out.println(output);
 		if(output.startsWith("ID:")){
 			a=new ArrayList<Integer>();
@@ -87,4 +89,8 @@ public class FakeCli implements UI{
 	public void setClientsAlive(boolean clientsAlive) {
 		this.clientsAlive = clientsAlive;
 	}
+	public String getLastOutput() {
+		return lastOutput;
+	}
+	
 }

@@ -1,6 +1,7 @@
 package loadtest;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -80,7 +81,12 @@ public class LoadTest {
 		
 		Properties p = new Properties();
 		//read properties from file
-		p.setFromFile(filename);
+		try {
+			p.setFromFile(filename);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();

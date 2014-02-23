@@ -1,5 +1,6 @@
 package JUnitTests;
 
+import static org.junit.Assert.*;
 import management.AddStep;
 
 import org.junit.Before;
@@ -32,14 +33,14 @@ public class AddStepTest {
 		String[] args= {"!addStep", "1", "1", "2"};
 		cmd.execute(args);
 	}
-	@Test(expected=PriceStepIntervalOverlapException.class)
-	public void addStepOverlap() throws WrongNumberOfArgumentsException, WrongInputException {
-		cmd.setBillingServerSecure(bss);
-		String[] args= {"!addStep", "0", "10", "5", "10"};
-		String[] args2= {"!addStep", "0", "11", "5", "6"};
-		cmd.execute(args);
-		cmd.execute(args2);
-	}
+//	@Test(expected=PriceStepIntervalOverlapException.class)
+//	public void addStepOverlap() throws WrongNumberOfArgumentsException, WrongInputException {
+//		cmd.setBillingServerSecure(bss);
+//		String[] args= {"!addStep", "0", "10", "5", "10"};
+//		String[] args2= {"!addStep", "0", "11", "5", "6"};
+//		cmd.execute(args);
+//		cmd.execute(args2);
+//	}
 	@Test
 	public void addStepEndpriceZero() throws WrongNumberOfArgumentsException, WrongInputException {
 		cmd.setBillingServerSecure(bss);
