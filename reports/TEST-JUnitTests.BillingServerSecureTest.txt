@@ -1,13 +1,13 @@
 Testsuite: JUnitTests.BillingServerSecureTest
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,071 sec
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,077 sec
 
 Testcase: createPriceStepTest took 0,004 sec
 Testcase: createPriceStepTestPriceStepIntervalOverlapException took 0,002 sec
 Testcase: deletePriceStepTest took 0,002 sec
-Testcase: billAuctionAndGetBillTest took 0,006 sec
+Testcase: billAuctionAndGetBillTest took 0,005 sec
 Testcase: toStringTest took 0 sec
 Testcase: billAuctionAndGetBillTestIntervalDoesNotExist took 0,002 sec
 Testcase: createPriceStepTestPriceStepIntervalOverlapException2 took 0,001 sec
 Testcase: createPriceStepTestPriceStepIntervalOverlapException3 took 0,001 sec
-Testcase: getBillTestFalse took 0,001 sec
-Testcase: shutdownAndLoad took 0,041 sec
+Testcase: getBillTestFalse took 0,002 sec
+Testcase: shutdownAndLoad took 0,047 sec

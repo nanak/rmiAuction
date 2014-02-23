@@ -51,6 +51,7 @@ public class ClientTest {
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
 		s = new Server();
+		System.setOut(System.out);
 		
 		s.setTcpPort(6000);
 		ReceiveConnection r = new ReceiveConnection(6000, s);	
@@ -68,14 +69,14 @@ public class ClientTest {
 		as.shutdown();
 		
 		
-		s.setActive(false);
-		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		s.setActive(false);
+//		
+//		try {
+//			Thread.sleep(5000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	@Test
