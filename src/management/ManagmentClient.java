@@ -70,6 +70,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private String billingIdentifier;
 	
+	/**
+	 * Constructor, which initializes all neccessary attributes and connections and sets the UI to the given one.
+	 * @param ui Implementation of UI
+	 */
 	public ManagmentClient(UI ui){
 		this.ui=ui;
 		events = new ConcurrentLinkedQueue<Event>();
@@ -108,7 +112,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Run, which waits for userinput and handles it.
+	 */
 	@Override
 	public void run() {
 		String[] cmd=null;

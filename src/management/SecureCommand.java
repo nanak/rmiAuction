@@ -18,6 +18,8 @@ public abstract class SecureCommand<T> implements Command<T> {
 
 
 	/**
+	 * Executes a Secure command
+	 * @param cmd Command from Userinput
 	 * @throws WrongInputException 
 	 * @throws WrongNumberOfArgumentsException 
 	 * @see management.Command<T>#execute()

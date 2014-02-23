@@ -20,10 +20,9 @@ public class Login implements Command<String>{
 
 	
 	/**
-	 * Execute der Loginklasse, uebernimmt aus den Parametern der Eingabe Loginname und Passwort
-	 * cmd[1] = Login
-	 * cmd[2] = passwort
-	 * Passwort wird gehasht gesendet.
+	 * Execute of the Loginclass, takes the userinput of the username and the password.
+	 * @param cmd cmd[1] = Login cmd[2] = password
+	 * @return Password is sent hashed.
 	 */
 	@Override
 	public String execute(String[] cmd) throws WrongNumberOfArgumentsException{

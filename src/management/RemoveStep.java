@@ -4,6 +4,11 @@ import billing.BillingServerSecure;
 import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.WrongInputException;
 
+/**
+ * Class RemoveStep, which implemets SecureCommad, removes steps.
+ * @author Michaela Lipovits
+ * @version 20140210
+ */
 public class RemoveStep extends SecureCommand<String> {
 
 	private Double startPrice;
