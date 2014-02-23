@@ -27,7 +27,7 @@ import Client.Client;
 
 public class ClientTest {
 
-	private int serverPort = 5000;
+	private int serverPort = 6000;
 	private FakeCli cli;
 	private Client c;
 
@@ -51,8 +51,9 @@ public class ClientTest {
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
 		s = new Server();
-		s.setTcpPort(5000);
-		ReceiveConnection r = new ReceiveConnection(5000, s);	
+		
+		s.setTcpPort(6000);
+		ReceiveConnection r = new ReceiveConnection(6000, s);	
 		Thread t = new Thread(r);
 		t.start();	
 		cli = new FakeCli("");
@@ -65,6 +66,7 @@ public class ClientTest {
 		System.out.println("Shutdown");
 		bs.shutdown();
 		as.shutdown();
+		
 		
 		s.setActive(false);
 		
@@ -295,7 +297,7 @@ public class ClientTest {
 	public void testGetTcpPort(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		assertEquals(5000, c.getTcpPort());
+		assertEquals(6000, c.getTcpPort());
 	}
 	
 	
