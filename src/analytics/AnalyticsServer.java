@@ -94,6 +94,7 @@ public class AnalyticsServer {
 	
 	/**
 	 * Puts an incoming Event into the Queue so the EventHandler can process it
+	 * 
 	 *  
 	 * @param e		Event which shall be processed.
 	 */
