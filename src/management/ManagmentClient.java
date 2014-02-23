@@ -145,8 +145,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						Login l = (Login)c;
 						System.err.println(l.getPw());
 						billingServerSecure=billingServer.login(l);
-						if(billingServerSecure == null)
-							ui.out("Falsches Passwort angegeben!");
+						if(billingServerSecure == null){
+							ui.out("Wrong password!");
+							running=false;
+						}
 						else{
 							secure=true;
 							ui.out("Successfully logged in");
@@ -186,7 +188,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									ui.outln(s);
 									
 								} catch (NotBoundException| RemoteException  ex) {
-									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}
 								
@@ -208,7 +210,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									ui.out(analyticTaskComputing.subscribe(cmd[1], this));
 									
 								} catch (NotBoundException | RemoteException  ex) {
-									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}
 								
