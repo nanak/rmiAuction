@@ -97,6 +97,10 @@ public class StartBillingServer {
 					md = MessageDigest.getInstance("MD5");
 					byte[] thedigest = md.digest(bytesOfMessage);
 					properties.put("auction", new String(thedigest));
+					bytesOfMessage = "test".getBytes("UTF-8");
+					md = MessageDigest.getInstance("MD5");
+					thedigest = md.digest(bytesOfMessage);
+					properties.put("test", new String(thedigest));
 					File f = new File("user.properties");
 					f.createNewFile();
 					PrintWriter pw = new PrintWriter (new FileOutputStream(f));
