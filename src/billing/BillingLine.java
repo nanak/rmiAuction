@@ -1,5 +1,7 @@
 package billing;
 
+import java.io.Serializable;
+
 /**
  * collects all attributes for a billing line
  * 
@@ -8,7 +10,7 @@ package billing;
  * @version 12.02.2014
  *
  */
-public class BillingLine{
+public class BillingLine implements Serializable{
 	
 	private Long auctionID;
 	private Double price,fixedPrice,variablePricePercent;
