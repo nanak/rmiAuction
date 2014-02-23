@@ -76,6 +76,7 @@ public class LoadTestTest {
 	public void end(){
 		as.shutdown();
 		bs.shutdown();
+		
 		s.setActive(false);
 		try {
 			Thread.sleep(5000);
@@ -87,6 +88,12 @@ public class LoadTestTest {
 	@Test
 	public void constTest(){
 		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Test 
 	public void auctionTest(){
@@ -95,7 +102,7 @@ public class LoadTestTest {
 		CreateTask c = new CreateTask(100, 200, new TaskExecuter(cl), 5000);
 		t.schedule(c, 0, 100);
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,8 +113,16 @@ public class LoadTestTest {
 	@Test
 	public void randomStringTest(){
 		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		
 		String r=l.randomString(20);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(20, r.length(), 0);
+		
 	}
 
 }

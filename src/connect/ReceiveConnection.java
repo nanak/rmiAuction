@@ -50,7 +50,7 @@ public class ReceiveConnection implements Runnable{
 			server.setActive(false);
 			return;
 		}
-		System.out.println("Server is listening");
+//		System.out.println("Server is listening");
 		while(server.isActive()){
 			Socket client = null;
 			try {

@@ -143,7 +143,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 			}
 		} else {
 			file.createNewFile();
-			return (AbstractMap<K, T>) new ConcurrentHashMap<>();
+			return new ConcurrentHashMap<K,T>();
 		}
 
 	}

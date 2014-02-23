@@ -61,9 +61,9 @@ public class Server {
 		ahandler = new AuctionHandler(this);
 		rhandler = new RequestHandler();
 //		udp = NotifierFactory.getUDPNotifer();
-		Thread athread = new Thread();
+		Thread athread = new Thread(ahandler);
 		athread.setPriority(Thread.MIN_PRIORITY);
-		new Thread(ahandler).start();
+		
 	}
 
 	/**
@@ -216,6 +216,14 @@ public class Server {
 				System.err.println("Billing Server is not available anymore. Looking up next time");
 			}
 		}
+		
+	}
+	/**
+	 * Kills the Server immediatly!
+	 * For testing purposes only
+	 */
+	public void kill(){
+		ahandler = null;
 		
 	}
 }
