@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.BindException;
 import java.rmi.ConnectException;
 import java.rmi.Remote;
@@ -48,8 +49,8 @@ public class StartBillingServer {
 		}//If Enter Button pressed, Server will end
 		saveUserMap(loginMap());
 		bs.shutdown();
+
 	}
-	
 	
 	 
 	 /**
@@ -78,11 +79,12 @@ public class StartBillingServer {
 					bytesOfMessage = "auctionpw".getBytes("UTF-8");
 					md = MessageDigest.getInstance("MD5");
 					byte[] thedigest = md.digest(bytesOfMessage);
-					properties.put("auction", new String(thedigest));
+					;
+					properties.put("auction", String.format("%040x", new BigInteger(1, thedigest)));
 					bytesOfMessage = "test".getBytes("UTF-8");
 					md = MessageDigest.getInstance("MD5");
 					thedigest = md.digest(bytesOfMessage);
-					properties.put("test", new String(thedigest));
+					properties.put("test", String.format("%040x", new BigInteger(1, thedigest)));
 					File f = new File("user.properties");
 					if(f.exists())
 						f.delete();
