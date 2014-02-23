@@ -39,12 +39,13 @@ public class StartBillingServer {
 		BillingServer bs = new BillingServer (user);
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-		bs.initRmi(bs, rbss);
-//		saveUserMap(user);
-		Scanner in=new Scanner(System.in);
-		//Shutting down
-		in.nextLine();
-		System.out.println("Server ending!");		//If Enter Button pressed, Server will end
+		if(bs.initRmi(bs, rbss)){
+	//		saveUserMap(user);
+			Scanner in=new Scanner(System.in);
+			//Shutting down
+			in.nextLine();
+			System.out.println("Server ending!");
+		}//If Enter Button pressed, Server will end
 		bs.shutdown();
 	}
 	
@@ -97,6 +98,10 @@ public class StartBillingServer {
 					md = MessageDigest.getInstance("MD5");
 					byte[] thedigest = md.digest(bytesOfMessage);
 					properties.put("auction", new String(thedigest));
+					bytesOfMessage = "test".getBytes("UTF-8");
+					md = MessageDigest.getInstance("MD5");
+					thedigest = md.digest(bytesOfMessage);
+					properties.put("test", new String(thedigest));
 					File f = new File("user.properties");
 					f.createNewFile();
 					PrintWriter pw = new PrintWriter (new FileOutputStream(f));

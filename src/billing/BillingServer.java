@@ -1,6 +1,7 @@
 package billing;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.NoSuchObjectException;
@@ -94,14 +95,20 @@ public class BillingServer implements RemoteBillingServer {
 	/**
 	 * Initialisiert den RMI-stub fuer den Billingserver
 	 */
-	 public void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
+	 public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
 			 System.out.println("init");
 			 this.bs = bs;
 			 this.bss = bss;
+			 File f = new File("Server.properties");
+				if(!f.exists()){
+						System.out.println("Properties File doesn't exist. Server shutting down.");
+						return false;
+				}
+					
 			 Properties properties = new Properties();
 			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
 				//TODO catch file not found exception
 			properties.load(stream);
 		
@@ -118,7 +125,7 @@ public class BillingServer implements RemoteBillingServer {
 			 //TODO Handeln
 			 e.printStackTrace();
 		 }
-
+		 return true;
 	 }
 	 /**
 	  * Shuts down all Servers and unexports them from the registry
