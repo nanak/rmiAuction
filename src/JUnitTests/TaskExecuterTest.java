@@ -1,20 +1,5 @@
 package JUnitTests;
 
-import static org.junit.Assert.fail;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-
 import loadtest.FakeCli;
 import management.ManagmentClient;
 
@@ -24,6 +9,7 @@ import org.junit.Test;
 
 import server.Server;
 import Client.Client;
+import Client.TaskExecuter;
 import analytics.AnalyticTaskComputing;
 import analytics.AnalyticsServer;
 import billing.BillingServer;
@@ -31,7 +17,6 @@ import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 import connect.ReceiveConnection;
-import Client.TaskExecuter;
 
 public class TaskExecuterTest {
 

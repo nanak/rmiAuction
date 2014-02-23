@@ -1,18 +1,13 @@
 package loadtest;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import management.ManagmentClient;
 import Client.Client;
-import Client.TCPConnector;
 import Client.TaskExecuter;
-import Client.UI;
 /**
  * Class LoadTest which starts the Loadtests.
  * 

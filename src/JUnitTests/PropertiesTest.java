@@ -1,33 +1,50 @@
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import loadtest.Properties;
-import management.AddStep;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import billing.BillingServerSecure;
-
+/**
+ * Tests the Properties class
+ * 
+ * @author Michaela Lipovits
+ * @version 20140221
+ */
 public class PropertiesTest {
 	private Properties p;
 
+	/**
+	 * instantiates Properties
+	 */
 	@Before
 	public void setUp() {
 		p=new Properties();	
 	}
+	/**
+	 * tests setFromFile with an existant path
+	 * @throws IOException
+	 */
 	@Test
 	public void setFromFileTest() throws IOException{
 		p.setFromFile("loadtest.properties");
 	}
+	/**
+	 * tests setFromFile with a non-existant path, so {@link FileNotFoundException} is thrown.
+	 * @throws IOException
+	 */
 	@Test(expected=FileNotFoundException.class)
 	public void setFromFileErrorTest() throws IOException{
 		p.setFromFile("iwo/loadtest.properties");
 	}
+	/**
+	 * tests all setters and getters
+	 */
 	@Test
 	public void setAllTest(){
 		p.setAuctionDuration(10);

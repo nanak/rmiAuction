@@ -2,23 +2,18 @@ package management;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import javax.print.attribute.HashAttributeSet;
 
 import rmi.InitRMI;
 import Client.CLI;
@@ -26,8 +21,8 @@ import Client.UI;
 import Event.Event;
 import Exceptions.CommandIsSecureException;
 import Exceptions.CommandNotFoundException;
-import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
 import analytics.RemoteAnalyticsTaskComputing;
 import billing.IRemoteBillingServerSecure;
 import billing.RemoteBillingServer;
@@ -153,10 +148,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						billingServerSecure=billingServer.login(l);
 						if(billingServerSecure == null){
 							ui.out("Wrong password!");
-							running=false;
 						}
 						else{
 							secure=true;
+							username=cmd[1];
 							ui.out("Successfully logged in");
 						}
 								
@@ -197,9 +192,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}
-								
 							}
-							
 						}
 					}
 					else if(cmd[0].equals("!subscribe")){
@@ -218,8 +211,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 								} catch (NotBoundException | RemoteException  ex) {
 									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
-								}
-								
+								}	
 							}
 							
 						}
@@ -303,6 +295,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	}
 	public void setRunning(boolean running){
 		this.running=running;
+	}
+	public boolean getPrintAutomatic(){
+		return printAutomatic;
 	}
 
 }

@@ -1,8 +1,8 @@
 package management;
 
-import billing.BillingServerSecure;
-import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
 /**
  * Class RemoveStep, which implemets SecureCommad, removes steps.

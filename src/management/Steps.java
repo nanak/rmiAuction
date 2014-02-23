@@ -1,7 +1,7 @@
 package management;
 
-import billing.BillingServerSecure;
 import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
 /**
  * Class Steps, which is a SecureCommand, lists all steps.

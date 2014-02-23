@@ -2,9 +2,8 @@ package management;
 
 import java.io.Serializable;
 
-import Exceptions.WrongNumberOfArgumentsException;
-import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
 
 /**
  * Interface Command, which contains the method execute for all implementing Commands.

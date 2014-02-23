@@ -1,7 +1,6 @@
 package server;
 
 import model.Message;
-import server.Server;;
 
 /**
  * Interface for all server functionalities

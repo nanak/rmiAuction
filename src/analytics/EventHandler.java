@@ -1,19 +1,15 @@
 package analytics;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 import Event.AuctionEnded;
 import Event.AuctionEvent;
 import Event.AuctionStarted;
 import Event.AuctionSuccessRatio;
 import Event.AuctionTimeAvg;
-import Event.BidCountPerMinute;
 import Event.BidEvent;
 import Event.BidPlaced;
 import Event.BidPriceMax;

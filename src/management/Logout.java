@@ -1,7 +1,7 @@
 package management;
 
-import billing.BillingServerSecure;
 import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
 /**
  * Class logout, which logs the user out.

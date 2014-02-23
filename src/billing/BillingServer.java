@@ -11,12 +11,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
-import rmi.InitRMI;
 import management.Login;
+import rmi.InitRMI;
 
 /**
  * The billing server provides RMI methods to manage the bills of the auction

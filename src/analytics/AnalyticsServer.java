@@ -3,37 +3,22 @@ package analytics;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URL;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.AbstractCollection;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import rmi.InitRMI;
-import billing.BillingServer;
 import management.ClientInterface;
+import rmi.InitRMI;
 import Event.AuctionEnded;
 import Event.Event;
-import Exceptions.ClientNotAvailableAnymoreException;
-import ServerModel.FileHandler;
 /**
  * Processes Events from the auction Server and forwards them to the Management Client, after
  * it has done several calculations.

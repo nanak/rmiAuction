@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import model.User;
 import Event.AuctionEnded;
 import Event.BidWon;
-import model.*;
 
 /**
  * Checks if an Auction is over and notifies the Users about it.

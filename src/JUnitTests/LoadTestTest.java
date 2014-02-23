@@ -1,33 +1,19 @@
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Properties;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.CreateTask;
 import loadtest.FakeCli;
 import loadtest.LoadTest;
-import management.AddStep;
 import management.ManagmentClient;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import connect.ReceiveConnection;
 import server.Server;
 import Client.Client;
 import Client.TaskExecuter;
@@ -37,7 +23,13 @@ import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
+import connect.ReceiveConnection;
 
+/**
+ * Tests the {@link LoadTest} class
+ * @author Michaela Lipovits
+ * @version 20140221
+ */
 public class LoadTestTest {
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
@@ -48,6 +40,9 @@ public class LoadTestTest {
 	private StartBillingServer start;
 	private Server s;
 	
+	/**
+	 * starts analyticsserver and billingserver as their mains would
+	 */
 	@Before
 	public void setUp() {	
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
@@ -56,10 +51,6 @@ public class LoadTestTest {
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
 		bs =new BillingServer(start.loginMap());
-
-//		BillingServerSecure bss = new BillingServerSecure();
-//		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-//		start.initRmi(bs, rbss);
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
@@ -85,6 +76,9 @@ public class LoadTestTest {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * tests the constructoe of LoadTest
+	 */
 	@Test
 	public void constTest(){
 		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
@@ -95,6 +89,9 @@ public class LoadTestTest {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * tests the CreateTask
+	 */
 	@Test 
 	public void auctionTest(){
 		Client cl=new Client("localhost", 5000, new FakeCli(""));
@@ -110,6 +107,9 @@ public class LoadTestTest {
 		t.cancel();
 		t.purge();
 	}
+	/**
+	 * Tests if the randomString method creates the string with the correct length
+	 */
 	@Test
 	public void randomStringTest(){
 		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");

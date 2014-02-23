@@ -3,7 +3,11 @@ package Client;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import model.*;
+import model.BidMessage;
+import model.CreateMessage;
+import model.ListMessage;
+import model.LoginMessage;
+import model.LogoutMessage;
 
 /**
  * This class executes all the actions done by the user.

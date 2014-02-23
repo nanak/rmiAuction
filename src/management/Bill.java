@@ -1,7 +1,7 @@
 package management;
 
-import billing.BillingServerSecure;
 import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
 /**
  * This class provides a method to create a bill
