@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -64,6 +65,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	private String[] logout;
 	private String username= "";
 	private String[] usernameLogout;
+
+	private String analyticsIdentifier;
+
+	private String billingIdentifier;
 	
 	public ManagmentClient(UI ui){
 		this.ui=ui;
@@ -140,7 +145,13 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						Login l = (Login)c;
 						System.err.println(l.getPw());
 						billingServerSecure=billingServer.login(l);
-						secure=true;
+						if(billingServerSecure == null)
+							ui.out("Falsches Passwort angegeben!");
+						else{
+							secure=true;
+							ui.out("Successfully logged in");
+						}
+								
 					}
 					else if(cmd[0].equals("!print")){
 						Iterator<Event> it = events.iterator();
@@ -164,8 +175,23 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							throw new WrongNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
 						}
 						else{
-							String s = analyticTaskComputing.unsubscribe(cmd[1]);
-							ui.outln(s);
+							try{
+								String s = analyticTaskComputing.unsubscribe(cmd[1]);
+								ui.outln(s);
+							}
+							catch(RemoteException e){
+								try {
+									analyticTaskComputing = (RemoteAnalyticsTaskComputing)ir.lookup(analyticsIdentifier);
+									String s = analyticTaskComputing.unsubscribe(cmd[1]);
+									ui.outln(s);
+									
+								} catch (NotBoundException| RemoteException  ex) {
+									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									
+								}
+								
+							}
+							
 						}
 					}
 					else if(cmd[0].equals("!subscribe")){
@@ -173,7 +199,21 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							throw new WrongNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
 						}
 						else{
-							ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+							try{
+								ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+							}
+							catch(RemoteException e){
+								try {
+									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
+									ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+									
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									
+								}
+								
+							}
+							
 						}
 					}
 					else if(secure==true){
@@ -228,7 +268,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			stream.close();
 			ir = new InitRMI(properties);
 			ir.init();
-			System.out.println("Getting server: " + properties.getProperty("rmi.analyticsServer"));
+			analyticsIdentifier = properties.getProperty("rmi.analyticsServer");
+			System.out.println("Getting server: " + analyticsIdentifier );
+			billingIdentifier = properties.getProperty("rmi.billingServer");
 			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
 			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
 			ir.rebind(this,uniqueID);
