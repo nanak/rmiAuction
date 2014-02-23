@@ -97,5 +97,8 @@ public class FakeCli implements UI{
 	public String getOutputBeforeEnd() {
 		return outputs.get(outputs.size()-2);
 	}
+	public String getOutputOnIndex(int i) {
+		return outputs.get(i);
+	}
 	
 }

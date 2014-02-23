@@ -26,7 +26,7 @@ public class Client{
 	private int udpPort;
 	private TaskExecuter t;
 	private TCPConnector tcp;
-	private UI cli;;
+	private UI cli;
 	//private NotificationReceiver nr;
 	private boolean active;
 	/**
@@ -62,7 +62,6 @@ public class Client{
 			cli.outln("\n"+username+"> ");
 			try{
 				eingabe=cli.readln();	//The current command saved as String
-				cli.out(eingabe);
 			}catch(NoSuchElementException e){
 				continue;
 			}
@@ -86,7 +85,7 @@ public class Client{
 							String[] ab=werte[2].split("\\.");
 							if(werte[2].contains(".")&&ab[0].length()>7){
 								werte[2]=ab[0].substring(ab[0].length()-7)+"."+ab[1];
-								System.out.println("Too large amount, max 7 numbers before '.'");
+								cli.out("Too large amount, max 7 numbers before '.'");
 							}
 							double erg=Double.parseDouble(werte[2]);
 							erg=Math.rint(erg*100)/100;
@@ -208,7 +207,6 @@ public class Client{
 	public void setActive(boolean active) {
 		this.active=active;
 	}
-
 	public TaskExecuter getT() {
 		return t;
 	}
