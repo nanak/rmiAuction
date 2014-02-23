@@ -53,7 +53,7 @@ public class EventHandler implements Runnable{
 	private ConcurrentHashMap<String, UserEvent> logedInUser; //Saves all currently loggedIn User
 	
 	//Bid
-	private static long  bidCount= 0L;
+	private long  bidCount= 0L;
 	private double bidMax = 0;
 
 	

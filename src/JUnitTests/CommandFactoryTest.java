@@ -20,7 +20,7 @@ public class CommandFactoryTest {
 	@Test
 	public void createCommandLogin() throws CommandNotFoundException, CommandIsSecureException{
 		String[] args={"!login","muh"};
-		assertEquals(new Login(), cf.createCommand(args));
+		assertTrue(cf.createCommand(args) instanceof Login);
 	}
 	@Test(expected=CommandIsSecureException.class)
 	public void createCommandSecureExcpetion() throws CommandNotFoundException, CommandIsSecureException{
