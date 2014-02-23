@@ -76,7 +76,6 @@ public class EventHandler implements Runnable{
 	 * Performs every 60 seconds a processing of all Events
 	 */
 	public void run(){
-		System.out.println("Start receiving");
 		while(active){				
 			
 			Event event = null;

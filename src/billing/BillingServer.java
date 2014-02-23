@@ -9,6 +9,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,7 +42,11 @@ public class BillingServer implements RemoteBillingServer {
 	 *  
 	 */
 	public IRemoteBillingServerSecure login(Login login) {
-		System.out.println("login");
+		System.out.println(login.getName());
+		for (Iterator iterator = user.keySet().iterator(); iterator.hasNext();) {
+			String type = (String) iterator.next();
+			System.out.println(type);
+		}
 		// TODO Login testen
 		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(login.getPw()))){
 			System.out.println("incvalid " + " " + Arrays.toString(login.getPw()) + " " + Arrays.toString(user.get(login.getName())));
@@ -91,6 +96,7 @@ public class BillingServer implements RemoteBillingServer {
 	 */
 	 public void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
+			 System.out.println("init");
 			 this.bs = bs;
 			 this.bss = bss;
 			 Properties properties = new Properties();
@@ -100,6 +106,7 @@ public class BillingServer implements RemoteBillingServer {
 			properties.load(stream);
 		
 			stream.close();
+			System.out.println("Stuck in init");
 			ir = new InitRMI(properties);
 			ir.init();
 			ir.rebind(bs, properties.getProperty("rmi.billingServer"));

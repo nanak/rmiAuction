@@ -136,7 +136,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						System.out.println("here");
 						c= commandFactory.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
-						billingServerSecure=billingServer.login((Login)c);
+						Login l = (Login)c;
+						System.err.println(l.getPw());
+						billingServerSecure=billingServer.login(l);
 						secure=true;
 					}
 					else if(cmd[0].equals("!print")){

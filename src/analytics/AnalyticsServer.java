@@ -48,6 +48,8 @@ public class AnalyticsServer {
 	private EventHandler eh;
 	private InitRMI ir; //RMI Stub for export/unexport
 	private static int id = 0; //Saves all subsrciption IDs
+	AnalyticTaskComputing remoteTask;
+	Timer bidTimer; //Timer for BidCountPerMinute
 	 
 	/**
 	 * Starts the EventHandler and the Timer to schedule the BidCount per Minute
@@ -62,28 +64,28 @@ public class AnalyticsServer {
 		//Now put every EventType in it
 		for(String type : getEventTypes()){
 			subscriptions.put(type, new ConcurrentHashMap<String, ClientInterface>());
-//			System.out.println(type);
 		}
 		eh = new EventHandler(this);
-		AnalyticTaskComputing remoteTask = new AnalyticTaskComputing(this);
+		remoteTask = new AnalyticTaskComputing(this);
 		initRmi(remoteTask);
 		Thread t = new Thread(eh);
 		t.start();
-		Timer timer = new Timer();
-		timer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
-		Scanner in=new Scanner(System.in);
-		//Shutting down
-		in.nextLine();
+		bidTimer = new Timer();
+		bidTimer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
+	}
+	/**
+	 * Closes all open tasks
+	 * and stops the Timer.
+	 */
+	public void shutdown(){
 		System.out.println("Server ending!");		//If Enter Button pressed, Server will end
-		
-		in.close();
 		try {
 			ir.unexport(remoteTask);
 		} catch (NoSuchObjectException e) {
 			System.out.println("Could not unexport object");
 		}
-		timer.cancel();
-		timer.purge();
+		bidTimer.cancel();
+		bidTimer.purge();
 		System.out.println("Timer stopped");
 		eh.setActive(false);
 		//Push Event for shutdown
@@ -91,7 +93,7 @@ public class AnalyticsServer {
 	}
 	
 	/**
-	 * Puts an incoming Event into the Queue
+	 * Puts an incoming Event into the Queue so the EventHandler can process it
 	 *  
 	 * @param e		Event which shall be processed.
 	 */
@@ -126,9 +128,7 @@ public class AnalyticsServer {
 		boolean foundMatch = false;
 		String subsid=id+"_"+pattern;
 		while(it.hasNext()){
-			String compare = it.next();
-			System.out.println(compare);
-			
+			String compare = it.next();			
 			Matcher matcher = pattern.matcher(compare);
 			if(matcher.matches()){
 				foundMatch = true;
@@ -189,10 +189,6 @@ public class AnalyticsServer {
 
 		}
 	}
-	public static void main(String[] args) {
-		AnalyticsServer as = new AnalyticsServer();
-		new AnalyticTaskComputing(as);
-	}
 
 	public LinkedBlockingQueue<Event> getIncomingEvents() {
 		return incomingEvents;
@@ -201,8 +197,6 @@ public class AnalyticsServer {
 	public LinkedBlockingQueue<Event> getDispatchedEvents() {
 		return dispatchedEvents;
 	}
-
-
 
 	public EventHandler getEventHandler() {
 		return eh;
@@ -220,7 +214,12 @@ public class AnalyticsServer {
 		return events;
 	}
 	
-	 private void initRmi(AnalyticTaskComputing atc){
+	/**
+	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
+	 * 
+	 * @param atc	AnalyticsTaskComputing which is exported into the registry
+	 */
+	 private void initRmi(AnalyticTaskComputing analytics){
 		 try {
 			 Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
@@ -231,7 +230,7 @@ public class AnalyticsServer {
 				stream.close();
 				ir = new InitRMI(properties);
 				ir.init();
-				ir.rebind(atc, properties.getProperty("rmi.analyticsServer"));
+				ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
 	            System.out.println("AnalyticsServer bound");
 
 	            

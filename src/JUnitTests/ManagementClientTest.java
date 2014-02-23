@@ -33,13 +33,17 @@ public class ManagementClientTest {
 	public void setUp() {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
-		as= new AnalyticsServer();
-		new AnalyticTaskComputing(as);
-		start=new StartBillingServer();
+		System.out.println("Now Billing Test initialization");
 		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-		start.initRmi(bs, rbss);
+		bs.initRmi(bs, rbss);
+		System.out.println("New Analytics");
+		as= new AnalyticsServer();
+		new AnalyticTaskComputing(as);
+//		start=new StartBillingServer();
+		
+//		start.initRmi(bs, rbss);
 		
 	}
 
