@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="1" failures="0" hostname="Daniel-HP" name="AllClassesTest" skipped="0" tests="1" time="0.0" timestamp="2014-02-23T19:19:19">
+<testsuite errors="1" failures="0" hostname="Daniel-HP" name="AllClassesTest" skipped="0" tests="1" time="0.0" timestamp="2014-02-23T20:19:49">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />

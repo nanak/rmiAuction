@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import management.ClientInterface;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,13 +54,28 @@ public class EventHandlerTest {
 		}
 	}
 	/**
+	 * Shutsdown all Servers
+	 */
+	@After
+	public void end(){
+		dummyAs.shutdown();
+	}
+	
+	/**
 	 * Tests to place a bid because 1 bid is placed in one minute. Thread has to wait one Minute.
 	 * Also the highest bid shall be updated to 100
 	 */
 	@Test
 	public void testPlaceBidAndBPM(){
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Date d = new Date();
 		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
+		dummyAs.processEvent(as);
 		BidPlaced bp = new BidPlaced("Bid1", "BID_PLACED", d.getTime(), "User1", 1, 100);
 		dummyAs.processEvent(bp);
 		try {
@@ -70,8 +86,10 @@ public class EventHandlerTest {
 		}
 		//Tests the Events
 		ArrayList<Event> al = ci.getEvents();
+		
 		Iterator<Event> it = al.iterator();
-		//First Event should be BidPlaced
+		it.next(); //Skip Auction Started
+		//Next Event should be BidPlaced
 		assertEquals("BID_PLACED", it.next().getType());
 		//NExt event is new BidPriceMax -> 100
 		BidPriceMax bpmax = (BidPriceMax) it.next();

@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -44,10 +45,10 @@ public class BillingServer implements RemoteBillingServer {
 	 */
 	public IRemoteBillingServerSecure login(Login login) {
 		System.out.println(login.getName());
-		for (Iterator iterator = user.keySet().iterator(); iterator.hasNext();) {
-			String type = (String) iterator.next();
-			System.out.println(type);
-		}
+//		for (Iterator iterator = user.keySet().iterator(); iterator.hasNext();) {
+//			String type = (String) iterator.next();
+//			System.out.println(type);
+//		}
 		// TODO Login testen
 		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()))){
 			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
@@ -70,14 +71,14 @@ public class BillingServer implements RemoteBillingServer {
 		}
 		Registry registry;
 		try {
-			System.out.println("Registry");
+//			System.out.println("Registry");
 			registry = LocateRegistry.getRegistry(
 					properties.getProperty("rmi.registryURL"),
 					Integer.parseInt(properties.getProperty("rmi.port")));
-			System.out.println("Got registry");
+//			System.out.println("Got registry");
 			IRemoteBillingServerSecure bss = (IRemoteBillingServerSecure) registry
 					.lookup(properties.getProperty("rmi.billingServerSecure"));
-			System.out.println("Billingserver Secure");
+//			System.out.println("Billingserver Secure");
 			return bss;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +87,7 @@ public class BillingServer implements RemoteBillingServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
-			System.out.println("Properties File Fehlerhaft");
+			System.out.println("server.properties File Fehlerhaft");
 		}
 		//TODO Mehr ausgaben
 		return null;// Fehler bei der Serverlokalisierung
