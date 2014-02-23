@@ -86,23 +86,38 @@ public class ManagementClientTest {
 		m=new ManagmentClient(cli);
 //		m.setAnalyticTaskComputing(ats);
 //		m.setBillingServer(bs);
+		cli.write("subscribe .*");
 		cli.write("!unsubscribe 1");
 	}
-	@Test(expected=WrongNumberOfArgumentsException.class)
+	@Test
 	public void unsubscribeExceptionTest(){
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
 //		m.setAnalyticTaskComputing(ats);
 //		m.setBillingServer(bs);
 		cli.write("!unsubscribe");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !unsubscribe <subscriptionID>", cli.getLastOutput());
 	}
-	@Test(expected=WrongNumberOfArgumentsException.class)
-	public void subscribeExceptionTest(){
+	@Test
+	public void subscribeExceptionCaugthTest(){
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
 //		m.setAnalyticTaskComputing(ats);
 //		m.setBillingServer(bs);
 		cli.write("!subscribe");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !subscribe <filterRegex>", cli.getLastOutput());
 	}
 	@Test
 	public void endUnsecureTest(){

@@ -1,0 +1,5 @@
+OS: Windows 7
+RAM: 12 GB
+CPU: Intel Core i7-3770
+CPU Frequency: 3.40 GHz
+CPU Cores: 4

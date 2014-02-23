@@ -81,12 +81,16 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public boolean writeObject(K key, T value) throws IOException,
 			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
+		if (file.exists()){
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
-
 		try {
 			map = (ConcurrentHashMap<K, T>) ois.readObject();
 		} catch (ClassNotFoundException e) {
+			return false;
+		}
+		} else {
+			System.out.println("File not Found");
 			return false;
 		}
 		map.put(key, value);
@@ -128,14 +132,20 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public ConcurrentHashMap<K, T> readAll() throws IOException,
 			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
+		if(file.exists()){
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
 		try {
 			map = (ConcurrentHashMap<K, T>) ois.readObject();
+			return map;
 		} catch (ClassNotFoundException e) {
 			throw new CannotCastToMapException();
 		}
-		return map;
+		} else{
+			System.out.println("File not found");
+			return null;
+		}
+		
 	}
 
 	/**

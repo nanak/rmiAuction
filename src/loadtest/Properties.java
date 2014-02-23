@@ -82,50 +82,38 @@ public class Properties {
 	 * Method setFromFile, which reads the file from a given path and saves all relevant data.
 	 * 
 	 * @param path Path to File
+	 * @throws IOException 
 	 */
-	public void setFromFile(String path){
+	public void setFromFile(String path) throws IOException{
 		BufferedReader br = null;
 		int i=0;
 		int[] val=new int[5];
-		try {
-			String sCurrentLine;
-			br = new BufferedReader(new FileReader(path));
-			String[] s;
-			String[] numb;
-			int n1,n2;
-			while ((sCurrentLine = br.readLine()) != null) {
-				if(sCurrentLine.startsWith("#")){
-					//comments shall be ignored
-				}
-				else{
-					// = and : are used, split String on either of those
-					s = sCurrentLine.split("(=)|(\\:)");
-					//if two numbers have a mulilicaton sign inbetween
-					try{
-						if(s[1].contains("*")){
-							numb=s[1].split("\\*");
-							n1=Integer.parseInt(numb[0].replaceAll("\\s+",""));
-							n2=Integer.parseInt(numb[1].replaceAll("\\s+",""));
-							val[i]=n1*n2;
-						}
-						else
-							val[i]=Integer.parseInt(s[1].replaceAll("\\s+",""));
-					}catch(Exception e){
-						//ignore-mode on
-					}	
-					i++;
-				}
+		String sCurrentLine;
+		br = new BufferedReader(new FileReader(path));
+		String[] s;
+		String[] numb;
+		int n1,n2;
+		while ((sCurrentLine = br.readLine()) != null) {
+			if(sCurrentLine.startsWith("#")){
+				//comments shall be ignored
 			}
-		} catch (IOException | ArrayIndexOutOfBoundsException e) {
-			System.err.println("An error reading the properties file occured.");
-			e.printStackTrace();
-			
-		} finally {
-			try {
-				if (br != null)br.close();
-			} catch (IOException ex) {
-				System.err.println("An error closing file occured:");
-				ex.printStackTrace();
+			else{
+				// = and : are used, split String on either of those
+				s = sCurrentLine.split("(=)|(\\:)");
+				//if two numbers have a mulilicaton sign inbetween
+				try{
+					if(s[1].contains("*")){
+						numb=s[1].split("\\*");
+						n1=Integer.parseInt(numb[0].replaceAll("\\s+",""));
+						n2=Integer.parseInt(numb[1].replaceAll("\\s+",""));
+						val[i]=n1*n2;
+					}
+					else
+						val[i]=Integer.parseInt(s[1].replaceAll("\\s+",""));
+				}catch(Exception e){
+					//ignore-mode on
+				}	
+				i++;
 			}
 		}
 		try{

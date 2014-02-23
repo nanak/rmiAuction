@@ -160,14 +160,18 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						if(cmd.length!=2){
 							throw new WrongNumberOfArgumentsException("Usage: !unsubscribe <subscriptionID>");
 						}
-						String s = analyticTaskComputing.unsubscribe(cmd[1]);
-						ui.outln(s);
+						else{
+							String s = analyticTaskComputing.unsubscribe(cmd[1]);
+							ui.outln(s);
+						}
 					}
 					else if(cmd[0].equals("!subscribe")){
 						if(cmd.length!=2){
 							throw new WrongNumberOfArgumentsException("Usage: !subscribe <filterRegex>");
 						}
-						ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+						else{
+							ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+						}
 					}
 					else if(secure==true){
 						if(cmd[0].equals("!logout")){

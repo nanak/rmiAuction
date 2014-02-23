@@ -15,12 +15,37 @@ import Client.CLI;
 public class CLITest {
 
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
 	private CLI cli;
 
 	public CLITest(){
 		cli = new CLI();
 	}
 
+
+	@Before
+	public void setUpStreams() {
+	    System.setOut(new PrintStream(outContent));
+	}
+
+	@After
+	public void cleanUpStreams() {
+	    System.setOut(null);
+	}
+
+	@Test
+	public void testOut() {
+		String newline = System.getProperty("line.separator");
+	    cli.out("test");
+	    assertEquals("test"+newline, outContent.toString());
+	}
+	
+	@Test
+	public void testOutLn() {
+	    cli.outln("test");
+	    assertEquals("test", outContent.toString());
+	}
+	
 	@Test
 	public void testReadLn(){
 		ByteArrayInputStream in = new ByteArrayInputStream("test".getBytes());
