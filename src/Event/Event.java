@@ -33,6 +33,16 @@ public abstract class Event implements Serializable {
 		return type;
 	}
 	
+	/**
+	 * Compares if to events are equal
+	 * @return	true if the id is the same
+	 */
+	@Override
+	public boolean equals(Object o){
+		Event e = (Event)o;
+		return e.getID().equals(ID);
+		
+	}
 	
 	
 }

@@ -39,38 +39,16 @@ public class StartBillingServer {
 		BillingServer bs = new BillingServer (user);
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-		initRmi(bs, rbss);
-		new Scanner(System.in).nextLine();
-		saveUserMap(user);
+		bs.initRmi(bs, rbss);
+//		saveUserMap(user);
+		Scanner in=new Scanner(System.in);
+		//Shutting down
+		in.nextLine();
+		System.out.println("Server ending!");		//If Enter Button pressed, Server will end
+		bs.shutdown();
 	}
 	
-	/**
-	 * Initialisiert den RMI-stub fuer den Billingserver
-	 */
-	 public static void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
-		 try {
-			 
-			 Properties properties = new Properties();
-			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-				//TODO catch file not found exception
-			properties.load(stream);
-		
-			stream.close();
-			InitRMI ir = new InitRMI(properties);
-			ir.init();
-			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
-            System.out.println("BillingServer bound");
-			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
-            System.out.println("BillingServerSecure bound");
-			 
-		 }catch(Exception e){
-			 //TODO Handeln
-			 e.printStackTrace();
-		 }
-
-	 }
-	 
+	
 	 /**
 	  * loginMap for testingpurposes
 	  * @return

@@ -3,6 +3,7 @@ package billing;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -10,6 +11,8 @@ import java.rmi.registry.Registry;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+
+import rmi.InitRMI;
 import management.Login;
 
 /**
@@ -26,6 +29,9 @@ import management.Login;
  */
 public class BillingServer implements RemoteBillingServer {
 	private ConcurrentHashMap<String, byte[]> user;
+	private InitRMI ir; //For export and unexporting objects
+	private BillingServer bs;
+	private RemoteBillingServerSecure bss;
 
 	public BillingServer(ConcurrentHashMap<String, byte[]> user) {
 		this.user = user;
@@ -79,5 +85,47 @@ public class BillingServer implements RemoteBillingServer {
 		//TODO Mehr ausgaben
 		return null;// Fehler bei der Serverlokalisierung
 	}
+	
+	/**
+	 * Initialisiert den RMI-stub fuer den Billingserver
+	 */
+	 public void initRmi(BillingServer bs, RemoteBillingServerSecure bss){
+		 try {
+			 this.bs = bs;
+			 this.bss = bss;
+			 Properties properties = new Properties();
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				//TODO catch file not found exception
+			properties.load(stream);
+		
+			stream.close();
+			ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
+            System.out.println("BillingServer bound");
+			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
+            System.out.println("BillingServerSecure bound");
+			 
+		 }catch(Exception e){
+			 //TODO Handeln
+			 e.printStackTrace();
+		 }
+
+	 }
+	 /**
+	  * Shuts down all Servers and unexports them from the registry
+	  */
+	 public void shutdown(){
+		 try {
+			ir.unexport(bs);
+			ir.unexport(bss);
+		} catch (NoSuchObjectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 
+	 }
+	 
 
 }

@@ -56,6 +56,9 @@ public class EventHandler implements Runnable{
 	private long  bidCount= 0L;
 	private double bidMax = 0;
 
+	private boolean active = true; //as long it is true, the EventHandler runs
+
+
 	
 	/**
 	 * Creates the EventHandler and sets the analyticsServer
@@ -74,12 +77,13 @@ public class EventHandler implements Runnable{
 	 */
 	public void run(){
 		System.out.println("Start receiving");
-		while(true){				
+		while(active){				
 			
 			Event event = null;
 			try {
 				event = as.getIncomingEvents().take();
-				
+				if(!active)
+					break;
 				as.getDispatchedEvents().add(event);
 			} catch (InterruptedException e2) {
 				// TODO Auto-generated catch block
@@ -266,6 +270,11 @@ public class EventHandler implements Runnable{
 
 	public long getBidCount() {
 		return bidCount;
+	}
+
+	
+	public void setActive(boolean b) {
+		active =false;		
 	}
 
 }

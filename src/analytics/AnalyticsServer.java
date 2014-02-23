@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -16,6 +17,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +29,9 @@ import java.util.regex.Pattern;
 import rmi.InitRMI;
 import billing.BillingServer;
 import management.ClientInterface;
+import Event.AuctionEnded;
 import Event.Event;
+import Exceptions.ClientNotAvailableAnymoreException;
 import ServerModel.FileHandler;
 /**
  * Processes Events from the auction Server and forwards them to the Management Client, after
@@ -42,6 +46,7 @@ public class AnalyticsServer {
 	private LinkedBlockingQueue<Event> incomingEvents;
 	private LinkedBlockingQueue<Event> dispatchedEvents; //Events which shall be sent to the user
 	private EventHandler eh;
+	private InitRMI ir; //RMI Stub for export/unexport
 	private static int id = 0; //Saves all subsrciption IDs
 	 
 	/**
@@ -60,12 +65,29 @@ public class AnalyticsServer {
 //			System.out.println(type);
 		}
 		eh = new EventHandler(this);
-		initRmi(new AnalyticTaskComputing(this));
+		AnalyticTaskComputing remoteTask = new AnalyticTaskComputing(this);
+		initRmi(remoteTask);
 		Thread t = new Thread(eh);
 		t.start();
 		Timer timer = new Timer();
 		timer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
+		Scanner in=new Scanner(System.in);
+		//Shutting down
+		in.nextLine();
+		System.out.println("Server ending!");		//If Enter Button pressed, Server will end
 		
+		in.close();
+		try {
+			ir.unexport(remoteTask);
+		} catch (NoSuchObjectException e) {
+			System.out.println("Could not unexport object");
+		}
+		timer.cancel();
+		timer.purge();
+		System.out.println("Timer stopped");
+		eh.setActive(false);
+		//Push Event for shutdown
+		processEvent(new AuctionEnded(null, null, 0, 0));
 	}
 	
 	/**
@@ -136,17 +158,35 @@ public class AnalyticsServer {
 			}
 			//Get Map with Interfaces of the SubscriptionId/Clients who want notification
 			ConcurrentHashMap<String, ClientInterface> cmap = subscriptions.get(event.getType());
+			
 			//Notify
 			Set<String> clist = cmap.keySet();
-			for (Iterator iterator = clist.iterator(); iterator.hasNext();) {
-				ClientInterface clientInterface =cmap.get(iterator.next());
+			HashSet<ClientInterface> notifiedClients = new HashSet<>();
+			HashSet<String> remove = new HashSet();
+			int i = 0;
+			Iterator<String> iterator = clist.iterator(); 
+			while(iterator.hasNext()){
+				String a = iterator.next();
+				ClientInterface clientInterface =cmap.get(a);
 				try {
-					clientInterface.notify(event);
+					if(notifiedClients.add(clientInterface))
+						clientInterface.notify(event);
 				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					remove.add(a);
+					System.out.println("Client Not Available Anymore; Removing him");
 				}
 			}
+			Iterator<String> it = remove.iterator();
+			//Remove all Unavailable Clients
+			while(it.hasNext()){
+				String rem = it.next();
+				Iterator<String> iter = subscriptions.keySet().iterator();
+				while(iter.hasNext()){
+					subscriptions.get(iter.next()).remove(rem);
+				}
+			}
+				
+
 		}
 	}
 	public static void main(String[] args) {
@@ -180,7 +220,7 @@ public class AnalyticsServer {
 		return events;
 	}
 	
-	 private static void initRmi(AnalyticTaskComputing atc){
+	 private void initRmi(AnalyticTaskComputing atc){
 		 try {
 			 Properties properties = new Properties();
 				// neuen stream mit der messenger.properties Datei erstellen
@@ -189,7 +229,7 @@ public class AnalyticsServer {
 				properties.load(stream);
 			
 				stream.close();
-				InitRMI ir = new InitRMI(properties);
+				ir = new InitRMI(properties);
 				ir.init();
 				ir.rebind(atc, properties.getProperty("rmi.analyticsServer"));
 	            System.out.println("AnalyticsServer bound");

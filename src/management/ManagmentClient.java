@@ -9,11 +9,14 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import javax.print.attribute.HashAttributeSet;
 
 import rmi.InitRMI;
 import Client.CLI;
@@ -51,6 +54,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	
 	private String uniqueID;
 
+	InitRMI ir;
 	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
 	private Command c;
@@ -69,7 +73,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		br = new BufferedReader(new InputStreamReader(System.in));
 		secure=false;
 		logout=new String[2];
-		
 		uniqueID = UUID.randomUUID().toString();
 		initRMI();
 		try {
@@ -123,6 +126,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
 							billingServerSecure=null;
 							username="";
+							ir.unexport(this);
 						}
 						ui.out("Management Client is shutting down!");
 						secure=false;
@@ -216,7 +220,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			properties.load(stream);
 		
 			stream.close();
-			InitRMI ir = new InitRMI(properties);
+			ir = new InitRMI(properties);
 			ir.init();
 			System.out.println("Getting server: " + properties.getProperty("rmi.analyticsServer"));
 			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));

@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.AccessException;
+import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -67,8 +68,26 @@ public class InitRMI {
 		return REMOTE_BOUND;
 	}
 	
+	/**
+	 * Looksup a Server and gets a Remote object
+	 * @param rmiIdentifier		Unique Name in registry
+	 * @return	Remote Object which matches the identifier
+	 * 
+	 * @throws AccessException	Access to Registry not allowed
+	 * @throws RemoteException	Could not get Object
+	 * @throws NotBoundException	Object not in registry
+	 */
 	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException{
 		return registry.lookup(rmiIdentifier);
+	}
+	
+	/**
+	 * Unexports an Object in order for a clean shutdown
+	 * @param r		Object to be exported
+	 * @exception NoSuchObjectException	Object no in Registry
+	 */
+	public void unexport(Remote r) throws NoSuchObjectException{
+		UnicastRemoteObject.unexportObject(r, true);
 	}
 
 }
