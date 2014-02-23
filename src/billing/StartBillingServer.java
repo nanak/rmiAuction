@@ -103,6 +103,8 @@ public class StartBillingServer {
 					thedigest = md.digest(bytesOfMessage);
 					properties.put("test", new String(thedigest));
 					File f = new File("user.properties");
+					if(f.exists())
+						f.delete();
 					f.createNewFile();
 					PrintWriter pw = new PrintWriter (new FileOutputStream(f));
 					properties.store(pw, null);

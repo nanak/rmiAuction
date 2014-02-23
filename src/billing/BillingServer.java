@@ -49,8 +49,8 @@ public class BillingServer implements RemoteBillingServer {
 			System.out.println(type);
 		}
 		// TODO Login testen
-		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(login.getPw()))){
-			System.out.println("incvalid " + " " + Arrays.toString(login.getPw()) + " " + Arrays.toString(user.get(login.getName())));
+		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()))){
+			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
 			return null;// Password not correct
 			
 		}
