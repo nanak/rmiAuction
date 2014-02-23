@@ -111,14 +111,14 @@
     <target name="test">
         <mkdir dir="${reports.dir}"/>
 
-        <junit haltonfailure="yes" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">
+        <junit haltonfailure="no" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">
             <classpath refid="project.classpath" />
             
             <formatter type="plain"/>
             <formatter type="xml"/>
         
             <batchtest fork="false" todir="${reports.dir}">
-                <fileset dir="${src.test}">
+                <fileset dir="${src.dir}">
                     <include name="**/*Test*.java"/>
                 </fileset>
             </batchtest>

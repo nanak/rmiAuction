@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.FutureTask;
 
 import loadtest.FakeCli;
 import management.ManagmentClient;
@@ -56,7 +57,15 @@ public class ClientTest {
 		t.start();	
 		cli = new FakeCli("");
 	}
-	
+	/**
+	 * Shutdown the server
+	 */
+	@After
+	public void end(){
+		System.out.println("Shutdown");
+		bs.shutdown();
+		as.shutdown();
+	}
 	@Test
 	public void testSetUsername() {
 		cli = new FakeCli("");
@@ -65,11 +74,18 @@ public class ClientTest {
 		assertEquals("test", c.getUsername());
 	}
 
+	
 	@Test
 	public void testList() {
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!list\n!end");
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		c.run();
 
 	}
@@ -79,7 +95,14 @@ public class ClientTest {
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test\n!end");
+		
 		c.run();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		c.setActive(false);
 	}
 
@@ -89,6 +112,12 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test\n!create 25200 Super small notebook\n!end");
 		c.run();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		c.setActive(false);
 	}
 
@@ -96,8 +125,22 @@ public class ClientTest {
 	public void testBid() {
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test2\n!bid 1 100.00\n!end");
-		c.run();
+		cli.write("!login test2\n!bid 1 100.00\n");
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cli.write("!end\n");
 		c.setActive(false);
 	}
 
@@ -105,8 +148,22 @@ public class ClientTest {
 	public void testLogout() {
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!logout\n!end");
-		c.run();
+		cli.write("!login test\n");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cli.write("!logout\n!end");
+		System.err.println("Error in Logout");
 		c.setActive(false);
 	}
 
@@ -209,6 +266,7 @@ public class ClientTest {
 	}
 	@Test
 	public void testLogoutNotLoggedIn(){
+		System.out.println("Not logged in Test");
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!logout\n!end");
