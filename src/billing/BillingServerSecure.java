@@ -1,12 +1,13 @@
 package billing;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import Exceptions.CannotCastToMapException;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
-import management.Login;
 
 /**
  * provides the actual functionality of the BillingServer
@@ -26,12 +27,16 @@ public class BillingServerSecure  {
 
 	private FileHandler<String,Bill> fileHandler;
 	
+	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
-		bills=new ConcurrentHashMap<String,Bill>();
-	//	fileHandler= new FileHandler<String,Bill>("Bills");
-		//System.out.println(fileHandler.readObject(null, null).toString());
-		//fileHandler.close();
+		try {
+			fileHandler= new FileHandler<String,Bill>("bills.txt");
+			bills=(ConcurrentHashMap<String, Bill>) fileHandler.readAll();
+			fileHandler.deleteFile();
+		} catch (IOException | CannotCastToMapException e) {
+			bills=new ConcurrentHashMap<String,Bill>();
+		}
 	}
 	/**
 	 * This method returns the current configuration of price steps. 
@@ -120,7 +125,6 @@ public class BillingServerSecure  {
 				bills.put(user, new Bill(user, auctionID, price,0,0));
 			}
 		}
-		//fileHandler.writeObject(user, new Bill(user, auctionID, price));
 	}
 	
 	/**
@@ -132,5 +136,17 @@ public class BillingServerSecure  {
 	public String getBill(String user) {
 		if(bills.containsKey(user))return bills.get(user).toString();
 		return "No bill for the user "+user+" available.";
+	}
+	
+	/**
+	 * saves all data to files
+	 */
+	public void shutdown(){
+		try {
+			fileHandler= new FileHandler<String,Bill>("bills.txt");
+			fileHandler.writeMap(bills);
+		} catch (IOException e) {
+			System.err.println("Could not save bill.");
+		}
 	}
 }

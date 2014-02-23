@@ -109,4 +109,21 @@ public class BillingServerSecureTest{
 		BillingServerSecure s= new BillingServerSecure();
 		assertEquals("No bill for the user tz available.", s.getBill("tz"));
 	}
+	
+	@Test
+	public void shutdownAndLoad(){
+		BillingServerSecure s= new BillingServerSecure();
+		try {
+			s.createPriceStep(0, 10, 5.6,5);
+			s.createPriceStep(10, 30, 10,10);
+		} catch (PriceStepIntervalOverlapException e) {}
+		s.billAuction("test", 1, 9);
+		s.billAuction("test", 2, 20);
+		s.billAuction("test", 3, 10);
+		s.billAuction("t", 3, 10);
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		s.shutdown();
+		s= new BillingServerSecure();
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+	}
 }

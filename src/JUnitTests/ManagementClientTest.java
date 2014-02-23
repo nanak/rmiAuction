@@ -17,6 +17,7 @@ import loadtest.FakeCli;
 import management.ManagmentClient;
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +43,8 @@ public class ManagementClientTest {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
 		System.out.println("Now Billing Test initialization");
-		bs =new BillingServer(loginMap());
+		bs =new BillingServer(start.loginMap());
+
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
@@ -55,6 +57,14 @@ public class ManagementClientTest {
 		
 	}
 
+	/**
+	 * Shutdown all Server
+	 */
+	@After
+	public void end(){
+		bs.shutdown();
+		as.shutdown();
+	}
 	@Test
 	public void loginTest(){
 		cli=new FakeCli("");
@@ -155,67 +165,6 @@ public class ManagementClientTest {
 		m=new ManagmentClient(cli);
 		cli.write("!login test test\n!end");
 	}
-	 private static ConcurrentHashMap<String,byte[]> loginMap(){
-		 
-			Properties properties = new Properties();
-			// neuen stream mit der messenger.properties Datei erstellen
-
-			try {
-				BufferedInputStream stream = new BufferedInputStream(
-						new FileInputStream("user.properties"));
-
-				properties.load(stream);
-				stream.close();
-			} catch (IOException e1) {
-
-				System.out.println("user.properties konnte nicht geladen werden. Erzeuge neues user.properties File");
-				properties = new Properties();
-				
-				try {
-					byte[] bytesOfMessage;
-					MessageDigest md;
-					bytesOfMessage = "auctionpw".getBytes("UTF-8");
-					md = MessageDigest.getInstance("MD5");
-					byte[] thedigest = md.digest(bytesOfMessage);
-					properties.put("auction", new String(thedigest));
-					bytesOfMessage = "test".getBytes("UTF-8");
-					md = MessageDigest.getInstance("MD5");
-					thedigest = md.digest(bytesOfMessage);
-					properties.put("test", new String(thedigest));
-					File f = new File("user.properties");
-					if(f.exists())
-						f.delete();
-					f.createNewFile();
-					PrintWriter pw = new PrintWriter (new FileOutputStream(f));
-					properties.store(pw, null);
-				} catch (NoSuchAlgorithmException e) {
-					System.out.println("Should not possible to Reach");
-					e.printStackTrace();
-				} catch (UnsupportedEncodingException e) {
-					System.out.println("Should not possible to Reach");
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					System.out.println("Should not possible to Reach");
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			ConcurrentHashMap<String,byte[]> ret = new ConcurrentHashMap<String,byte[]>();
-			
-			try {
-				for (Object o : properties.keySet()){
-					ret.put((String)o, ((String)properties.get(o)).getBytes());
-				}
-				
-				return ret;
-			} catch (ClassCastException e) {
-				System.out.println("user.properties Fehlerhaft");
-			}
-			return null;
-	 }
 
 
 }

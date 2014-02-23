@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.BillingServerSecureTest" skipped="0" tests="9" time="0.013" timestamp="2014-02-23T19:19:19">
+<testsuite errors="1" failures="0" hostname="Daniel-HP" name="JUnitTests.BillingServerSecureTest" skipped="0" tests="1" time="0.0" timestamp="2014-02-23T21:00:04">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />
@@ -85,15 +85,11 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="your.BillingServer" />
   </properties>
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTest" time="0.002" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="deletePriceStepTest" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTest" time="0.004" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="toStringTest" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTestIntervalDoesNotExist" time="0.001" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException2" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException3" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="getBillTestFalse" time="0.001" />
+  <error message="JUnitTests.BillingServerSecureTest" type="java.lang.ClassNotFoundException">java.lang.ClassNotFoundException: JUnitTests.BillingServerSecureTest
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:270)
+</error>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
