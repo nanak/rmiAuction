@@ -1,10 +1,6 @@
 package JUnitTests;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Scanner;
-import java.util.concurrent.ConcurrentHashMap;
-
+import static org.junit.Assert.fail;
 import loadtest.FakeCli;
 import management.ManagmentClient;
 
@@ -12,21 +8,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import server.Server;
+import Client.Client;
 import analytics.AnalyticTaskComputing;
 import analytics.AnalyticsServer;
 import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
-
-import server.Server;
-import server.ServerStart;
 import connect.ReceiveConnection;
 
-import Client.CLI;
-import Client.Client;
+import Client.TaskExecuter;
 
-public class ClientTest {
+public class TaskExecuterTest {
 
 	private int serverPort = 5000;
 	private FakeCli cli;
@@ -38,9 +32,11 @@ public class ClientTest {
 	private ManagmentClient m;
 	private StartBillingServer start;
 	private Server s;
-
+	
+	private TaskExecuter t;
+	
 	@Before
-	public void setUp() {
+	public void setUp(){
 		as = new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start = new StartBillingServer();
@@ -49,6 +45,7 @@ public class ClientTest {
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		start.initRmi(bs, rbss);
 		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
 		
 		
 //		m = new ManagmentClient(cli);
@@ -63,71 +60,39 @@ public class ClientTest {
 		Thread t = new Thread(r);
 		t.start(); // Generate and start Thread
 	}
-
+	
 	@After
 	public void cleanUp() {
 		s.setActive(false);
 	}
 	
 	@Test
-	public void testSetUsername() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		c.setUsername("test");
-		assertEquals("test", c.getUsername());
-	}
-
-	@Test
-	public void testList() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!list\n!end");
-		c.run();
-
-	}
-
-	@Test
 	public void testLogin() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!end");
-		c.run();
-		c.setActive(false);
-	}
-
-	@Test
-	public void testCreate() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!create 25200 Super small notebook\n!end");
-		c.run();
-		c.setActive(false);
-	}
-
-	@Test
-	public void testBid() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test2\n!bid 1 100.00\n!end");
-		c.run();
-		c.setActive(false);
-	}
-
-	@Test
-	public void testLogout() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!logout\n!end");
-		c.run();
-		c.setActive(false);
-	}
-
-	@Test
-	public void testEnd() {
-		cli = new FakeCli("");
-		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!end");
-		c.run();
+		t = new TaskExecuter(c);
+		t.login("test", 5000, 5001);
 	}
 	
+	@Test
+	public void testLogout() {
+		t = new TaskExecuter(c);
+		t.logout();
+	}
+	
+	@Test
+	public void testBid() {
+		t = new TaskExecuter(c);
+		t.bid(1, 150.00);
+	}
+
+	@Test
+	public void testCreate(){
+		t = new TaskExecuter(c);
+		t.create((long)25200, "Super small notebook");
+	}
+	
+	@Test
+	public void testList(){
+		t = new TaskExecuter(c);
+		t.list();
+	}
 }
