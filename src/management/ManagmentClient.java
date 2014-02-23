@@ -221,14 +221,14 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							usernameLogout=new String[2];
 							usernameLogout[0]=cmd[0];
 							usernameLogout[1]=username;
-							anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
+							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
 							ui.out(anwser);
 							username=""; 
 							billingServerSecure=null;
 							secure=false;
 						}
 						else{
-							anwser=billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
+							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
 							ui.out(anwser);
 						}
 					}	
