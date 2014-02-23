@@ -18,11 +18,9 @@ import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
-
 import server.Server;
 import server.ServerStart;
 import connect.ReceiveConnection;
-
 import Client.CLI;
 import Client.Client;
 
@@ -136,8 +134,14 @@ public class ClientTest {
 	public void testBidWrongNumberOfArguments(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!bid 1 123456.12 1234\n!end");
+		cli.write("!login test2\n!bid 1 123456.12 1234\n!end");
 		c.run();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals("ERROR: Wrong number of arguments given!\nUsage !bid ID Amount",cli.getOutputBeforeEnd());
 	}
 	
@@ -165,6 +169,12 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 1 asdf\n!end");
 		c.run();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
 	}
 	@Test
@@ -181,6 +191,12 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test1\n!login test2\n!end");
 		c.run();
+		try {
+			Thread.sleep(400);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals("Already logged in, logout first!",cli.getOutputBeforeEnd());
 	}
 	@Test

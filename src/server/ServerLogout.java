@@ -46,7 +46,7 @@ public class ServerLogout implements ServerAction{
 			loger.setActive(false);			
 			//TODO cancel the connections
 			server.notify(ul);
-			return "Succesfully loged out as: "+loger.getName();
+			return "Succesfully logged out as: "+loger.getName();
 		}
 		return "Error you must log in first!";
 	}

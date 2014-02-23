@@ -1,7 +1,7 @@
 /**
  * 
  */
-package server.test;
+package JUnitTests;
 
 import static org.junit.Assert.*;
 
@@ -20,6 +20,11 @@ import model.User;
 import org.junit.Before;
 import org.junit.Test;
 
+import analytics.AnalyticsServer;
+import billing.BillingServer;
+import billing.BillingServerSecure;
+import billing.RemoteBillingServerSecure;
+import billing.StartBillingServer;
 import server.Server;
 
 /**
@@ -34,6 +39,12 @@ public class ServerTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		StartBillingServer start = new StartBillingServer();
+		BillingServer bs =new BillingServer(start.loginTestMap());
+		BillingServerSecure bss = new BillingServerSecure();
+		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
+		AnalyticsServer as = new AnalyticsServer();
+		bs.initRmi(bs, rbss);
 		server = new Server();
 	}
 
@@ -49,23 +60,24 @@ public class ServerTest {
 		login.setUdpPort(123);
 		
 		String wert = server.request(login); //Tests the login
-		assertEquals(wert,"Successfully suscribed and loged in as: name");
+		assertEquals(wert,"Successfully suscribed and logged in as: name");
 		
 		wert = server.request(login); //Tests that it isn't possible to log in twice
-		assertEquals(wert,"This User is allready loged in please log out first!");
+		assertEquals(wert,"This User is allready logged in please log out first!");
 		
-		assertEquals(server.getUser().get(0).getName(),"name"); //Tests if the user really exists
+		System.out.println(server.getUser().get(0));
+		assertEquals(server.getUser().get("name").getName(),"name"); //Tests if the user really exists
 		
-		server.getUser().get(0).setActive(false); //Login again without messages
+		server.getUser().get("name").setActive(false); //Login again without messages
 		wert = server.request(login);
-		assertEquals(wert,"Successfully loged in as: name\nUnread messages: No Messages");
+		assertEquals(wert,"Successfully logged in as: name\nUnread messages: No Messages");
 		
 		ArrayList<String> messages = new ArrayList();
 		messages.add("Hallo");
-		server.getUser().get(0).setMessages(messages);
-		server.getUser().get(0).setActive(false); //Login again with one message
+		server.getUser().get("name").setMessages(messages);
+		server.getUser().get("name").setActive(false); //Login again with one message
 		wert = server.request(login);
-		assertEquals(wert,"Successfully loged in as: name\nUnread messages: Hallo\n");
+		assertEquals(wert,"Successfully logged in as: name\nUnread messages: Hallo\n");
 	}
 	
 	@Test
@@ -77,13 +89,13 @@ public class ServerTest {
 		login.setUdpPort(123);
 		
 		String wert = server.request(login); //Before testing logout i must test login
-		assertEquals(wert,"Successfully suscribed and loged in as: name");
+		assertEquals(wert,"Successfully suscribed and logged in as: name");
 		
 		LogoutMessage logout = new LogoutMessage();
 		logout.setName("name");
 		
 		String wert4 = server.request(logout); //tests the logout
-		assertEquals(wert4,"Succesfully loged out as: name");
+		assertEquals(wert4,"Succesfully logged out as: name");
 		wert4 = server.request(logout); //tests the logout twice should cause an error
 		assertEquals(wert4,"Error you must log in first!");
 		
@@ -101,7 +113,7 @@ public class ServerTest {
 		login.setUdpPort(123);
 		
 		String wert = server.request(login); //Before testing create i must test login and need a user
-		assertEquals(wert,"Successfully suscribed and loged in as: name");
+		assertEquals(wert,"Successfully suscribed and logged in as: name");
 		
 		Long duration = 10L;
 		CreateMessage create = new CreateMessage();
@@ -127,7 +139,7 @@ public class ServerTest {
 		login.setUdpPort(123);
 		
 		String wert = server.request(login); //Before testing bid i must test login and need a user
-		assertEquals(wert,"Successfully suscribed and loged in as: name");
+		assertEquals(wert,"Successfully suscribed and logged in as: name");
 		
 		Long duration = 10L;
 		CreateMessage create = new CreateMessage();
@@ -174,7 +186,7 @@ public class ServerTest {
 		server.getAuction().get(0).setFinished(true); //bid on an auction that is over
 		bid.setId(0);
 		wert12 = server.request(bid);
-		assertEquals(wert12,"The auction 'laptop' is allready over you can not bid on this auction anymore!");
+		assertEquals(wert12,"The auction 'laptop' is already over you can not bid on this auction anymore!");
 	}
 
 	@Test
@@ -186,7 +198,7 @@ public class ServerTest {
 		login.setUdpPort(123);
 		
 		String wert = server.request(login); //Before testing list i must test login and need a user
-		assertEquals(wert,"Successfully suscribed and loged in as: name");
+		assertEquals(wert,"Successfully suscribed and logged in as: name");
 		
 		Long duration = 10L;
 		CreateMessage create = new CreateMessage();
@@ -237,7 +249,7 @@ public class ServerTest {
 		ConcurrentHashMap<String,User> users = new ConcurrentHashMap<String, User>();
 		users.put("test",user);
 		server.setUser(users);
-		assertEquals(server.getUser().get(0).getName(),"name");
+		assertEquals(server.getUser().get("test").getName(),"name");
 	}
 
 	/**
@@ -249,7 +261,7 @@ public class ServerTest {
 		user.setName("name");
 		Auction auction = new Auction(user ,"auction",10L);
 		ConcurrentHashMap<Integer,Auction> auctions = new ConcurrentHashMap<Integer, Auction>();
-		auctions.put(1, auction);
+		auctions.put(0, auction);
 		server.setAuction(auctions);
 		assertEquals(server.getAuction().get(0).getDescription(),"auction");
 	}

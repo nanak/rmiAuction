@@ -148,6 +148,12 @@ public class EventHandlerTest {
 		Date d = new Date();
 		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
 		dummyAs.processEvent(as);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		AuctionEnded ae = new AuctionEnded("Auction2", "AUCTION_ENDED", d.getTime()+50, 1);
 		dummyAs.processEvent(ae);
 		//Wait for processing
@@ -181,6 +187,12 @@ public class EventHandlerTest {
 		dummyAs.processEvent(as);
 		BidPlaced bp = new BidPlaced("AuctionBid1", "BID_PLACED", d.getTime(), "Daniel", 1, 100);
 		dummyAs.processEvent(bp);
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		AuctionEnded ae = new AuctionEnded("Auction2", "AUCTION_ENDED", d.getTime()+50, 1);
 		dummyAs.processEvent(ae);
 		//Wait for processing
