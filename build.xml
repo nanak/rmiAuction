@@ -111,7 +111,7 @@
     <target name="test">
         <mkdir dir="${reports.dir}"/>
 
-        <junit haltonfailure="no" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">
+        <junit haltonfailure="true" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">
             <classpath refid="project.classpath" />
             
             <formatter type="plain"/>

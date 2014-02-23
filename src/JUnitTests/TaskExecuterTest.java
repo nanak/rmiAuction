@@ -34,6 +34,7 @@ public class TaskExecuterTest {
 	private Server s;
 	
 	private TaskExecuter t;
+	Thread tr;
 	
 	@Before
 	public void setUp(){
@@ -57,13 +58,14 @@ public class TaskExecuterTest {
 		s.setTcpPort(port); // Set Server Port
 		ReceiveConnection r = new ReceiveConnection(port, s); // Establish
 																// Connection
-		Thread t = new Thread(r);
-		t.start(); // Generate and start Thread
+		tr = new Thread(r);
+		tr.start(); // Generate and start Thread
 	}
 	
 	@After
 	public void cleanUp() {
 		s.setActive(false);
+		tr.interrupt();
 	}
 	
 	@Test

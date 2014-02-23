@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="1" failures="0" hostname="Daniel-HP" name="JUnitTests.AllClassesTest" skipped="0" tests="1" time="0.0" timestamp="2014-02-23T21:00:04">
+<testsuite errors="0" failures="1" hostname="Daniel-HP" name="JUnitTests.AllClassesTest" skipped="0" tests="104" time="275.573" timestamp="2014-02-23T21:05:13">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />
@@ -85,11 +85,1141 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="your.BillingServer" />
   </properties>
-  <error message="JUnitTests.AllClassesTest" type="java.lang.ClassNotFoundException">java.lang.ClassNotFoundException: JUnitTests.AllClassesTest
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:270)
-</error>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTest" time="0.002" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException" time="0.002" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="deletePriceStepTest" time="0.002" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTest" time="0.005" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="toStringTest" time="0.001" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTestIntervalDoesNotExist" time="0.003" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException2" time="0.001" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException3" time="0.001" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="getBillTestFalse" time="0.001" />
+  <testcase classname="JUnitTests.BillingServerSecureTest" name="shutdownAndLoad" time="0.044" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestLogin" time="5.251" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestCreate" time="5.038" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestLogout" time="5.025" />
+  <testcase classname="JUnitTests.ServerTest" name="testGetTcpPort" time="5.035" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestBid" time="5.036" />
+  <testcase classname="JUnitTests.ServerTest" name="testIsActive" time="5.025" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestList" time="5.024" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetTcpPort" time="5.02" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetUser" time="5.019" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetAuction" time="5.025" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testAuctionStartedEndedNoBid" time="0.707" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginLogoutSessionEvent" time="0.706" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testBidOnAuctionChangesRatio" time="1.707" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testPlaceBidAndBPM" time="61.01" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginEvent" time="1.523" />
+  <testcase classname="JUnitTests.AddStepTest" name="addStepEndpriceZero" time="0.004" />
+  <testcase classname="JUnitTests.AddStepTest" name="addStepWrongInput" time="0.003" />
+  <testcase classname="JUnitTests.AddStepTest" name="addStepWrongNumber" time="0.005" />
+  <testcase classname="JUnitTests.BillTest" name="billOk" time="0.004" />
+  <testcase classname="JUnitTests.BillTest" name="billWrongNumber" time="0.003" />
+  <testcase classname="JUnitTests.LoginTest" name="getNameTest" time="0.003" />
+  <testcase classname="JUnitTests.LoginTest" name="loginWrongNumber" time="0.0" />
+  <testcase classname="JUnitTests.LoginTest" name="LoginOk" time="0.001" />
+  <testcase classname="JUnitTests.LogoutTest" name="logoutlWrongNumber" time="0.002" />
+  <testcase classname="JUnitTests.LogoutTest" name="logoutOk" time="0.001" />
+  <testcase classname="JUnitTests.RemoveStepTest" name="removeStepOk" time="0.002" />
+  <testcase classname="JUnitTests.RemoveStepTest" name="removeStepWrongNumber" time="0.002" />
+  <testcase classname="JUnitTests.RemoveStepTest" name="removeStepWrongInput" time="0.002" />
+  <testcase classname="JUnitTests.RemoveStepTest" name="removeStepNonExistant" time="0.002" />
+  <testcase classname="JUnitTests.StepsTest" name="stepsOk" time="0.001" />
+  <testcase classname="JUnitTests.StepsTest" name="stepsWrongNumber" time="0.002" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureSteps" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureLogout" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createCommandSecureExcpetion" time="0.001" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureRemoveSteps" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureBill" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureAddStep" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createCommandLogin" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createSecureCommandNotFound" time="0.0" />
+  <testcase classname="JUnitTests.CommandFactoryTest" name="createCommandNotFound" time="0.0" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="unsubscribeExceptionTest" time="0.728" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="endUnsecureTest" time="0.527" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="subscribeExceptionCaugthTest" time="0.732" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="printTest" time="0.572" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="hideTest" time="0.883" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="loginTest1" time="1.29" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="loginTest" time="1.043" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="logoutTest" time="0.708" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="autoTest" time="0.83" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="secureTest" time="1.077" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="subscribeTest" time="0.809" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="endSecureTest" time="1.416" />
+  <testcase classname="JUnitTests.ManagementClientTest" name="unsubscribeTest" time="0.953" />
+  <testcase classname="JUnitTests.PropertiesTest" name="setFromFileTest" time="0.002" />
+  <testcase classname="JUnitTests.PropertiesTest" name="setFromFileErrorTest" time="0.001" />
+  <testcase classname="JUnitTests.PropertiesTest" name="setAllTest" time="0.001" />
+  <testcase classname="JUnitTests.FakeCliTest" name="clientActiveTest" time="0.001" />
+  <testcase classname="JUnitTests.FakeCliTest" name="writeTest" time="0.0" />
+  <testcase classname="JUnitTests.FakeCliTest" name="outTest" time="0.001" />
+  <testcase classname="JUnitTests.FakeCliTest" name="readTest" time="0.0" />
+  <testcase classname="JUnitTests.FakeCliTest" name="outIDnullTest" time="0.001" />
+  <testcase classname="JUnitTests.FakeCliTest" name="outIDTest" time="0.0" />
+  <testcase classname="JUnitTests.LoadTestTest" name="randomStringTest" time="7.783" />
+  <testcase classname="JUnitTests.LoadTestTest" name="constTest" time="10.988" />
+  <testcase classname="JUnitTests.LoadTestTest" name="auctionTest" time="9.466" />
+  <testcase classname="JUnitTests.ClientTest" name="testBid" time="6.245" />
+  <testcase classname="JUnitTests.ClientTest" name="testEnd" time="6.847" />
+  <testcase classname="JUnitTests.ClientTest" name="testLogin" time="6.817" />
+  <testcase classname="JUnitTests.ClientTest" name="testGetTcpPort" time="6.031" />
+  <testcase classname="JUnitTests.ClientTest" name="testList" time="7.294" />
+  <testcase classname="JUnitTests.ClientTest" name="testBidNotANumber" time="7.371" />
+  <testcase classname="JUnitTests.ClientTest" name="testLogoutNotLoggedIn" time="8.033" />
+  <testcase classname="JUnitTests.ClientTest" name="testBidNotLoggedIn" time="7.541" />
+  <testcase classname="JUnitTests.ClientTest" name="testLoginWrongNumberOfArguments" time="6.349" />
+  <testcase classname="JUnitTests.ClientTest" name="testBidWrongNumberOfArguments" time="6.962" />
+  <testcase classname="JUnitTests.ClientTest" name="testCreateNotLoggedIn" time="5.708" />
+  <testcase classname="JUnitTests.ClientTest" name="testSetUsername" time="5.316" />
+  <testcase classname="JUnitTests.ClientTest" name="testCreate" time="6.695" />
+  <testcase classname="JUnitTests.ClientTest" name="testGetCli" time="5.917" />
+  <testcase classname="JUnitTests.ClientTest" name="testNoSuchCommand" time="6.155" />
+  <testcase classname="JUnitTests.ClientTest" name="testLogout" time="6.813" />
+  <testcase classname="JUnitTests.ClientTest" name="testDoubleLogin" time="6.575" />
+  <testcase classname="JUnitTests.TaskExecuterTest" name="testBid" time="1.244" />
+  <testcase classname="JUnitTests.TaskExecuterTest" name="testLogin" time="1.326" />
+  <testcase classname="JUnitTests.TaskExecuterTest" name="testList" time="1.346" />
+  <testcase classname="JUnitTests.TaskExecuterTest" name="testCreate" time="1.363" />
+  <testcase classname="JUnitTests.TaskExecuterTest" name="testLogout" time="1.431" />
+  <testcase classname="JUnitTests.CLITest" name="testOut" time="0.001" />
+  <testcase classname="JUnitTests.CLITest" name="testOutLn" time="0.0" />
+  <testcase classname="JUnitTests.CLITest" name="testReadLn" time="0.001" />
+  <testcase classname="JUnitTests.FileHandlerUnitTest" name="testWriteReadObject" time="0.042">
+    <failure message="expected:&lt;null&gt; but was:&lt;login1&gt;" type="junit.framework.AssertionFailedError">junit.framework.AssertionFailedError: expected:&lt;null&gt; but was:&lt;login1&gt;
+	at JUnitTests.FileHandlerUnitTest.testWriteReadObject(FileHandlerUnitTest.java:54)
+</failure>
+  </testcase>
+  <testcase classname="JUnitTests.FileHandlerUnitTest" name="testWriteMap" time="0.004" />
+  <testcase classname="JUnitTests.FileHandlerUnitTest" name="writeReadBillConcurrentHashMap" time="0.025" />
+  <testcase classname="JUnitTests.FileHandlerUnitTest" name="testReadAll" time="0.007" />
+  <system-out><![CDATA[Getting registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Got event
+USER_LOGIN
+null
+Got event
+USER_LOGIN
+Login
+Got event
+USER_LOGIN
+Login
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Got event
+USER_LOGIN
+Server ending!
+Got event
+AUCTION_STARTED
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Got event
+USER_LOGIN
+Server ending!
+Got event
+USER_LOGOUT
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Got event
+USER_LOGIN
+Got event
+AUCTION_STARTED
+Got event
+USER_LOGIN
+Got event
+BID_PLACED
+Got event
+BID_OVERBID
+Got event
+BID_PLACED
+Got event
+BID_OVERBID
+Got event
+Server ending!
+BID_PLACED
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Got event
+USER_LOGIN
+Got event
+AUCTION_STARTED
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Got event
+AUCTION_STARTED
+Added new Event
+Got event
+AUCTION_ENDED
+1
+Successfull 0
+Ended 1
+0.0
+Added new Event
+Added new Event
+Added new Event
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Got event
+USER_LOGIN
+Added new Event
+Got event
+USER_LOGOUT
+Added new Event
+Added new Event
+Added new Event
+Added new Event
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Got event
+AUCTION_STARTED
+Added new Event
+Got event
+BID_PLACED
+Added new Event
+Added new Event
+Got event
+AUCTION_ENDED
+1
+Successfull 1
+Ended 1
+1.0
+Added new Event
+Added new Event
+Added new Event
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Got event
+AUCTION_STARTED
+Added new Event
+Got event
+BID_PLACED
+Added new Event
+Added new Event
+1.0
+Added new Event
+One Minute past
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Got event
+USER_LOGIN
+Added new Event
+Server ending!
+Timer stopped
+muhkuhli
+muhkuhli
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Login in
+test
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Login in
+test
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Login in
+Server ending!
+test
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Login in
+test
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Login in
+test
+Timer stopped
+Now Billing Test initialization
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+New Analytics
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting server: AnalyticServer
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Server ending!
+Got event
+USER_LOGIN
+Timer stopped
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Server ending!
+Timer stopped
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Server unreachable. Check configs and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Got event
+AUCTION_STARTED
+Got event
+AUCTION_STARTED
+Got event
+AUCTION_STARTED
+Server unreachable. Check configs and restart
+Got event
+AUCTION_STARTED
+Got event
+AUCTION_STARTED
+Server unreachable. Check configs and restart
+Got event
+AUCTION_STARTED
+Got event
+AUCTION_STARTED
+Got event
+AUCTION_STARTED
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Server unreachable. Check configs and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Got event
+AUCTION_STARTED
+Got event
+USER_LOGOUT
+Got event
+USER_LOGIN
+Got event
+USER_LOGOUT
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Not logged in Test
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+Server unreachable. Check configs and restart
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Could not listen on specififc port
+Exit with enter.
+Could not open Connection
+Check server and restart
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Got event
+AUCTION_STARTED
+Got event
+USER_LOGOUT
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Got event
+USER_LOGIN
+Got event
+USER_LOGOUT
+Shutdown
+Server ending!
+Timer stopped
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Could not open Connection
+Check server and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Server is listening
+Could not open Connection
+Check server and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Could not open Connection
+Check server and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+Server is listening
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Could not open Connection
+Check server and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+Getting registry
+Could not create RMI registry, getting RMI registry
+AnalyticsServer bound
+init
+Stuck in init
+Getting registry
+Could not create RMI registry, getting RMI registry
+BillingServer bound
+BillingServerSecure bound
+Server is listening
+Could not open Connection
+Check server and restart
+Getting registry
+Could not create RMI registry, getting RMI registry
+]]></system-out>
+  <system-err><![CDATA[AuctionSucess
+AuctionSucess
+java.rmi.NoSuchObjectException: no such object in table
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:275)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:252)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:161)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:194)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:148)
+	at com.sun.proxy.$Proxy10.login(Unknown Source)
+	at management.ManagmentClient.run(ManagmentClient.java:147)
+	at java.lang.Thread.run(Thread.java:744)
+java.rmi.NoSuchObjectException: no such object in table
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:275)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:252)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:161)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:194)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:148)
+	at com.sun.proxy.$Proxy10.login(Unknown Source)
+	at management.ManagmentClient.run(ManagmentClient.java:147)
+	at java.lang.Thread.run(Thread.java:744)
+java.rmi.NoSuchObjectException: no such object in table
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:275)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:252)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:161)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:194)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:148)
+	at com.sun.proxy.$Proxy10.login(Unknown Source)
+	at management.ManagmentClient.run(ManagmentClient.java:147)
+	at java.lang.Thread.run(Thread.java:744)
+java.rmi.NoSuchObjectException: no such object in table
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:275)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:252)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:161)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:194)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:148)
+	at com.sun.proxy.$Proxy10.login(Unknown Source)
+	at management.ManagmentClient.run(ManagmentClient.java:147)
+	at java.lang.Thread.run(Thread.java:744)
+java.rmi.NoSuchObjectException: no such object in table
+	at sun.rmi.transport.StreamRemoteCall.exceptionReceivedFromServer(StreamRemoteCall.java:275)
+	at sun.rmi.transport.StreamRemoteCall.executeCall(StreamRemoteCall.java:252)
+	at sun.rmi.server.UnicastRef.invoke(UnicastRef.java:161)
+	at java.rmi.server.RemoteObjectInvocationHandler.invokeRemoteMethod(RemoteObjectInvocationHandler.java:194)
+	at java.rmi.server.RemoteObjectInvocationHandler.invoke(RemoteObjectInvocationHandler.java:148)
+	at com.sun.proxy.$Proxy10.login(Unknown Source)
+	at management.ManagmentClient.run(ManagmentClient.java:147)
+	at java.lang.Thread.run(Thread.java:744)
+Exception in thread "Timer-32" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-40" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-52" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-68" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-48" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-60" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-56" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-36" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-44" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-64" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-85" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-101" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-97" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-77" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-109" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-81" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-89" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-73" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-93" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-105" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Error in Logout
+]]></system-err>
 </testsuite>

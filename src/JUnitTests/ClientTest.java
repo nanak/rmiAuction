@@ -175,7 +175,6 @@ public class ClientTest {
 			e.printStackTrace();
 		}
 		cli.write("!logout\n!end");
-		System.err.println("Error in Logout");
 		c.setActive(false);
 	}
 
@@ -188,23 +187,26 @@ public class ClientTest {
 	}
 	
 	
-	
-	// new tests
-//	@Test // exception wird nie geworfen, schneidet die ersten zahlen ab
-//	public void testBidTooLarge(){
-//		cli = new FakeCli("");
-//		c = new Client("127.0.0.1", serverPort, cli);
-//		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 0 1234567899.12\n!end");
-//		c.run();
-//		assertEquals("Too large amount, max 7 numbers before '.'",cli.getOutputBeforeEnd());
-//	}
-	
+
 	@Test
 	public void testBidWrongNumberOfArguments(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test2\n!bid 1 123456.12 1234\n!end");
-		c.run();
+		cli.write("!login test2\n");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cli.write("\n!bid 1 123456.12 1234\n!end\n");
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {

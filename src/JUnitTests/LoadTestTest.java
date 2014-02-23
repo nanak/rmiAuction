@@ -64,6 +64,7 @@ public class LoadTestTest {
 	public void end(){
 		as.shutdown();
 		bs.shutdown();
+		
 		s.setActive(false);
 		try {
 			Thread.sleep(5000);
@@ -75,6 +76,12 @@ public class LoadTestTest {
 	@Test
 	public void constTest(){
 		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Test 
 	public void auctionTest(){
