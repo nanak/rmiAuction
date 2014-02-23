@@ -2,6 +2,7 @@ package management;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -220,7 +221,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 		try {
 			Properties properties = new Properties();
-			// neuen stream mit der messenger.properties Datei erstellen
 			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 			
 			properties.load(stream);
@@ -241,13 +241,14 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
 			running=false;
 		} catch (NumberFormatException nfe) {
-			System.out.println("Properties File Fehlerhaft");
+			System.out.println("Properties File not well formatet. Client shutting down.");
+			running=false;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
 		} 
 	}
 	public void setRunning(boolean running){

@@ -39,12 +39,13 @@ public class StartBillingServer {
 		BillingServer bs = new BillingServer (user);
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-		bs.initRmi(bs, rbss);
-//		saveUserMap(user);
-		Scanner in=new Scanner(System.in);
-		//Shutting down
-		in.nextLine();
-		System.out.println("Server ending!");		//If Enter Button pressed, Server will end
+		if(bs.initRmi(bs, rbss)){
+	//		saveUserMap(user);
+			Scanner in=new Scanner(System.in);
+			//Shutting down
+			in.nextLine();
+			System.out.println("Server ending!");
+		}//If Enter Button pressed, Server will end
 		bs.shutdown();
 	}
 	

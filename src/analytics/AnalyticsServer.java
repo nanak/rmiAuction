@@ -3,6 +3,7 @@ package analytics;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NoSuchObjectException;
@@ -67,11 +68,12 @@ public class AnalyticsServer {
 		}
 		eh = new EventHandler(this);
 		remoteTask = new AnalyticTaskComputing(this);
-		initRmi(remoteTask);
-		Thread t = new Thread(eh);
-		t.start();
-		bidTimer = new Timer();
-		bidTimer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
+		if(initRmi(remoteTask)){
+			Thread t = new Thread(eh);
+			t.start();
+			bidTimer = new Timer();
+			bidTimer.schedule(new BidCountPerMinuteWatcher(this), 60*1000,60*1000);
+		}
 	}
 	/**
 	 * Closes all open tasks
@@ -218,10 +220,18 @@ public class AnalyticsServer {
 	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
 	 * 
 	 * @param atc	AnalyticsTaskComputing which is exported into the registry
+	 * @return true if successfull
 	 */
-	 private void initRmi(AnalyticTaskComputing analytics){
+	 private boolean initRmi(AnalyticTaskComputing analytics){
 		 try {
 			 Properties properties = new Properties();
+			 //Sicherstellen dass Server.properties existiert
+			 File f = new File("Server.properties");
+				if(!f.exists()){
+						System.out.println("Properties File doesn't exist. Server shutting down.");
+						return false;
+				}
+					
 				// neuen stream mit der messenger.properties Datei erstellen
 				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 				
@@ -237,6 +247,7 @@ public class AnalyticsServer {
 	        }catch (Exception e){
 	        	e.printStackTrace();
 	        }
+		 return true;
 	 }
 	 /**
 	  * Iterates throug notification list and deletes specific notifications for one ID
