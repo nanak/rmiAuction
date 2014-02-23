@@ -263,7 +263,7 @@ public class ClientTest {
 		cli.write("!login test1\n!login test2\n!end");
 		c.run();
 		try {
-			Thread.sleep(400);
+			Thread.sleep(800);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
