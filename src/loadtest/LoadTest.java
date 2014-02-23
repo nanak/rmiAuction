@@ -43,6 +43,11 @@ public class LoadTest {
 	public boolean createSystemDescription() {
 		return false;
 	}
+	/**
+	 * Methos, which generates a random String with a given length.
+	 * @param count Length 
+	 * @return random String
+	 */
 	public static String randomString(int count) {
 		StringBuilder builder = new StringBuilder();
 		while (count-- != 0) {
@@ -76,6 +81,15 @@ public class LoadTest {
 		
 		
 	}
+	/**
+	 * Initiation of the Loadtest. 
+	 * The properties are read from a File using the Properties class.
+	 * Clients are initiated as well as TimerTasks to execute Commands in the Intervals given by the properties file.
+	 * 
+	 * @param hostname Hostname of the server
+	 * @param port Port of the Server
+	 * @param filename Filename of the porpertiesfile
+	 */
 	public LoadTest(String hostname,int port, String filename){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		

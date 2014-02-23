@@ -51,10 +51,6 @@ public class ManagementClientTest {
 		System.out.println("New Analytics");
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
-//		start=new StartBillingServer();
-		
-//		start.initRmi(bs, rbss);
-		
 	}
 
 	/**

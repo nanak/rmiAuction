@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Timer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-import analytics.BidCountPerMinuteWatcher;
 import Client.UI;
 
 /**
  * This implementation defines the input via InputStream.
- * This class also starts the threads which write the input and provides to method to shutdown all threads.
+ * The Outputs are saved in an ArrayList for later access.
  * 
  * @author Michaela Lipovits
  * @version 2014-02-16
@@ -21,43 +18,40 @@ import Client.UI;
 public class FakeCli implements UI{
 	private Scanner in;
 	private ByteArrayInputStream is;
-	private long starttime;
 	private ArrayList<Integer> a;
 	private Random r = new Random();
 	private String[] saveLines;
 	private String[] saveIDs;
 	private boolean clientsAlive;
-	private Timer bid;
-	private Timer create;
-	private Timer list;
 	private String lastOutput;
 	private ArrayList<String> outputs;
 
-//	public FakeCli(int aucpM, int aucD, int update, int bidspM){
-//		starttime=System.currentTimeMillis();
-//		new CheckDuration(this,starttime);
-//		clientsAlive=true;
-//		is=new ByteArrayInputStream("".getBytes());
-//		in = new Scanner(is);
-//		new AuctionThread(aucpM, aucD, this);
-//		bid= new Timer();
-//		create=new Timer();
-//		list=new Timer();
-//		create.schedule(new AuctionThread(aucpM, aucD, this), 0, 60000/aucpM);
-//		bid.schedule(new BidThread(this,bidspM,starttime), 500,60000/bidspM); 
-//		list.schedule(new ListThread(this, update), 1000, update*1000);	
-//	}
+	/**
+	 * Constructor, which sets the input to a ByteArrayInputStream wich saves the given String.
+	 * 
+	 * @param cmd String which shall be the input
+	 */
 	public FakeCli(String cmd) {
 		outputs=new ArrayList<String>();
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);
 	}
+	/**
+	 * This method provides the capability of writing a mew String to the InputStream.
+	 * 
+	 * @param cmd String which shall be the input
+	 */
 	public void write(String cmd){
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);
 	}
+	/**
+	 * This method prints the given data, saves it to an arraylist, and saves the ID's 
+	 * to another ArrayList, if the output start with "ID:" (if !list is called by a client)
+	 */
 	@Override
 	public void out(String output) {
+		System.out.println(output);
 		this.lastOutput=output;
 		outputs.add(output);
 		if(output.startsWith("ID:")){
@@ -69,14 +63,25 @@ public class FakeCli implements UI{
 			}
 		}
 	}
+	/* (non-Javadoc)
+	 * @see Client.UI#outln(java.lang.String)
+	 */
 	@Override
 	public void outln(String output){
 		//do nothing
 	}
+	/* (non-Javadoc)
+	 * @see Client.UI#readln()
+	 */
 	@Override
 	public String readln(){
 		return in.nextLine();
 	}
+	/**
+	 * Takes a random ID out of the ArrayList if there are elements in it.
+	 * If the ArrayList is null, 0 is retured.
+	 * @return random ID or 0 is ArrayList is null
+	 */
 	public int getRandomID(){
 		if(a!=null){
 			return r.nextInt(a.size());
