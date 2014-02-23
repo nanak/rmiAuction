@@ -54,15 +54,20 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 */
 	public Object readObject(K key) throws IOException,
 			CannotCastToMapException {
-		FileInputStream fileIn = new FileInputStream(file);
-		ConcurrentHashMap<K, T> map;
-		ObjectInputStream ois = new ObjectInputStream(fileIn);
-		try {
-			map = (ConcurrentHashMap<K, T>) ois.readObject();
-		} catch (ClassNotFoundException e) {
-			throw new CannotCastToMapException();
+		if (file.exists() && file.length() != 0) {
+			FileInputStream fileIn = new FileInputStream(file);
+			ConcurrentHashMap<K, T> map;
+			ObjectInputStream ois = new ObjectInputStream(fileIn);
+			try {
+				map = (ConcurrentHashMap<K, T>) ois.readObject();
+			} catch (ClassNotFoundException e) {
+				throw new CannotCastToMapException();
+			}
+			return map.get(key);
+		} else {
+			file.createNewFile();
+			return null;
 		}
-		return map.get(key);
 	}
 
 	/**
@@ -81,16 +86,13 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public boolean writeObject(K key, T value) throws IOException,
 			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
-		if (file.exists()){
+		if (!file.exists())
+			file.createNewFile();
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
 		try {
 			map = (ConcurrentHashMap<K, T>) ois.readObject();
 		} catch (ClassNotFoundException e) {
-			return false;
-		}
-		} else {
-			System.out.println("File not Found");
 			return false;
 		}
 		map.put(key, value);
@@ -108,15 +110,12 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 *             if any input/output operations fail
 	 */
 	public boolean writeMap(ConcurrentHashMap<K, T> map) throws IOException {
+		if (!file.exists())
+			file.createNewFile();
 		FileOutputStream fileOut = new FileOutputStream(file);
 		ObjectOutputStream ostream = new ObjectOutputStream(fileOut);
-		try {
-			ostream.writeObject(map);
-			ostream.flush();
-		} catch (IOException e) {
-			System.out.println("Error with I/O processes");
-			return false;
-		}
+		ostream.writeObject(map);
+		ostream.flush();
 		return true;
 	}
 
@@ -132,28 +131,28 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	public ConcurrentHashMap<K, T> readAll() throws IOException,
 			CannotCastToMapException {
 		ConcurrentHashMap<K, T> map;
-		if(file.exists()){
-		FileInputStream fileIn = new FileInputStream(file);
-		ObjectInputStream ois = new ObjectInputStream(fileIn);
-		try {
-			map = (ConcurrentHashMap<K, T>) ois.readObject();
-			return map;
-		} catch (ClassNotFoundException e) {
-			throw new CannotCastToMapException();
+		if (file.exists() && file.length() != 0) {
+			FileInputStream fileIn = new FileInputStream(file);
+			ObjectInputStream ois = new ObjectInputStream(fileIn);
+			try {
+				map = (ConcurrentHashMap<K, T>) ois.readObject();
+				return map;
+			} catch (ClassNotFoundException e) {
+				throw new CannotCastToMapException();
+			}
+		} else {
+			file.createNewFile();
+			return new ConcurrentHashMap<>();
 		}
-		} else{
-			System.out.println("File not found");
-			return null;
-		}
-		
+
 	}
 
-	/**
-	 * deletes a file
-	 * 
-	 * @return true if successful, false if unsuccessful
-	 */
-	public boolean deleteFile() {
-		return file.delete();
-	}
+	// /**
+	// * deletes a file
+	// *
+	// * @return true if successful, false if unsuccessful
+	// */
+	// public boolean deleteFile() {
+	// return file.delete();
+	// }
 }
