@@ -98,7 +98,7 @@ public class BillingServer implements RemoteBillingServer {
 	 */
 	 public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
-			 System.out.println("init");
+//			 System.out.println("init");
 			 this.bs = bs;
 			 this.bss = bss;
 			 File f = new File("Server.properties");
@@ -114,13 +114,13 @@ public class BillingServer implements RemoteBillingServer {
 			properties.load(stream);
 		
 			stream.close();
-			System.out.println("Stuck in init");
+//			System.out.println("Stuck in init");
 			ir = new InitRMI(properties);
 			ir.init();
 			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
-            System.out.println("BillingServer bound");
+//            System.out.println("BillingServer bound");
 			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
-            System.out.println("BillingServerSecure bound");
+//            System.out.println("BillingServerSecure bound");
 			 
 		 }catch(Exception e){
 			 //TODO Handeln

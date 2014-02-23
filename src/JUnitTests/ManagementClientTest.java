@@ -58,8 +58,8 @@ public class ManagementClientTest {
 	 */
 	@After
 	public void end(){
-		bs.shutdown();
-		as.shutdown();
+//		bs.shutdown();
+//		as.shutdown();
 	}
 	@Test
 	public void loginTest(){

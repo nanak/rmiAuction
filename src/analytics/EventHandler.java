@@ -89,8 +89,8 @@ public class EventHandler implements Runnable{
 				e2.printStackTrace();
 			}
 //			while(!as.getIncomingEvents().isEmpty()){
-				System.out.println("Got event");
-				System.out.println(event.getType());
+//				System.out.println("Got event");
+//				System.out.println(event.getType());
 				
 				
 				/**
