@@ -17,6 +17,7 @@ import model.LoginMessage;
 import model.LogoutMessage;
 import model.User;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,21 +34,36 @@ import server.Server;
  */
 public class ServerTest {
 	private Server server;
-
+	private BillingServer bs;
+	private AnalyticsServer as;
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 		StartBillingServer start = new StartBillingServer();
-		BillingServer bs =new BillingServer(start.loginTestMap());
+		 bs =new BillingServer(start.loginMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-		AnalyticsServer as = new AnalyticsServer();
+		 as = new AnalyticsServer();
 		bs.initRmi(bs, rbss);
 		server = new Server();
 	}
-
+	/**
+	 * Shutsdown the servers
+	 */
+	@After
+	public void end(){
+		bs.shutdown();
+		as.shutdown();
+		server.setActive(false);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Test method for {@link server.Server#request(model.Message)}.
 	 */

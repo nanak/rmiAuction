@@ -114,10 +114,11 @@ public class EventHandler implements Runnable{
 					else if(uevent instanceof UserLogout || uevent instanceof UserDisconnected){
 						//Get matching UserLogin
 						UserEvent ul = logedInUser.get(((UserEvent) event).getUsername());
-						logedInUser.remove(ul); //Delete him from list
+						
 						if(ul == null)
 							System.out.println("User logged out, but didn't log in -> Check your server");
 						else{
+							logedInUser.remove(ul); //Delete him from list
 							//Calculate SessionTime
 							long sessionTime = uevent.getTimestamp() - ul.getTimestamp();
 							if(sessionTime > userTimeMax){

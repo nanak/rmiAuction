@@ -56,7 +56,7 @@ public class StartBillingServer {
 	  * loginMap from Properties File
 	  * @return
 	  */
-	 private static ConcurrentHashMap<String,byte[]> loginMap(){
+	 public static ConcurrentHashMap<String,byte[]> loginMap(){
 		 
 			Properties properties = new Properties();
 			// neuen stream mit der messenger.properties Datei erstellen

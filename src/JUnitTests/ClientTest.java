@@ -45,12 +45,12 @@ public class ClientTest {
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
-		bs =new BillingServer(start.loginTestMap());
+		bs =new BillingServer(start.loginMap());
 //		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
-		Server s = new Server();
+		s = new Server();
 		s.setTcpPort(5000);
 		ReceiveConnection r = new ReceiveConnection(5000, s);	
 		Thread t = new Thread(r);
@@ -65,6 +65,16 @@ public class ClientTest {
 		System.out.println("Shutdown");
 		bs.shutdown();
 		as.shutdown();
+		
+		s.setActive(false);
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	@Test
 	public void testSetUsername() {

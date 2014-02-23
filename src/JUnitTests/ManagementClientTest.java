@@ -9,6 +9,7 @@ import loadtest.FakeCli;
 import management.ManagmentClient;
 import static org.junit.Assert.*;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +35,7 @@ public class ManagementClientTest {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
 		System.out.println("Now Billing Test initialization");
-		bs =new BillingServer(start.loginTestMap());
+		bs =new BillingServer(start.loginMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
@@ -47,6 +48,14 @@ public class ManagementClientTest {
 		
 	}
 
+	/**
+	 * Shutdown all Server
+	 */
+	@After
+	public void end(){
+		bs.shutdown();
+		as.shutdown();
+	}
 	@Test
 	public void loginTest(){
 		cli=new FakeCli("");

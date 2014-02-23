@@ -11,6 +11,7 @@ import loadtest.LoadTest;
 import management.AddStep;
 import management.ManagmentClient;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,6 +34,7 @@ public class LoadTestTest {
 	private FakeCli cli;
 	private ConcurrentHashMap<String, byte[]> ret;
 	private StartBillingServer start;
+	private Server s;
 	
 	@Before
 	public void setUp() {	
@@ -41,18 +43,33 @@ public class LoadTestTest {
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
-		bs =new BillingServer(start.loginTestMap());
+		bs =new BillingServer(start.loginMap());
 //		BillingServerSecure bss = new BillingServerSecure();
 //		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 //		start.initRmi(bs, rbss);
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
-		Server s = new Server();
+		s= new Server();
 		s.setTcpPort(5000);
 		ReceiveConnection r = new ReceiveConnection(5000, s);	
 		Thread t = new Thread(r);
 		t.start();	
+	}
+	/**
+	 * Closes all Servers
+	 */
+	@After
+	public void end(){
+		as.shutdown();
+		bs.shutdown();
+		s.setActive(false);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	@Test
 	public void constTest(){
