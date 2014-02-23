@@ -137,7 +137,7 @@ public class ClientTest {
 		cli.write("!login test2\n!bid 1 123456.12 1234\n!end");
 		c.run();
 		try {
-			Thread.sleep(100);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,6 +169,12 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 1 asdf\n!end");
 		c.run();
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
 	}
 	@Test
@@ -186,7 +192,7 @@ public class ClientTest {
 		cli.write("!login test1\n!login test2\n!end");
 		c.run();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
