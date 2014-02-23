@@ -61,6 +61,7 @@ public class ServerLogin implements ServerAction {
 			else
 				ret ="No Messages";
 			server.notify(ul);
+			System.out.println("Login");
 			return "Successfully logged in as: "+loger.getName()+"\nUnread messages: "+ret;
 		}
 		return "This User is allready logged in please log out first!";
