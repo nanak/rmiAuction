@@ -139,11 +139,11 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						running=false;
 					}
 					else if(cmd[0].equals("!login")){
-						System.out.println("here");
+						System.out.println("Login in");
 						c= commandFactory.createCommand(cmd);
 						ui.out((String) c.execute(cmd));
 						Login l = (Login)c;
-						System.err.println(l.getPw());
+//						System.err.println(new String(l.getPw()));
 						billingServerSecure=billingServer.login(l);
 						if(billingServerSecure == null)
 							ui.out("Falsches Passwort angegeben!");
