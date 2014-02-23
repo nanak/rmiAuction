@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,16 +51,16 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 * @throws IOException
 	 *             if any input/output operations fail
 	 * @throws CannotCastToMapException
-	 *             if the map can't be casted to ConcurrentHashMap
+	 *             if the map can't be casted to AbstractMap
 	 */
 	public Object readObject(K key) throws IOException,
 			CannotCastToMapException {
 		if (file.exists() && file.length() != 0) {
 			FileInputStream fileIn = new FileInputStream(file);
-			ConcurrentHashMap<K, T> map;
+			AbstractMap<K, T> map;
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
 			try {
-				map = (ConcurrentHashMap<K, T>) ois.readObject();
+				map = (AbstractMap<K, T>) ois.readObject();
 			} catch (ClassNotFoundException e) {
 				throw new CannotCastToMapException();
 			}
@@ -81,17 +82,17 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 * @throws IOException
 	 *             if any input/output operations fail
 	 * @throws CannotCastToMapException
-	 *             if the map can't be casted to ConcurrentHashMap
+	 *             if the map can't be casted to AbstractMap
 	 */
 	public boolean writeObject(K key, T value) throws IOException,
 			CannotCastToMapException {
-		ConcurrentHashMap<K, T> map;
+		AbstractMap<K, T> map;
 		if (!file.exists())
 			file.createNewFile();
 		FileInputStream fileIn = new FileInputStream(file);
 		ObjectInputStream ois = new ObjectInputStream(fileIn);
 		try {
-			map = (ConcurrentHashMap<K, T>) ois.readObject();
+			map = (AbstractMap<K, T>) ois.readObject();
 		} catch (ClassNotFoundException e) {
 			return false;
 		}
@@ -109,7 +110,7 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	 * @throws IOException
 	 *             if any input/output operations fail
 	 */
-	public boolean writeMap(ConcurrentHashMap<K, T> map) throws IOException {
+	public boolean writeMap(AbstractMap<K, T> map) throws IOException {
 		if (!file.exists())
 			file.createNewFile();
 		FileOutputStream fileOut = new FileOutputStream(file);
@@ -122,27 +123,27 @@ public class FileHandler<K extends Serializable, T extends Serializable> {
 	/**
 	 * Reads a Map from file
 	 * 
-	 * @return the ConcurrentHashMap which was read from file
+	 * @return the AbstractMap which was read from file
 	 * @throws IOException
 	 *             if any input/output operations fail
 	 * @throws CannotCastToMapException
-	 *             if the map can't be casted to ConcurrentHashMap
+	 *             if the map can't be casted to AbstractMap
 	 */
-	public ConcurrentHashMap<K, T> readAll() throws IOException,
+	public AbstractMap<K, T> readAll() throws IOException,
 			CannotCastToMapException {
-		ConcurrentHashMap<K, T> map;
+		AbstractMap<K, T> map;
 		if (file.exists() && file.length() != 0) {
 			FileInputStream fileIn = new FileInputStream(file);
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
 			try {
-				map = (ConcurrentHashMap<K, T>) ois.readObject();
+				map = (AbstractMap<K, T>) ois.readObject();
 				return map;
 			} catch (ClassNotFoundException e) {
 				throw new CannotCastToMapException();
 			}
 		} else {
 			file.createNewFile();
-			return new ConcurrentHashMap<>();
+			return (AbstractMap<K, T>) new ConcurrentHashMap<>();
 		}
 
 	}

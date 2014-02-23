@@ -1,12 +1,17 @@
 package billing;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import Exceptions.CannotCastToMapException;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
 import management.Login;
+import model.LoginMessage;
+import model.Message;
 
 /**
  * provides the actual functionality of the BillingServer
@@ -26,12 +31,15 @@ public class BillingServerSecure  {
 
 	private FileHandler<String,Bill> fileHandler;
 	
+	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
 		bills=new ConcurrentHashMap<String,Bill>();
-	//	fileHandler= new FileHandler<String,Bill>("Bills");
-		//System.out.println(fileHandler.readObject(null, null).toString());
-		//fileHandler.close();
+		try {
+			fileHandler= new FileHandler<String,Bill>("bills.txt");
+		} catch (IOException e) {
+		}
+		//System.out.println(fileHandler.readObject(null).toString());
 	}
 	/**
 	 * This method returns the current configuration of price steps. 
@@ -111,6 +119,13 @@ public class BillingServerSecure  {
 				}else{
 					bills.put(user, new Bill(user, auctionID, price,step.getFixedPrice(),step.getVariablePricePercent()));
 				}
+				ConcurrentHashMap<String, Bill> map= new ConcurrentHashMap<String, Bill>();
+				map.put(user, new Bill(user, auctionID, price, step.getFixedPrice(),step.getVariablePricePercent()));
+				try {
+					fileHandler.writeMap(map);
+				} catch (IOException e) {
+					System.err.println("Could not save bill.");
+				}
 			}
 		}
 		if(fail){
@@ -119,8 +134,14 @@ public class BillingServerSecure  {
 			}else{
 				bills.put(user, new Bill(user, auctionID, price,0,0));
 			}
+			ConcurrentHashMap<String, Bill> map= new ConcurrentHashMap<String, Bill>();
+			map.put(user, new Bill(user, auctionID, price, 0,0));
+			try {
+				fileHandler.writeMap(map);
+			} catch (IOException e) {
+				System.err.println("Could not save bill.");
+			}
 		}
-		//fileHandler.writeObject(user, new Bill(user, auctionID, price));
 	}
 	
 	/**
