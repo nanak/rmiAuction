@@ -2,7 +2,6 @@ package JUnitTests;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import model.LoginMessage;
 import model.Message;
@@ -77,6 +76,7 @@ public class FileHandlerUnitTest {
 			map.put("user", bill);
 			assertTrue(fh.writeMap(map));
 			assertEquals(((Bill)(fh.readObject("user"))).toString(),"auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		10,40		1,20		0,21		1,41		\n");
+			assertTrue(fh.deleteFile());
 		} catch (IOException | CannotCastToMapException e) {
 			e.printStackTrace();
 		}
@@ -84,7 +84,12 @@ public class FileHandlerUnitTest {
 	
 //	@Test
 //	public void testDeleteFile() {
-//		assertTrue(fh.deleteFile());
+//		try {
+//			fh = new FileHandler<Integer, Message>("file.txt");
+//			assertTrue(fh.deleteFile());
+//		} catch (IOException e) {
+//		} catch (CannotCastToMapException e) {
+//		}
 //	}
 
 }

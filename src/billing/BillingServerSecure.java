@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
-
 import Exceptions.CannotCastToMapException;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 import ServerModel.FileHandler;
-import management.Login;
-import model.LoginMessage;
-import model.Message;
 
 /**
  * provides the actual functionality of the BillingServer
@@ -34,12 +30,13 @@ public class BillingServerSecure  {
 	
 	public BillingServerSecure(){
 		priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
-		bills=new ConcurrentHashMap<String,Bill>();
 		try {
 			fileHandler= new FileHandler<String,Bill>("bills.txt");
-		} catch (IOException e) {
+			bills=(ConcurrentHashMap<String, Bill>) fileHandler.readAll();
+			fileHandler.deleteFile();
+		} catch (IOException | CannotCastToMapException e) {
+			bills=new ConcurrentHashMap<String,Bill>();
 		}
-		//System.out.println(fileHandler.readObject(null).toString());
 	}
 	/**
 	 * This method returns the current configuration of price steps. 
@@ -119,13 +116,6 @@ public class BillingServerSecure  {
 				}else{
 					bills.put(user, new Bill(user, auctionID, price,step.getFixedPrice(),step.getVariablePricePercent()));
 				}
-				ConcurrentHashMap<String, Bill> map= new ConcurrentHashMap<String, Bill>();
-				map.put(user, new Bill(user, auctionID, price, step.getFixedPrice(),step.getVariablePricePercent()));
-				try {
-					fileHandler.writeMap(map);
-				} catch (IOException e) {
-					System.err.println("Could not save bill.");
-				}
 			}
 		}
 		if(fail){
@@ -133,13 +123,6 @@ public class BillingServerSecure  {
 				bills.get(user).addBillingLine(auctionID, price,0,0);
 			}else{
 				bills.put(user, new Bill(user, auctionID, price,0,0));
-			}
-			ConcurrentHashMap<String, Bill> map= new ConcurrentHashMap<String, Bill>();
-			map.put(user, new Bill(user, auctionID, price, 0,0));
-			try {
-				fileHandler.writeMap(map);
-			} catch (IOException e) {
-				System.err.println("Could not save bill.");
 			}
 		}
 	}
@@ -153,5 +136,17 @@ public class BillingServerSecure  {
 	public String getBill(String user) {
 		if(bills.containsKey(user))return bills.get(user).toString();
 		return "No bill for the user "+user+" available.";
+	}
+	
+	/**
+	 * saves all data to files
+	 */
+	public void shutdown(){
+		try {
+			fileHandler= new FileHandler<String,Bill>("bills.txt");
+			fileHandler.writeMap(bills);
+		} catch (IOException e) {
+			System.err.println("Could not save bill.");
+		}
 	}
 }
