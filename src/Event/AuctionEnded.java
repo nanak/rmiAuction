@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class AuctionEnded extends AuctionEvent {
 
 	public AuctionEnded(String iD, String type, long timestamp, long auctionID) {
@@ -9,7 +11,7 @@ public class AuctionEnded extends AuctionEvent {
 	
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Auction ended with id " + auctionID;
+		return "" + type + ": "+new Date(timestamp).toString() + " - Auction ended with id " + auctionID;
 	}
  
 }

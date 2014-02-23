@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class AuctionTimeAvg extends StatisticsEvent {
 
 	public AuctionTimeAvg(String iD, String type, long timestamp, double value) {
@@ -8,7 +10,7 @@ public class AuctionTimeAvg extends StatisticsEvent {
 	}
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Auction Time Average: " + (int)value/1000 + " seconds";
+		return "" + type + ": "+new Date(timestamp).toString() + " - Auction Time Average: " + (int)value/1000 + " seconds";
 	}
 }
  

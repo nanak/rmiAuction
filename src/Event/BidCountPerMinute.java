@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class BidCountPerMinute extends StatisticsEvent {
 
 	public BidCountPerMinute(String iD, String type, long timestamp,
@@ -10,7 +12,7 @@ public class BidCountPerMinute extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Bids/Minute: " + value;
+		return "" + type + ": "+new Date(timestamp).toString() + " - Bids/Minute: " + value;
 	}
 }
  

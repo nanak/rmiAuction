@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class UserDisconnected extends UserEvent {
 
 	public UserDisconnected(String iD, String type, long timestamp,
@@ -10,7 +12,7 @@ public class UserDisconnected extends UserEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User diconnected: " + username;
+		return "" + type + ": "+new Date(timestamp).toString() + " - User diconnected: " + username;
 	}
 }
  

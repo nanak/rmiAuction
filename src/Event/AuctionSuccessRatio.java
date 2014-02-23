@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class AuctionSuccessRatio extends StatisticsEvent {
 
 	public AuctionSuccessRatio(String iD, String type, long timestamp,
@@ -10,7 +12,7 @@ public class AuctionSuccessRatio extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Auction Success Ration: " + value;
+		return "" + type + ": "+new Date(timestamp).toString() + " - Auction Success Ration: " + value;
 	}
 }
  

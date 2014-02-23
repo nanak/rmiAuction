@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class BidWon extends BidEvent {
 
 	public BidWon(String iD, String type, long timestamp, String username,
@@ -10,7 +12,7 @@ public class BidWon extends BidEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Bid won on auction: " + auctionID + " with value " + price;
+		return "" + type + ": "+new Date(timestamp).toString() + " - Bid won on auction: " + auctionID + " with value " + price;
 	}
 }
  

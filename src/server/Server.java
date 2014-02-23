@@ -45,19 +45,22 @@ public class Server {
 	private IRemoteBillingServerSecure bss;
 	private RemoteAnalyticsTaskComputing atc;
 	private boolean active;
+	private InitRMI ir;
+	private String billingServer, analyticsServer;
 	
 	/**
 	 * The standard konstructor where are all attributes are set up and the attributes are
 	 * initialised.
 	 */
 	public Server() {
+		active = true;
 		rmiInit();
 		user= new ConcurrentHashMap<String, User>(); //Only way to get ConcurrendHashSet
-		active = true;
+		
 		auction=new ConcurrentHashMap<Integer, Auction>();
 		ahandler = new AuctionHandler(this);
 		rhandler = new RequestHandler();
-		udp = NotifierFactory.getUDPNotifer();
+//		udp = NotifierFactory.getUDPNotifer();
 		Thread athread = new Thread();
 		athread.setPriority(Thread.MIN_PRIORITY);
 		new Thread(ahandler).start();
@@ -79,8 +82,8 @@ public class Server {
 	 * @param message the message which is sended to the client.
 	 */
 	public void notify(ArrayList<User> al, String message) {
-		udp.notify(al,message);
-		System.out.println(message); //TODO only for testing after that delete
+//		udp.notify(al,message);
+//		System.out.println(message); 
 	}
 	
 	/**
@@ -91,8 +94,12 @@ public class Server {
 		try {
 			atc.processEvent(e);
 		} catch (RemoteException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//AnalyticsServer not available anymore
+			try {
+				atc = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsServer);
+			} catch (RemoteException | NotBoundException e2) {
+				System.out.println("AnalyticsServer not available anymore. Looking up next time");
+			}
 		}
 	}
 	
@@ -163,10 +170,26 @@ public class Server {
 				properties.load(stream);
 			
 				stream.close();
-				InitRMI ir = new InitRMI(properties);
+				ir  = new InitRMI(properties);
 				ir.init();
-				bss = (IRemoteBillingServerSecure) ir.lookup(properties.getProperty("rmi.billingServerSecure"));
-				atc = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
+				billingServer= properties.getProperty("rmi.billingServerSecure");
+				analyticsServer = properties.getProperty("rmi.analyticsServer");
+				try{
+					bss = (IRemoteBillingServerSecure) ir.lookup(billingServer);
+				}catch(NotBoundException ex){
+					System.out.println("BillingServer not bound! Start Server then restart!");
+					active=false;
+					return;
+				}
+				try{
+					atc = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsServer);
+				}
+				catch(NotBoundException ex){
+					System.out.println("AnalyticServer not bound! Start Analytics then restart!");
+					active=false;
+					return;
+				}
+				
 
 	            
 	        }catch (Exception e){
@@ -183,8 +206,15 @@ public class Server {
 		try {
 			bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//BillingServer not available anymore
+			//Looking him up
+			try{
+				bss = (IRemoteBillingServerSecure) ir.lookup(billingServer);
+			}
+			catch(NotBoundException | RemoteException ex){
+				//Could not receive billing server
+				System.err.println("Billing Server is not available anymore. Looking up next time");
+			}
 		}
 		
 	}

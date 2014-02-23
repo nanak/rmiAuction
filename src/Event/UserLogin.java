@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class UserLogin extends UserEvent {
 
 	public UserLogin(String iD, String type, long timestamp, String username) {
@@ -9,7 +11,7 @@ public class UserLogin extends UserEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User logged in: " + username;
+		return "" + type + ": "+new Date(timestamp).toString()+ " - User logged in: " + username;
 	}
 }
  

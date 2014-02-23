@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class UserSessionTimeMax extends StatisticsEvent {
 
 	public UserSessionTimeMax(String iD, String type, long timestamp,
@@ -10,7 +12,7 @@ public class UserSessionTimeMax extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - User Session Time Max: " + (int)value/1000 + " seconds";
+		return "" + type + ": "+new Date(timestamp).toString() + " - User Session Time Max: " + (int)value/1000 + " seconds";
 	}
 }
  

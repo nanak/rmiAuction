@@ -1,5 +1,7 @@
 package Event;
 
+import java.util.Date;
+
 public class BidPriceMax extends StatisticsEvent {
 
 	public BidPriceMax(String iD, String type, long timestamp, double value) {
@@ -9,7 +11,7 @@ public class BidPriceMax extends StatisticsEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+timestamp + " - Bid price max seen so far: " + value;
+		return "" + type + ": "+new Date(timestamp).toString()+ " - Bid price max seen so far: " + value;
 	}
 }
  
