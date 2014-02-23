@@ -41,32 +41,21 @@ public class ClientTest {
 
 	@Before
 	public void setUp() {
-		as = new AnalyticsServer();
+		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
+		String[] args=new String[0];
+		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
-		start = new StartBillingServer();
-		bs = new BillingServer(start.loginTestMap());
+		start=new StartBillingServer();
+		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		start.initRmi(bs, rbss);
-		cli = new FakeCli("");
-		
-		
-//		m = new ManagmentClient(cli);
-
-		// ServerStart.main(null);
-		
-		s = new Server(); // Generate Server object
-		int port = 5000; // Default port set
-		s.setTcpPort(port); // Set Server Port
-		ReceiveConnection r = new ReceiveConnection(port, s); // Establish
-																// Connection
+		Server s = new Server();
+		s.setTcpPort(5000);
+		ReceiveConnection r = new ReceiveConnection(5000, s);	
 		Thread t = new Thread(r);
-		t.start(); // Generate and start Thread
-	}
-
-	@After
-	public void cleanUp() {
-		s.setActive(false);
+		t.start();	
+		cli = new FakeCli("");
 	}
 	
 	@Test
@@ -129,5 +118,100 @@ public class ClientTest {
 		cli.write("!end");
 		c.run();
 	}
+	
+	
+	
+	// new tests
+//	@Test // exception wird nie geworfen, schneidet die ersten zahlen ab
+//	public void testBidTooLarge(){
+//		cli = new FakeCli("");
+//		c = new Client("127.0.0.1", serverPort, cli);
+//		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 0 1234567899.12\n!end");
+//		c.run();
+//		assertEquals("Too large amount, max 7 numbers before '.'",cli.getOutputBeforeEnd());
+//	}
+	
+	@Test
+	public void testBidWrongNumberOfArguments(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!login test\n!bid 1 123456.12 1234\n!end");
+		c.run();
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage !bid ID Amount",cli.getOutputBeforeEnd());
+	}
+	
+	@Test
+	public void testLoginWrongNumberOfArguments(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!login test test\n!end");
+		c.run();
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !login Username",cli.getOutputOnIndex(1));
+	}
+	
+	@Test
+	public void testBidNotLoggedIn(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!bid 1 123456.12 1234\n!end");
+		c.run();
+		assertEquals("Currently not logged in\nPlease login first",cli.getOutputOnIndex(1));
+	}
+	
+	@Test
+	public void testBidNotANumber(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 1 asdf\n!end");
+		c.run();
+		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
+	}
+	@Test
+	public void testNoSuchCommand(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!loiigiin test1\n!end");
+		c.run();
+		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(1));
+	}
+	@Test
+	public void testDoubleLogin(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!login test1\n!login test2\n!end");
+		c.run();
+		assertEquals("Already logged in, logout first!",cli.getOutputBeforeEnd());
+	}
+	@Test
+	public void testCreateNotLoggedIn(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!create 25200 Super small notebook\n!end");
+		c.run();
+		assertEquals("Currently not logged in\nPlease login first",cli.getOutputOnIndex(1));
+	}
+	@Test
+	public void testLogoutNotLoggedIn(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		cli.write("!logout\n!end");
+		c.run();
+		assertEquals("Logout not possible, not logged in!",cli.getOutputOnIndex(1));
+	}
+	
+	@Test
+	public void testGetCli(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		assertEquals(cli, c.getCli());
+	}
+	
+	@Test
+	public void testGetTcpPort(){
+		cli = new FakeCli("");
+		c = new Client("127.0.0.1", serverPort, cli);
+		assertEquals(5000, c.getTcpPort());
+	}
+	
 	
 }
