@@ -46,30 +46,11 @@ public class StartBillingServer {
 			in.nextLine();
 			System.out.println("Server ending!");
 		}//If Enter Button pressed, Server will end
+		saveUserMap(loginMap());
 		bs.shutdown();
 	}
 	
 	
-	 /**
-	  * loginMap for testingpurposes
-	  * @return
-	  */
-	 public static ConcurrentHashMap<String,byte[]> loginTestMap(){
-		 byte[] bytesOfMessage;
-			MessageDigest md;
-			try {
-				bytesOfMessage = "test".getBytes("UTF-8");
-				md = MessageDigest.getInstance("MD5");
-				byte[] thedigest = md.digest(bytesOfMessage);
-				ConcurrentHashMap<String,byte[]> ret = new ConcurrentHashMap<String,byte[]>();
-				ret.put("test", thedigest);
-				return ret;
-			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-	 }
 	 
 	 /**
 	  * loginMap from Properties File
@@ -103,6 +84,8 @@ public class StartBillingServer {
 					thedigest = md.digest(bytesOfMessage);
 					properties.put("test", new String(thedigest));
 					File f = new File("user.properties");
+					if(f.exists())
+						f.delete();
 					f.createNewFile();
 					PrintWriter pw = new PrintWriter (new FileOutputStream(f));
 					properties.store(pw, null);
