@@ -41,17 +41,17 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private UI ui;
 
-	private static CommandFactory commandFactory;
+	private CommandFactory commandFactory;
 
-	private static RemoteBillingServer billingServer;
+	private RemoteBillingServer billingServer;
 
 	private RemoteAnalyticsTaskComputing analyticTaskComputing;
 
-	private static IRemoteBillingServerSecure billingServerSecure;
+	private IRemoteBillingServerSecure billingServerSecure;
 	
 	private String uniqueID;
 
-	InitRMI ir;
+	private InitRMI ir;
 	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
 	private Command c;

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import analytics.exceptions.AuctionEndedButNotStartedException;
+import analytics.exceptions.InvalidUserLogoutException;
 import Event.AuctionEnded;
 import Event.AuctionEvent;
 import Event.AuctionStarted;
@@ -81,12 +83,8 @@ public class EventHandler implements Runnable{
 					break;
 				as.getDispatchedEvents().add(event);
 			} catch (InterruptedException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-//			while(!as.getIncomingEvents().isEmpty()){
-//				System.out.println("Got event");
-//				System.out.println(event.getType());
 				
 				
 				/**
@@ -112,7 +110,12 @@ public class EventHandler implements Runnable{
 						UserEvent ul = logedInUser.get(((UserEvent) event).getUsername());
 						
 						if(ul == null)
-							System.out.println("User logged out, but didn't log in -> Check your server");
+							try {
+								throw new InvalidUserLogoutException();
+							} catch (InvalidUserLogoutException e1) {
+								System.out.println(e1.getMessage());
+								continue;
+							}
 						else{
 							logedInUser.remove(ul); //Delete him from list
 							//Calculate SessionTime
@@ -126,7 +129,6 @@ public class EventHandler implements Runnable{
 								try {
 									as.getDispatchedEvents().put(umaxEvent);
 								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
@@ -139,7 +141,6 @@ public class EventHandler implements Runnable{
 								try {
 									as.getDispatchedEvents().put(uminEvent);
 								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
 							}
@@ -155,7 +156,6 @@ public class EventHandler implements Runnable{
 							try {
 								as.getDispatchedEvents().put(umaxEvent);
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 							
@@ -174,14 +174,21 @@ public class EventHandler implements Runnable{
 						auctions.put(aevent.getAuctionID(), (AuctionStarted)aevent);
 					}
 					else if(aevent instanceof AuctionEnded){
-						
+						//Get corresponding auctionStarted Event
+						AuctionStarted astarted = auctions.get(aevent.getAuctionID());
+						if(astarted == null)
+							try {
+								throw new AuctionEndedButNotStartedException();
+							} catch (AuctionEndedButNotStartedException e1) {
+								System.out.println("Auction ended but there is no startauction -> Therefore no Calculation for Statistics");
+								continue;
+							}
 						auctionsEnded++;
 						System.out.println(aevent.getAuctionID());
 						//Test if auction was successfull
 						if(bidAuctionIDs.contains(aevent.getAuctionID()))
 							auctionSuccessfull++;
-						//Get corresponding auctionStarted Event
-						AuctionStarted astarted = auctions.get(aevent.getAuctionID());
+						
 						long atime = aevent.getTimestamp() - astarted.getTimestamp();
 						auctionTimeSUM += atime;
 						auctionTimeAVG = auctionTimeSUM/auctionsEnded;
@@ -192,7 +199,6 @@ public class EventHandler implements Runnable{
 						try {
 							as.getDispatchedEvents().put(atavg);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						//Calculate successRatio
@@ -208,7 +214,7 @@ public class EventHandler implements Runnable{
 						try {
 							as.getDispatchedEvents().put(asuc);
 						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
+
 							e.printStackTrace();
 						}
 					}
@@ -237,25 +243,9 @@ public class EventHandler implements Runnable{
 							try {
 								as.getDispatchedEvents().put(bm);
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						}
-							
-						//Get Time how long system is running and calculate bidcount/minute
-//						Date now = new Date();
-//						int minutes = (int)((now.getTime() - running)/1000)/60 + 1; //Round to full minutes upwards
-//						double bpm = bidCount/minutes;
-//						//Send event
-//						now = new Date();
-//						BidCountPerMinute bp = new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bpm);
-						//Try to push event into Queue
-//						try {
-//							as.getDispatchedEvents().put(bp);
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
 					}
 				
 			}	
