@@ -102,6 +102,9 @@ public class AnalyticsServer {
 	 */
 	public String subscribe(String regex, ClientInterface ci){
 	
+		//Delete ' or " from regex
+		regex = regex.replaceAll("\"", "");
+		regex = regex.replaceAll("\'", "");
 		//Iterate over all Keys
 		Set<String> keyset = subscriptions.keySet();
 		Iterator<String> it = keyset.iterator();
