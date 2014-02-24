@@ -201,6 +201,26 @@ public class AnalyticsServer {
 				,"BID_PRICE_MAX","BID_COUNT_PER_MINUTE"};
 		return events;
 	}
+	/**
+	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
+	 * 
+	 * @param atc	AnalyticsTaskComputing which is exported into the registry
+	 * @param analyticServerName RMIname for the analyticserver
+	 * @return true if successfull
+	 */
+	 private boolean initRmi(AnalyticTaskComputing analytics, String analyticServerName) throws RemoteException{
+		 Properties properties = new Properties();
+		 if(analyticServerName == null){
+			 return initRmi(analytics);
+		 }
+		 properties.put("rmi.analyticsServer", analyticServerName);
+		 ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
+         System.out.println("AnalyticsServer bound");
+		 
+		 return true;
+	 }
 	
 	/**
 	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
@@ -224,11 +244,8 @@ public class AnalyticsServer {
 				properties.load(stream);
 			
 				stream.close();
-				ir = new InitRMI(properties);
-				ir.init();
-				ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
-	            System.out.println("AnalyticsServer bound");
-
+				
+				return initRmi(analytics, properties.getProperty("rmi.analyticsServer"));
 	            
 	        }catch (Exception e){
 	        	e.printStackTrace();
