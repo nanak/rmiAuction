@@ -134,7 +134,29 @@ public class AnalyticsServer {
 		else
 			return "No Matching Events for your pattern found";
 	}
-	
+	 /**
+	  * Iterates throug notification list and deletes specific notifications for one ID
+	  * 
+	  * @param subsId	NotificationID which shall be canceled
+	  * @return
+	  */
+	public String unsubscribe(String subsId) {
+		boolean canceled = false;
+		//Iterator through map
+		Iterator<String> it = subscriptions.keySet().iterator();
+		while(it.hasNext()){
+			ConcurrentHashMap<String, ClientInterface> clientPEvent = subscriptions.get(it.next());
+			if(clientPEvent.remove(subsId)!=null)
+				canceled = true;
+		}
+		if(canceled)
+			return "Subscription " + subsId + "successfully canceled";
+		else
+			return "No subscription found";
+		// TODO Auto-generated method stub
+		
+	}
+	 
 	/**
 	 * Notifies Clients that new Events have occurred
 	 */
@@ -271,28 +293,6 @@ public class AnalyticsServer {
 	        }
 		 return true;
 	 }
-	 /**
-	  * Iterates throug notification list and deletes specific notifications for one ID
-	  * 
-	  * @param subsId	NotificationID which shall be canceled
-	  * @return
-	  */
-	public String unsubscribe(String subsId) {
-		boolean canceled = false;
-		//Iterator through map
-		Iterator<String> it = subscriptions.keySet().iterator();
-		while(it.hasNext()){
-			ConcurrentHashMap<String, ClientInterface> clientPEvent = subscriptions.get(it.next());
-			if(clientPEvent.remove(subsId)!=null)
-				canceled = true;
-		}
-		if(canceled)
-			return "Subscription " + subsId + "successfully canceled";
-		else
-			return "No subscription found";
-		// TODO Auto-generated method stub
-		
-	}
-	 
+
 }
  
