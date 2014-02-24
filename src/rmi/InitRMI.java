@@ -39,6 +39,7 @@ public class InitRMI {
 	}
 	
 	public int init(){
+		System.out.println("Init registry");
 		registry = null;
         try{
 //        	System.out.println("Getting registry");

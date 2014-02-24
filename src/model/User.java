@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  * Represents a user and all his important data
  * @author Tobias Schuschnig <tschuschnig@student.tgm.ac.at>
  *
  */
-public class User {
+public class User implements Serializable{
 	private String name;
 	private String adresse;
 	private int udpPort;

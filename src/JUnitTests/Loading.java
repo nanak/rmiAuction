@@ -39,6 +39,7 @@ public class Loading {
 	private ConcurrentHashMap<String, byte[]> ret;
 	private StartBillingServer start;
 	private Server s;
+	private LoadTest l;
 	
 	/**
 	 * starts analyticsserver and billingserver as their mains would
@@ -70,12 +71,12 @@ public class Loading {
 	public void end(){
 		as.shutdown();
 		bs.shutdown();
-		
+		if(l!=null)
+			l.shutdown();
 		s.setActive(false);
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -84,14 +85,14 @@ public class Loading {
 	 */
 	@Test
 	public void constTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		l = new LoadTest("localhost", 5000, "loadtest.properties");
+		
+//		l.shutdown();
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		l.shutdown();
 	}
 	/**
 	 * tests the CreateTask
@@ -105,7 +106,6 @@ public class Loading {
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		t.cancel();
@@ -122,7 +122,6 @@ public class Loading {
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(20, r.length(), 0);
