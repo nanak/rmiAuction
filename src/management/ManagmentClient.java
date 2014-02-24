@@ -128,11 +128,20 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					cmd=line.split(" ");
 					if(line.equals("!end")){
 						if(secure==true){
-							logout[0]="!logout";
-							logout[1]=username;
-							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
-							billingServerSecure=null;
-							username="";
+							try{
+								logout[0]="!logout";
+								logout[1]=username;
+								ui.outM((String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
+								billingServerSecure=null;
+								username="";
+							}catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer is not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 							
 						}
 						ui.outM("Management Client is shutting down!");
@@ -142,20 +151,27 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					}
 					else if(cmd[0].equals("!login")){
 						c= commandFactory.createCommand(cmd);
-//						ui.outM((String) c.execute(cmd));
 						Login l = (Login)c;
-//						System.err.println(new String(l.getPw()));
-						billingServerSecure=billingServer.login(l);
-						if(billingServerSecure == null){
-							ui.outM("Wrong password!");
+//						try{ 
+							billingServerSecure=billingServer.login(l);
+							if(billingServerSecure == null){
+								ui.outM("Wrong password!");
+							}
+							else{
+								secure=true;
+								username=cmd[1];
+								ui.outM("Successfully logged in");
+							}
 						}
-						else{
-							secure=true;
-							username=cmd[1];
-							ui.outM("Successfully logged in");
-						}
-								
-					}
+//						catch(RemoteException | NullPointerException e){
+//							try {
+//								billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+//								ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+//							} catch (NotBoundException | RemoteException  ex) {
+//								ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+//							}	
+//						}
+//					}
 					else if(cmd[0].equals("!print")){
 						Iterator<Event> it = events.iterator();
 						while(it.hasNext()){
@@ -210,7 +226,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									
 								} catch (NotBoundException | RemoteException  ex) {
 									ui.outM("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
-									
+									 
 								}	
 							}
 							
@@ -221,15 +237,35 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							usernameLogout=new String[2];
 							usernameLogout[0]=cmd[0];
 							usernameLogout[1]=username;
-							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
-							ui.outM(anwser);
-							username=""; 
-							billingServerSecure=null;
-							secure=false;
+							try{
+								anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
+								ui.outM(anwser);
+								username=""; 
+								billingServerSecure=null;
+								secure=false;
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 						}
 						else{
-							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
-							ui.outM(anwser);
+							try{ 
+								anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
+								ui.outM(anwser);
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 						}
 					}	
 					else{	
