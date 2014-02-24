@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * Saves important data for an auction
  * @author Tobias Schuschnig <tschuschnig@student.tgm.ac.at>
  *
  */
-public class Auction {
+public class Auction implements Serializable {
 	private int id;
 	private double highestBid;
 	private User lastUser,owner;

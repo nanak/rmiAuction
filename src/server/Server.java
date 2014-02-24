@@ -3,6 +3,7 @@ package server;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ import model.Message;
 import model.User;
 import rmi.InitRMI;
 import Event.Event;
+import Exceptions.CannotCastToMapException;
 import Exceptions.WrongNumberOfArgumentsException;
+import ServerModel.FileHandler;
 import analytics.RemoteAnalyticsTaskComputing;
 import billing.BillingServer;
 import billing.IRemoteBillingServerSecure;
@@ -46,6 +49,8 @@ public class Server {
 	private InitRMI ir;
 	private String billingServer, analyticsServer;
 	private String username = "auction", pw = "auctionpw";
+	private FileHandler<String, User> fuser;
+	private FileHandler<Integer, Auction> fauction;
 
 	/**
 	 * The standard konstructor where are all attributes are set up and the
@@ -54,10 +59,25 @@ public class Server {
 	public Server() {
 		active = true;
 		if(rmiInit()){
-			user = new ConcurrentHashMap<String, User>(); // Only way to get
-															// ConcurrendHashSet
+//			user = new ConcurrentHashMap<String, User>(); // Only way to get
+//															// ConcurrendHashSet
 	
-			auction = new ConcurrentHashMap<Integer, Auction>();
+			try {
+				fuser = new FileHandler<>("users.file");
+				fauction = new FileHandler<>("auctions.file");
+			} catch (IOException e) {
+				
+			}
+			try {
+				auction = (ConcurrentHashMap<Integer, Auction>) fauction.readAll();
+				user = (ConcurrentHashMap<String, User>) fuser.readAll();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CannotCastToMapException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//new ConcurrentHashMap<Integer, Auction>();
 			ahandler = new AuctionHandler(this);
 			rhandler = new RequestHandler();
 			// udp = NotifierFactory.getUDPNotifer();
@@ -189,6 +209,12 @@ public class Server {
 
 	}
 
+	/**
+	 * Logs the Server in on a RemoteBillingServer
+	 * 
+	 * @param bs	BillingServer on which shall be logged in
+	 * @return	True if Logging was successful, false if not 
+	 */
 	public boolean login(RemoteBillingServer bs) {
 		Login login = new Login();
 		try {
@@ -207,6 +233,18 @@ public class Server {
 			System.out.println("Could not find BillingServer");
 		}
 		return false;
+	}
+	/**
+	 * Saves all user and auctions to a file
+	 */
+	public void shutdown(){
+		try {
+			fauction.writeMap(auction);
+			fuser.writeMap(user);
+		} catch (IOException | NullPointerException e) {
+			
+		}
+		
 	}
 
 	/**
