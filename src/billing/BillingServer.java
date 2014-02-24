@@ -132,6 +132,7 @@ public class BillingServer implements RemoteBillingServer {
 	  */
 	 public void shutdown(){
 		 try {
+			
 			ir.unexport(bs);
 			ir.unexport(bss);
 		} catch (NoSuchObjectException e) {

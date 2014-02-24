@@ -14,7 +14,7 @@ import Client.TaskExecuter;
  * @author Michaela Lipovits
  * @version 20140209
  */
-public class TestingComponent {
+public class LoadTest {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
@@ -72,7 +72,7 @@ public class TestingComponent {
 		}
 		mcli=new FakeCli("!subscribe .* \n!auto");
 		m =new ManagmentClient(mcli);
-		new TestingComponent(hostname,port,filename);
+		new LoadTest(hostname,port,filename);
 		
 		
 	}
