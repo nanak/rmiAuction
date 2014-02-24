@@ -114,7 +114,7 @@ public class AnalyticsServer {
 			return "Your pattern is invalid!";
 		}
 		boolean foundMatch = false;
-		String subsid=id+"_"+pattern;
+		String subsid=id+"";
 		while(it.hasNext()){
 			String compare = it.next();			
 			Matcher matcher = pattern.matcher(compare);
@@ -125,7 +125,7 @@ public class AnalyticsServer {
 		}
 		if(foundMatch){
 			id++;
-			return subsid;
+			return "Created subscription with ID " + subsid + " with filter "+regex;
 		}
 			
 		else

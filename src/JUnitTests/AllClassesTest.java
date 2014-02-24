@@ -13,7 +13,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({BillingServerSecureTest.class, ServerTest.class, EventHandlerTest.class,AddStepTest.class, BillTest.class, LoginTest.class, LogoutTest.class, RemoveStepTest.class, StepsTest.class,
+@SuiteClasses({EventTest.class, BillingServerSecureTest.class, ServerTest.class, EventHandlerTest.class,AddStepTest.class, BillTest.class, LoginTest.class, LogoutTest.class, RemoveStepTest.class, StepsTest.class,
 	CommandFactoryTest.class, ManagementClientTest.class, PropertiesTest.class, FakeCliTest.class, Loading.class, ClientTest.class, FileHandlerUnitTest.class })
 public class AllClassesTest {
 	

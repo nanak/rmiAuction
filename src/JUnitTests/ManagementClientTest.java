@@ -56,8 +56,8 @@ public class ManagementClientTest {
 	 */
 	@After
 	public void end(){
-//		bs.shutdown();
-//		as.shutdown();
+		bs.shutdown();
+		as.shutdown();
 	}
 	/**
 	 * tests the login userinput
