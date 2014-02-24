@@ -5,16 +5,22 @@ import java.io.FileInputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
+import management.Login;
 import model.Auction;
 import model.Message;
 import model.User;
 import rmi.InitRMI;
 import Event.Event;
+import Exceptions.WrongNumberOfArgumentsException;
 import analytics.RemoteAnalyticsTaskComputing;
+import billing.BillingServer;
 import billing.IRemoteBillingServerSecure;
+import billing.RemoteBillingServer;
 import connect.Notifier;
 
 /**
@@ -36,6 +42,7 @@ public class Server {
 	private boolean active;
 	private InitRMI ir;
 	private String billingServer, analyticsServer;
+	private String username="auction", pw="auctionpw";
 	
 	/**
 	 * The standard konstructor where are all attributes are set up and the attributes are
@@ -52,6 +59,7 @@ public class Server {
 //		udp = NotifierFactory.getUDPNotifer();
 		Thread athread = new Thread(ahandler);
 		athread.setPriority(Thread.MIN_PRIORITY);
+		athread.start();
 		
 	}
 
@@ -91,8 +99,93 @@ public class Server {
 			}
 		}
 	}
-	
 
+	/**
+	 * Intialises the RMI Connections.
+	 * Looksup the AnalyticsServer and looksup the BillingServer.
+	 * After that it logs in on the BillingServer in order to get the BillingServer Secure
+	 */
+	private void rmiInit(){
+		try {
+			 Properties properties = new Properties();
+				// neuen stream mit der messenger.properties Datei erstellen
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				
+				properties.load(stream);
+			
+				stream.close();
+				ir  = new InitRMI(properties);
+				ir.init();
+				billingServer= properties.getProperty("rmi.billingServer");
+				analyticsServer = properties.getProperty("rmi.analyticsServer");
+				try{
+					RemoteBillingServer bs = (RemoteBillingServer) ir.lookup(billingServer);
+					login(bs);
+				}catch(NotBoundException ex){
+					System.out.println("BillingServer not bound! Start Server then restart!");
+					active=false;
+					return;
+				}
+				try{
+					atc = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsServer);
+				}
+				catch(NotBoundException ex){
+					System.out.println("AnalyticServer not bound! Start Analytics then restart!");
+					active=false;
+					return;
+				}
+				
+
+	            
+	        }catch (Exception e){
+	        	e.printStackTrace();
+	        }
+		
+	
+	}
+	/**
+	 * Bills an Auction on the billing server
+	 * @param auction
+	 */
+	public void billAuction(Auction auction) {
+		try {
+			bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
+		} catch (RemoteException e) {
+			//BillingServer not available anymore
+			//Looking him up
+			try{
+				RemoteBillingServer bs = (RemoteBillingServer) ir.lookup(billingServer);
+				if(login(bs)){
+					bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
+				}
+			}
+			catch(NotBoundException | RemoteException ex){
+				//Could not receive billing server
+				System.err.println("Billing Server is not available anymore. Looking up next time");
+			}
+		}
+		
+	}
+	
+	public boolean login(RemoteBillingServer bs){
+		Login login = new Login();
+		try {
+			login.execute(new String[] {"!login",username,pw});
+		} catch (WrongNumberOfArgumentsException e) {
+			System.out.println("Login not possible with these arguments");
+		}
+		try {
+			bss = bs.login(login);
+			if(bss != null){
+				System.out.println("Successfully logged in on billing server");
+				return true;
+			}
+				
+		} catch (RemoteException e) {
+			System.out.println("Could not find BillingServer");
+		}
+		return false;
+	}
 	
 	/**
 	 * @return the tcpPort
@@ -148,71 +241,5 @@ public class Server {
 	}
 	public void setActive(boolean active){
 		this.active=active;
-	}
-	
-	private void rmiInit(){
-		try {
-			 Properties properties = new Properties();
-				// neuen stream mit der messenger.properties Datei erstellen
-				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-				
-				properties.load(stream);
-			
-				stream.close();
-				ir  = new InitRMI(properties);
-				ir.init();
-				billingServer= properties.getProperty("rmi.billingServerSecure");
-				analyticsServer = properties.getProperty("rmi.analyticsServer");
-				try{
-					bss = (IRemoteBillingServerSecure) ir.lookup(billingServer);
-				}catch(NotBoundException ex){
-					System.out.println("BillingServer not bound! Start Server then restart!");
-					active=false;
-					return;
-				}
-				try{
-					atc = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsServer);
-				}
-				catch(NotBoundException ex){
-					System.out.println("AnalyticServer not bound! Start Analytics then restart!");
-					active=false;
-					return;
-				}
-				
-
-	            
-	        }catch (Exception e){
-	        	e.printStackTrace();
-	        }
-		
-	
-	}
-	/**
-	 * Bills an Auction on the billing server
-	 * @param auction
-	 */
-	public void billAuction(Auction auction) {
-		try {
-			bss.billAuction(auction.getOwner().getName(), auction.getId(), auction.getHighestBid());
-		} catch (RemoteException e) {
-			//BillingServer not available anymore
-			//Looking him up
-			try{
-				bss = (IRemoteBillingServerSecure) ir.lookup(billingServer);
-			}
-			catch(NotBoundException | RemoteException ex){
-				//Could not receive billing server
-				System.err.println("Billing Server is not available anymore. Looking up next time");
-			}
-		}
-		
-	}
-	/**
-	 * Kills the Server immediatly!
-	 * For testing purposes only
-	 */
-	public void kill(){
-		ahandler = null;
-		
 	}
 }

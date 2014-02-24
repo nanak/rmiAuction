@@ -292,14 +292,14 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cli.write("\n!bid 1 asdf\n!end");
+		cli.write("\n!bid sd 1\n!end");
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(5));
+		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
 	}
 	@Test
 	public void testNoSuchCommand(){

@@ -227,7 +227,7 @@ public class AnalyticsServer {
 				ir = new InitRMI(properties);
 				ir.init();
 				ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
-//	            System.out.println("AnalyticsServer bound");
+	            System.out.println("AnalyticsServer bound");
 
 	            
 	        }catch (Exception e){

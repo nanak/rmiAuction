@@ -117,9 +117,9 @@ public class BillingServer implements RemoteBillingServer {
 			ir = new InitRMI(properties);
 			ir.init();
 			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
-//            System.out.println("BillingServer bound");
+            System.out.println("BillingServer bound");
 			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
-//            System.out.println("BillingServerSecure bound");
+            System.out.println("BillingServerSecure bound");
 			 
 		 }catch(Exception e){
 			 //TODO Handeln
