@@ -328,6 +328,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	 * @param server wich Servername (true if billing, false if analytic)
 	 */
 	private void initRMI(String servername, boolean server){
+		if(servername==null){
+			initRMI();
+			return;
+		}
 		try{
 			Properties properties = new Properties();
 			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
