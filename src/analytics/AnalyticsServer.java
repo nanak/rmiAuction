@@ -34,8 +34,8 @@ public class AnalyticsServer {
 	private EventHandler eh;
 	private InitRMI ir; //RMI Stub for export/unexport
 	private static int id = 0; //Saves all subsrciption IDs
-	AnalyticTaskComputing remoteTask;
-	Timer bidTimer; //Timer for BidCountPerMinute
+	private AnalyticTaskComputing remoteTask;
+	private Timer bidTimer; //Timer for BidCountPerMinute
 	 
 	/**
 	 * Starts the EventHandler and the Timer to schedule the BidCount per Minute
