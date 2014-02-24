@@ -209,7 +209,20 @@ public class AnalyticsServer {
 	 * @return true if successfull
 	 */
 	 private boolean initRmi(AnalyticTaskComputing analytics, String analyticServerName) throws RemoteException{
+		 try{
 		 Properties properties = new Properties();
+		 File f = new File("Server.properties");
+			if(!f.exists()){
+					System.out.println("Properties File doesn't exist. Server shutting down.");
+					return false;
+			}
+				
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
 		 if(analyticServerName == null){
 			 return initRmi(analytics);
 		 }
@@ -218,6 +231,9 @@ public class AnalyticsServer {
 			ir.init();
 			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
          System.out.println("AnalyticsServer bound");
+		 }catch(Exception e){
+			 //TODO handeln
+		 }
 		 
 		 return true;
 	 }
