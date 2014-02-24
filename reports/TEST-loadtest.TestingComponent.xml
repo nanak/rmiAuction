@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.BillingServerSecureTest" skipped="0" tests="10" time="0.083" timestamp="2014-02-24T10:34:05">
+<testsuite errors="2" failures="0" hostname="Daniel-HP" name="loadtest.TestingComponent" skipped="0" tests="2" time="0.014" timestamp="2014-02-24T10:36:59">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />
@@ -85,16 +85,14 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="your.BillingServer" />
   </properties>
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTest" time="0.004" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="deletePriceStepTest" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTest" time="0.008" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="toStringTest" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTestIntervalDoesNotExist" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException2" time="0.002" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException3" time="0.002" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="getBillTestFalse" time="0.001" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="shutdownAndLoad" time="0.046" />
+  <testcase classname="loadtest.TestingComponent" name="initializationError" time="0.002">
+    <error message="Test class should have exactly one public zero-argument constructor" type="java.lang.Exception">java.lang.Exception: Test class should have exactly one public zero-argument constructor
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+</error>
+    <error message="No runnable methods" type="java.lang.Exception">java.lang.Exception: No runnable methods
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+</error>
+  </testcase>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

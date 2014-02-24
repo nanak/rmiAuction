@@ -1,0 +1,7 @@
+Testsuite: JUnitTests.RemoveStepTest
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,289 sec
+
+Testcase: removeStepOk took 0,001 sec
+Testcase: removeStepWrongNumber took 0,001 sec
+Testcase: removeStepWrongInput took 0,001 sec
+Testcase: removeStepNonExistant took 0,002 sec

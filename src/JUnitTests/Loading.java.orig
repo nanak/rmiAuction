@@ -7,7 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.CreateTask;
 import loadtest.FakeCli;
+<<<<<<< HEAD:src/JUnitTests/Loading.java
+import loadtest.TestingComponent;
+import management.AddStep;
+=======
 import loadtest.LoadTest;
+>>>>>>> 945fd27d236fcbbfd52a86f7aaf96809a38e54c0:src/JUnitTests/LoadTestTest.java
 import management.ManagmentClient;
 
 import org.junit.After;
@@ -25,12 +30,16 @@ import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 import connect.ReceiveConnection;
 
+<<<<<<< HEAD:src/JUnitTests/Loading.java
+public class Loading {
+=======
 /**
  * Tests the {@link LoadTest} class
  * @author Michaela Lipovits
  * @version 20140221
  */
 public class LoadTestTest {
+>>>>>>> 945fd27d236fcbbfd52a86f7aaf96809a38e54c0:src/JUnitTests/LoadTestTest.java
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
 	private AnalyticsServer as;
@@ -81,13 +90,14 @@ public class LoadTestTest {
 	 */
 	@Test
 	public void constTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		l.shutdown();
 	}
 	/**
 	 * tests the CreateTask
@@ -112,7 +122,7 @@ public class LoadTestTest {
 	 */
 	@Test
 	public void randomStringTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
 		
 		String r=l.randomString(20);
 		try {
@@ -122,7 +132,7 @@ public class LoadTestTest {
 			e.printStackTrace();
 		}
 		assertEquals(20, r.length(), 0);
-		
+		l.shutdown();
 	}
 
 }

@@ -1,0 +1,87 @@
+Testsuite: JUnitTests.ServerTest
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 50,48 sec
+------------- Standard Error -----------------
+Exception in thread "Timer-26" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-38" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-58" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-46" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-42" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-34" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-54" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-30" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-50" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-99" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-91" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-75" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-71" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-83" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-95" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-79" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-87" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-67" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+------------- ---------------- ---------------
+
+Testcase: testRequestLogin took 5,027 sec
+Testcase: testRequestCreate took 5,018 sec
+Testcase: testRequestLogout took 5,018 sec
+Testcase: testGetTcpPort took 5,019 sec
+Testcase: testRequestBid took 5,021 sec
+Testcase: testIsActive took 5,016 sec
+Testcase: testRequestList took 5,031 sec
+Testcase: testSetTcpPort took 5,028 sec
+Testcase: testSetUser took 5,023 sec
+Testcase: testSetAuction took 5,177 sec
