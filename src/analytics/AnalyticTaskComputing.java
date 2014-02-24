@@ -1,10 +1,7 @@
 package analytics;
 
-import java.rmi.Remote;
-
-
-import Event.Event;
 import management.ClientInterface;
+import Event.Event;
 
 /**
  * RemoteKlasse des AnalyticsSercer

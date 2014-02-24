@@ -1,11 +1,21 @@
 package management;
 
-import billing.BillingServerSecure;
 import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
+/**
+ * Class logout, which logs the user out.
+ * 
+ * @author Michaela Lipovits
+ * @version 20140216
+ */
 public class Logout extends SecureCommand<String> {
 	
 	private BillingServerSecure bss;
+	/**
+	 * Executes the Logout.
+	 * @param cmd cmd[1]=username
+	 */
 	@Override
 	public String execute(String[] cmd) throws WrongNumberOfArgumentsException {
 		if(cmd.length!=2){

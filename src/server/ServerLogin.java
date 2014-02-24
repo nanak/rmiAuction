@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import Event.UserLogin;
 import model.LoginMessage;
 import model.Message;
 import model.User;
+import Event.UserLogin;
 
 /**
  * This class is responsible for a functionality off the server.

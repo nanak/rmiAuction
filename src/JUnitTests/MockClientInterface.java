@@ -2,8 +2,8 @@ package JUnitTests;
 
 import java.util.ArrayList;
 
-import Event.Event;
 import management.ClientInterface;
+import Event.Event;
 
 public class MockClientInterface implements ClientInterface{
 	public ArrayList<Event> events;

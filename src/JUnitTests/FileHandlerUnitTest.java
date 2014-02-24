@@ -1,15 +1,21 @@
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
+
 import model.LoginMessage;
 import model.Message;
+
 import org.junit.Before;
 import org.junit.Test;
-import billing.Bill;
+
 import Exceptions.CannotCastToMapException;
 import ServerModel.FileHandler;
+import billing.Bill;
 
 /**
  * Tests all functions from filehandler

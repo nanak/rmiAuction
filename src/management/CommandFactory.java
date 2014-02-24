@@ -1,6 +1,7 @@
 package management;
 
-import Exceptions.*;
+import Exceptions.CommandIsSecureException;
+import Exceptions.CommandNotFoundException;
 
 /**
  * Class CommandFactory, which creates Commands matching the Userinput.
@@ -15,7 +16,7 @@ public class CommandFactory {
 
 	/**
 	 * Method createCommand, which reads the first word of the array, and returns the matching command.
-	 * Throws CommandNotFoundException if the Command cannot be found.
+	 * Throws CommandNotFoundException if the Command cannot be found and ComandIsSecureException if the given Command is secure.
 	 * 
 	 * @param args String[] of the user input
 	 * @return Command which matches the userinput
@@ -35,6 +36,15 @@ public class CommandFactory {
 			throw new CommandNotFoundException(allowed);
 		}
 	}
+	/**
+	 * Method createSecureCommand, which reads the first word of the array, and returns the matching secure command.
+	 * Throws CommandNotFoundException if the Command cannot be found.
+	 * 
+	 * @param args String[] of the user input
+	 * @return Command which matches the userinput
+	 * @throws CommandNotFoundException if the input doesnt match any Command
+	 * @throws CommandIsSecureException 
+	 */
 	public SecureCommand createSecureCommand(String[] args) throws CommandNotFoundException{
 		if(args[0].equals("!addStep")){
 			return new AddStep();

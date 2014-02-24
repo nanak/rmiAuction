@@ -2,10 +2,11 @@ package billing;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import management.SecureCommand;
-import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
 
 public interface IRemoteBillingServerSecure extends Remote{
 

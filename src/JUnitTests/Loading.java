@@ -1,6 +1,6 @@
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,15 +8,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import loadtest.CreateTask;
 import loadtest.FakeCli;
 import loadtest.TestingComponent;
-import management.AddStep;
 import management.ManagmentClient;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import connect.ReceiveConnection;
 import server.Server;
 import Client.Client;
 import Client.TaskExecuter;
@@ -26,8 +23,14 @@ import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
+import connect.ReceiveConnection;
 
-public class Loading {
+/**
+ * Tests the {@link LoadTest} class
+ * @author Michaela Lipovits
+ * @version 20140221
+ */
+public class LoadTestTest {
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
 	private AnalyticsServer as;
@@ -37,6 +40,9 @@ public class Loading {
 	private StartBillingServer start;
 	private Server s;
 	
+	/**
+	 * starts analyticsserver and billingserver as their mains would
+	 */
 	@Before
 	public void setUp() {	
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
@@ -73,6 +79,9 @@ public class Loading {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * tests the constructoe of LoadTest
+	 */
 	@Test
 	public void constTest(){
 		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
@@ -84,6 +93,9 @@ public class Loading {
 		}
 		l.shutdown();
 	}
+	/**
+	 * tests the CreateTask
+	 */
 	@Test 
 	public void auctionTest(){
 		Client cl=new Client("localhost", 5000, new FakeCli(""));
@@ -99,6 +111,9 @@ public class Loading {
 		t.cancel();
 		t.purge();
 	}
+	/**
+	 * Tests if the randomString method creates the string with the correct length
+	 */
 	@Test
 	public void randomStringTest(){
 		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
@@ -113,4 +128,5 @@ public class Loading {
 		assertEquals(20, r.length(), 0);
 		l.shutdown();
 	}
+
 }

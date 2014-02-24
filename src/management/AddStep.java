@@ -1,9 +1,9 @@
 package management;
 
-import billing.BillingServerSecure;
-import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
+import billing.BillingServerSecure;
 
 /**
  * This class provides a method to add steps.

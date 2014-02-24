@@ -1,18 +1,13 @@
 package loadtest;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import management.ManagmentClient;
 import Client.Client;
-import Client.TCPConnector;
 import Client.TaskExecuter;
-import Client.UI;
 /**
  * Class LoadTest which starts the Loadtests.
  * 
@@ -43,6 +38,11 @@ public class TestingComponent {
 	public boolean createSystemDescription() {
 		return false;
 	}
+	/**
+	 * Methos, which generates a random String with a given length.
+	 * @param count Length 
+	 * @return random String
+	 */
 	public static String randomString(int count) {
 		StringBuilder builder = new StringBuilder();
 		while (count-- != 0) {
@@ -76,7 +76,16 @@ public class TestingComponent {
 		
 		
 	}
-	public TestingComponent(String hostname,int port, String filename){
+	/**
+	 * Initiation of the Loadtest. 
+	 * The properties are read from a File using the Properties class.
+	 * Clients are initiated as well as TimerTasks to execute Commands in the Intervals given by the properties file.
+	 * 
+	 * @param hostname Hostname of the server
+	 * @param port Port of the Server
+	 * @param filename Filename of the porpertiesfile
+	 */
+	public LoadTest(String hostname,int port, String filename){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		
 		Properties p = new Properties();

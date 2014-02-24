@@ -3,10 +3,9 @@
  */
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import model.Auction;
@@ -18,16 +17,15 @@ import model.LogoutMessage;
 import model.User;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
+import server.Server;
 import analytics.AnalyticsServer;
 import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
-import server.Server;
 
 /**
  * @author tobi
@@ -43,6 +41,7 @@ public class ServerTest {
 	@Before
 	public void setUp() throws Exception {
 		StartBillingServer start = new StartBillingServer();
+
 		 bs =new BillingServer(start.loginMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);

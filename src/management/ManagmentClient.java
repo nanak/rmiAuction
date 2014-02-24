@@ -2,23 +2,18 @@ package management;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
-import javax.print.attribute.HashAttributeSet;
 
 import rmi.InitRMI;
 import Client.CLI;
@@ -26,8 +21,8 @@ import Client.UI;
 import Event.Event;
 import Exceptions.CommandIsSecureException;
 import Exceptions.CommandNotFoundException;
-import Exceptions.WrongNumberOfArgumentsException;
 import Exceptions.WrongInputException;
+import Exceptions.WrongNumberOfArgumentsException;
 import analytics.RemoteAnalyticsTaskComputing;
 import billing.IRemoteBillingServerSecure;
 import billing.RemoteBillingServer;
@@ -70,6 +65,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private String billingIdentifier;
 	
+	/**
+	 * Constructor, which initializes all neccessary attributes and connections and sets the UI to the given one.
+	 * @param ui Implementation of UI
+	 */
 	public ManagmentClient(UI ui){
 		this.ui=ui;
 		events = new ConcurrentLinkedQueue<Event>();
@@ -108,7 +107,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Run, which waits for userinput and handles it.
+	 */
 	@Override
 	public void run() {
 		String[] cmd=null;
@@ -145,10 +146,12 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						Login l = (Login)c;
 //						System.err.println(new String(l.getPw()));
 						billingServerSecure=billingServer.login(l);
-						if(billingServerSecure == null)
-							ui.out("Falsches Passwort angegeben!");
+						if(billingServerSecure == null){
+							ui.out("Wrong password!");
+						}
 						else{
 							secure=true;
+							username=cmd[1];
 							ui.out("Successfully logged in");
 						}
 								
@@ -186,12 +189,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									ui.outln(s);
 									
 								} catch (NotBoundException| RemoteException  ex) {
-									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}
-								
 							}
-							
 						}
 					}
 					else if(cmd[0].equals("!subscribe")){
@@ -208,10 +209,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									ui.out(analyticTaskComputing.subscribe(cmd[1], this));
 									
 								} catch (NotBoundException | RemoteException  ex) {
-									ui.out("AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
-								}
-								
+								}	
 							}
 							
 						}
@@ -295,6 +295,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	}
 	public void setRunning(boolean running){
 		this.running=running;
+	}
+	public boolean getPrintAutomatic(){
+		return printAutomatic;
 	}
 
 }

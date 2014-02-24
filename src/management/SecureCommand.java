@@ -1,9 +1,7 @@
 package management;
 
-import Exceptions.WrongNumberOfArgumentsException;
-import Exceptions.PriceStepIntervalOverlapException;
 import Exceptions.WrongInputException;
-import billing.BillingServerSecure;
+import Exceptions.WrongNumberOfArgumentsException;
 import billing.BillingServerSecure;
 
 public abstract class SecureCommand<T> implements Command<T> {
@@ -18,6 +16,8 @@ public abstract class SecureCommand<T> implements Command<T> {
 
 
 	/**
+	 * Executes a Secure command
+	 * @param cmd Command from Userinput
 	 * @throws WrongInputException 
 	 * @throws WrongNumberOfArgumentsException 
 	 * @see management.Command<T>#execute()

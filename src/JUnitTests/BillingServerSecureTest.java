@@ -1,13 +1,17 @@
 package JUnitTests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.rmi.RemoteException;
+
 import org.junit.Before;
 import org.junit.Test;
-import billing.BillingServerSecure;
-import billing.PriceStep;
+
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
+import billing.BillingServerSecure;
+import billing.PriceStep;
 
 /**
  * tests the functions from BillingServerSecure

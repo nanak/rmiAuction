@@ -1,14 +1,9 @@
 package loadtest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import loadtest.FakeCli;
 import management.ManagmentClient;
-import Client.TaskExecuter;
-import Client.UI;
 
 
 /**
@@ -27,6 +22,17 @@ public class CheckTimeTask extends TimerTask{
 	private ManagmentClient m;
 	private FakeCli mcli;
 	
+	/**
+	 * Constructor, which saves the starttime of the loadtest, the managementClient, the FakeCli of the ManagementClient initiated in LoadTest,
+	 * as well as the Timers for list, bid and create.
+	 * 
+	 * @param starttime starttime of the loadtest in milliseconds
+	 * @param list2 Timer of ListTask
+	 * @param create2 Timer of CreateTask
+	 * @param bid2 Timer of BidTask
+	 * @param m ManagementClient
+	 * @param mcli FakeCli of the ManagementClient initiated in LoadTest
+	 */
 	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli){
 		this.mcli=mcli;
 		this.starttime=starttime;
@@ -36,11 +42,16 @@ public class CheckTimeTask extends TimerTask{
 		this.bid=bid2;
 	}
 
+	/**
+	 * This run method checks if 8 Minutes are over. 
+	 * If it is so, the ManagementClient  unsubscribes and stops.
+	 * The timers for ListTask, CreateTask and BidTask are stopped, as well as this timer itself.
+	 */
 	@Override
 	public void run() {
 		status=System.currentTimeMillis()-starttime;
 		if(status>=min){
-			mcli.write("!unsubscribe 1");
+			mcli.write("!unsubscribe 0_.*\n!end");
 			list.cancel();
 			list.purge();
 			create.cancel();

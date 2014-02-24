@@ -15,11 +15,18 @@ public class ListTask extends TimerTask{
 	private boolean first;
 	private TaskExecuter t;
 	
+	/**
+	 * Constructor, which sets the TaskExecuter of the Client initiated in LoadTest.
+	 * @param t TaskExecuter of the Client initiated in LoadTest
+	 */
 	public ListTask( TaskExecuter t){
 		this.t=t;
 		first=true;
 	}
 
+	/**
+	 * Lists all running auctions via the TaskExecuter
+	 */
 	@Override
 	public void run() {
 //		if(cli.isClientAlive()){

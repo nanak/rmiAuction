@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.FutureTask;
 
 import loadtest.FakeCli;
 import management.ManagmentClient;
@@ -15,17 +13,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import server.Server;
+import Client.Client;
 import analytics.AnalyticTaskComputing;
 import analytics.AnalyticsServer;
 import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
-import server.Server;
-import server.ServerStart;
 import connect.ReceiveConnection;
-import Client.CLI;
-import Client.Client;
 
 public class ClientTest {
 
@@ -51,6 +47,7 @@ public class ClientTest {
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
 		bs =new BillingServer(start.loginMap());
+
 //		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
@@ -370,6 +367,5 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		assertEquals(5000, c.getTcpPort());
 	}
-	
-	
+
 }

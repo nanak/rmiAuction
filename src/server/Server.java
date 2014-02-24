@@ -2,31 +2,20 @@ package server;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import model.Auction;
+import model.Message;
+import model.User;
 import rmi.InitRMI;
 import Event.Event;
-import analytics.AnalyticTaskComputing;
 import analytics.RemoteAnalyticsTaskComputing;
-import billing.BillingServer;
-import billing.BillingServerSecure;
 import billing.IRemoteBillingServerSecure;
-import billing.RemoteBillingServerSecure;
 import connect.Notifier;
-import connect.NotifierFactory;
-import model.*;
 
 /**
  * The main server with all functionalities and the user data.

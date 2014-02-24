@@ -1,14 +1,10 @@
 package Client;
 
-import java.io.ByteArrayInputStream;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 import Exceptions.CommandNotFoundException;
-import Exceptions.IllegalValueException;
 import Exceptions.WrongInputException;
 import Exceptions.WrongNumberOfArgumentsException;
-import loadtest.FakeCli;
 
 
 

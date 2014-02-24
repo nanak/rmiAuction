@@ -1,6 +1,11 @@
 package server;
 
-import model.*;
+import model.BidMessage;
+import model.CreateMessage;
+import model.ListMessage;
+import model.LoginMessage;
+import model.LogoutMessage;
+import model.Message;
 
 /**
  * In this class the Request is checked an progressed to the right server where the 

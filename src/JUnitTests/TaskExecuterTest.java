@@ -1,6 +1,5 @@
 package JUnitTests;
 
-import static org.junit.Assert.fail;
 import loadtest.FakeCli;
 import management.ManagmentClient;
 
@@ -10,6 +9,7 @@ import org.junit.Test;
 
 import server.Server;
 import Client.Client;
+import Client.TaskExecuter;
 import analytics.AnalyticTaskComputing;
 import analytics.AnalyticsServer;
 import billing.BillingServer;
@@ -17,8 +17,6 @@ import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 import connect.ReceiveConnection;
-
-import Client.TaskExecuter;
 
 public class TaskExecuterTest {
 
@@ -42,6 +40,7 @@ public class TaskExecuterTest {
 		new AnalyticTaskComputing(as);
 		start = new StartBillingServer();
 		bs =new BillingServer(start.loginMap());
+
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
@@ -97,4 +96,5 @@ public class TaskExecuterTest {
 		t = new TaskExecuter(c);
 		t.list();
 	}
+
 }

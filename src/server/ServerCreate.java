@@ -6,11 +6,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
 
-import Event.AuctionStarted;
 import model.Auction;
 import model.CreateMessage;
 import model.Message;
 import model.User;
+import Event.AuctionStarted;
 
 /**
  * This class is responsible for a functionality off the server.
