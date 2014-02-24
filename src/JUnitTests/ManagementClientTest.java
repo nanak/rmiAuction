@@ -151,7 +151,7 @@ public class ManagementClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !unsubscribe <subscriptionID>", cli.getLastOutput());
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !unsubscribe <subscriptionID>", cli.getLastOutputM());
 	}
 	/**
 	 * tests subscribe with the wrong number of arguments and checks if the errorMessage is the expected one.
@@ -169,7 +169,7 @@ public class ManagementClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !subscribe <filterRegex>", cli.getLastOutput());
+		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !subscribe <filterRegex>", cli.getLastOutputM());
 	}
 	/**
 	 * tests end if no user is logged in

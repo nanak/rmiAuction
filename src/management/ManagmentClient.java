@@ -103,7 +103,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			events.add(e);
 		}
 		else{
-			ui.out(e.toString());
+			ui.outM(e.toString());
 		}
 	}
 
@@ -135,38 +135,38 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							username="";
 							ir.unexport(this);
 						}
-						ui.out("Management Client is shutting down!");
+						ui.outM("Management Client is shutting down!");
 						secure=false;
 						running=false;
 					}
 					else if(cmd[0].equals("!login")){
 						System.out.println("Login in");
 						c= commandFactory.createCommand(cmd);
-						ui.out((String) c.execute(cmd));
+						ui.outM((String) c.execute(cmd));
 						Login l = (Login)c;
 //						System.err.println(new String(l.getPw()));
 						billingServerSecure=billingServer.login(l);
 						if(billingServerSecure == null){
-							ui.out("Wrong password!");
+							ui.outM("Wrong password!");
 						}
 						else{
 							secure=true;
 							username=cmd[1];
-							ui.out("Successfully logged in");
+							ui.outM("Successfully logged in");
 						}
 								
 					}
 					else if(cmd[0].equals("!print")){
 						Iterator<Event> it = events.iterator();
 						while(it.hasNext()){
-							ui.out(it.next().toString());
+							ui.outM(it.next().toString());
 						}
 					}
 					else if(cmd[0].equals("!auto")){
 						printAutomatic=true;
 						Iterator<Event> it = events.iterator();
 						while(it.hasNext()){
-							ui.out(it.next().toString());
+							ui.outM(it.next().toString());
 						}
 					}
 					else if(cmd[0].equals("!hide")){
@@ -180,16 +180,16 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						else{
 							try{
 								String s = analyticTaskComputing.unsubscribe(cmd[1]);
-								ui.outln(s);
+								ui.outM(s);
 							}
 							catch(RemoteException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing)ir.lookup(analyticsIdentifier);
 									String s = analyticTaskComputing.unsubscribe(cmd[1]);
-									ui.outln(s);
+									ui.outM(s);
 									
 								} catch (NotBoundException| RemoteException  ex) {
-									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.outM("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}
 							}
@@ -201,15 +201,15 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						}
 						else{
 							try{
-								ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+								ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 							}
 							catch(RemoteException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
-									ui.out(analyticTaskComputing.subscribe(cmd[1], this));
+									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 									
 								} catch (NotBoundException | RemoteException  ex) {
-									ui.out("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
+									ui.outM("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									
 								}	
 							}
@@ -222,23 +222,23 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							usernameLogout[0]=cmd[0];
 							usernameLogout[1]=username;
 							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
-							ui.out(anwser);
+							ui.outM(anwser);
 							username=""; 
 							billingServerSecure=null;
 							secure=false;
 						}
 						else{
 							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
-							ui.out(anwser);
+							ui.outM(anwser);
 						}
 					}	
 					else{	
 						c=commandFactory.createCommand(cmd);
 						anwser=(String) c.execute(cmd);
-						ui.out(anwser);
+						ui.outM(anwser);
 					}					
 				}catch(WrongNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
-					ui.out(e.getMessage());
+					ui.outM(e.getMessage());
 				}
 			}
 			br.close();

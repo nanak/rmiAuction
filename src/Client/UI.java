@@ -20,4 +20,10 @@ public interface UI {
 	 * Reads a line
 	 */
 	public String readln();
+	
+	/**
+	 * Seperate Output for ManagementClient
+	 * @param output	Text
+	 */
+	public void outM(String output);
 }
