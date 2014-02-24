@@ -361,6 +361,23 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 	}
 	private void initRMI(String analyticServerName, String billingServerName){
+
+		Properties properties = new Properties();
+		try{
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+		}catch (FileNotFoundException e) {
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
+			return;
+		}catch (IOException e) {
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
+			return;
+		} 
 		if(analyticServerName == null){
 			if(billingServerName==null){
 				initRMI();
