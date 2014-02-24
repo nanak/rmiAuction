@@ -24,4 +24,8 @@ public class CLI implements UI{
 		in=new Scanner(System.in);
 		return in.nextLine();
 	}
+	@Override
+	public void outM(String output){
+		System.out.println(output);
+	}
 }

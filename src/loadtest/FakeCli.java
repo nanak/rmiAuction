@@ -24,6 +24,7 @@ public class FakeCli implements UI{
 	private boolean clientsAlive;
 	private String lastOutput;
 	private ArrayList<String> outputs;
+	private ArrayList<String> outputsM;
 
 	/**
 	 * Constructor, which sets the input to a ByteArrayInputStream wich saves the given String.
@@ -32,6 +33,7 @@ public class FakeCli implements UI{
 	 */
 	public FakeCli(String cmd) {
 		outputs=new ArrayList<String>();
+		outputsM=new ArrayList<String>();
 		is=new ByteArrayInputStream(cmd.getBytes());
 		in = new Scanner(is);
 	}
@@ -45,12 +47,11 @@ public class FakeCli implements UI{
 		in = new Scanner(is);
 	}
 	/**
-	 * This method prints the given data, saves it to an arraylist, and saves the ID's 
+	 * This method saves the data to an arraylist, and saves the ID's 
 	 * to another ArrayList, if the output start with "ID:" (if !list is called by a client)
 	 */
 	@Override
 	public void out(String output) {
-		System.out.println(output);
 		this.lastOutput=output;
 		outputs.add(output);
 		if(output.startsWith("ID:")){
@@ -61,6 +62,11 @@ public class FakeCli implements UI{
 				a.add(Integer.parseInt(saveIDs[1]));
 			}
 		}
+	}
+	@Override
+	public void outM(String output){
+		System.out.println(output);
+		outputsM.add(output);
 	}
 	/* (non-Javadoc)
 	 * @see Client.UI#outln(java.lang.String)
@@ -97,6 +103,9 @@ public class FakeCli implements UI{
 	}
 	public String getLastOutput() {
 		return outputs.get(outputs.size()-1);
+	}
+	public String getLastOutputM() {
+		return outputsM.get(outputsM.size()-1);
 	}
 	public String getOutputBeforeEnd() {
 		return outputs.get(outputs.size()-2);
