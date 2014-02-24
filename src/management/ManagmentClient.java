@@ -133,12 +133,11 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
 							billingServerSecure=null;
 							username="";
-							
+							ir.unexport(this);
 						}
 						ui.outM("Management Client is shutting down!");
 						secure=false;
 						running=false;
-						ir.unexport(this);
 					}
 					else if(cmd[0].equals("!login")){
 						c= commandFactory.createCommand(cmd);
@@ -182,7 +181,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 								String s = analyticTaskComputing.unsubscribe(cmd[1]);
 								ui.outM(s);
 							}
-							catch(RemoteException | NullPointerException e){
+							catch(RemoteException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing)ir.lookup(analyticsIdentifier);
 									String s = analyticTaskComputing.unsubscribe(cmd[1]);
@@ -203,7 +202,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							try{
 								ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 							}
-							catch(RemoteException | NullPointerException e){
+							catch(RemoteException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
 									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
@@ -249,33 +248,22 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		}
 
 	}
-	/**
-	 * RMI Initialisation
-	 */
-	private void initRMI(){
-//		if (System.getSecurityManager() == null) {
-//			System.setSecurityManager(new SecurityManager());
-//		}
-	// neues Properties Objekt erstellen
-
-
+	private void initRMI(Properties properties){
 		try {
-			Properties properties = new Properties();
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 			
-			properties.load(stream);
-		
-			stream.close();
 			ir = new InitRMI(properties);
-			
+			ir.init();
+			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null){
+				running=false;
+				ui.out("Properties not sufficcient. Client shutting down. ");
+				return;
+			}
 			analyticsIdentifier = properties.getProperty("rmi.analyticsServer");
 			System.out.println("Getting server: " + analyticsIdentifier );
 			billingIdentifier = properties.getProperty("rmi.billingServer");
-			ir.init();
-			ir.rebind(this,uniqueID);
 			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
 			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
-			
+			ir.rebind(this,uniqueID);
 			
 		} catch (RemoteException e) {
 			
@@ -283,13 +271,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
-//			running=false;
+			running=false;
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File not well formatet. Client shutting down.");
 			running=false;
-		} catch (FileNotFoundException e) {
-			running=false;
-			System.out.println("Properties File doesn't exist. Client shutting down.");
 		} catch (IOException e) {
 			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
 			running=false;
@@ -301,5 +286,83 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	public boolean getPrintAutomatic(){
 		return printAutomatic;
 	}
+	/**
+	 * initRMI if one name given
+	 * @param servername rmi Servername
+	 * @param server wich Servername (true if billing, false if analytic)
+	 */
+	private void initRMI(String servername, boolean server){
+		try{
+			Properties properties = new Properties();
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+			if(server){
+				properties.put("rmi.billingserver", servername);
+				
+			}else{
+				properties.put("rmi.analyticsServer", servername);
+			}
+			
+			
+			
+			initRMI (properties);
+		}catch (FileNotFoundException e) {
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
+		}catch (IOException e) {
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
+		} 
+		
+		
+	}
+	private void initRMI(String analyticServerName, String billingServerName){
+		if(analyticServerName == null){
+			if(billingServerName==null){
+				initRMI();
+				return;
+			}
+			initRMI(billingServerName,true);
+			return;
+		}
+		if(billingServerName==null){
+			initRMI(analyticServerName,false);
+			return;
+		}
+		Properties p = new Properties();
+		p.put("rmi.billingserver", billingServerName);
+		p.put("rmi.analyticsServer", analyticServerName);
+		initRMI(p);
+	}
+	/**
+	 * RMI Initialisation
+	 */
+	private void initRMI(){
+		try{
+			Properties properties = new Properties();
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+			initRMI (properties);
+		}catch (FileNotFoundException e) {
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
+		}catch (IOException e) {
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
+		} 
+	}
+//		if (System.getSecurityManager() == null) {
+//			System.setSecurityManager(new SecurityManager());
+//		}
+	// neues Properties Objekt erstellen
+
+
+		
 
 }

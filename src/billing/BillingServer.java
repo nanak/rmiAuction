@@ -92,6 +92,47 @@ public class BillingServer implements RemoteBillingServer {
 		return null;// Fehler bei der Serverlokalisierung
 	}
 	
+	
+	
+	public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss, String billingServerName){
+		
+		 Properties properties = new Properties();
+		 if(billingServerName == null){
+			 return initRmi(bs,bss);
+		 }
+		 properties.put("rmi.billingServer", billingServerName);
+		 File f = new File("Server.properties");
+			if(!f.exists()){
+					System.out.println("Properties File doesn't exist. Server shutting down.");
+					return false;
+			}
+				
+		 Properties p2 = new Properties();
+		// neuen stream mit der messenger.properties Datei erstellen
+		 try{
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
+			//TODO catch file not found exception
+		p2.load(stream);
+	
+		stream.close();
+		 properties.put("rmi.billingServerSecure", p2.getProperty("rmi.billingServerSecure"));
+		 
+		 
+		 ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
+         System.out.println("BillingServer bound");
+			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
+         System.out.println("BillingServerSecure bound");
+		 
+		 }catch(Exception e){
+			 
+		 }
+		 
+		return true;
+	}
+	
+	
 	/**
 	 * Initialisiert den RMI-stub fuer den Billingserver
 	 */
