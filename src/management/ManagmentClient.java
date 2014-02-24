@@ -222,6 +222,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							}
 							catch(RemoteException e){
 								try {
+									ui.outM("INFO: Analytics seemed to have moved. Looking up");
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
 									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 									
