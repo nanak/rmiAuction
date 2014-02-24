@@ -151,6 +151,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					else if(cmd[0].equals("!login")){
 						c= commandFactory.createCommand(cmd);
 						Login l = (Login)c;
+						l.execute(cmd);
 //						try{ 
 							billingServerSecure=billingServer.login(l);
 							if(billingServerSecure == null){
