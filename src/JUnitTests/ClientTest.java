@@ -57,7 +57,7 @@ public class ClientTest {
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
-		bs =new BillingServer(start.loginMap());
+		bs =new BillingServer();
 
 //		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
@@ -289,7 +289,7 @@ public class ClientTest {
 	 * tests the error handing if the !login command gets a wrong number of arguments
 	 */
 	@Test
-	public void testLoginWrongNumberOfArguments(){
+	public void testLoginWrongNumberOfArguments(){ //TODO:  "TestClient wirft irgendeinen RandomOutput, der nicht immer passt"
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test test\n!end");
@@ -363,7 +363,7 @@ public class ClientTest {
 	 * tests error handling if already logged in user tries to login again
 	 */
 	@Test
-	public void testDoubleLogin(){
+	public void testDoubleLogin(){ //TODO:  "TestClient wirft irgendeinen RandomOutput, der nicht immer passt"
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test4\n");
