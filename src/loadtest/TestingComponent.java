@@ -19,7 +19,7 @@ import Client.UI;
  * @author Michaela Lipovits
  * @version 20140209
  */
-public class LoadTest {
+public class TestingComponent {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
 	private static ConcurrentHashMap<Integer, Thread> clients;
@@ -72,11 +72,11 @@ public class LoadTest {
 		}
 		mcli=new FakeCli("!subscribe .* \n!auto");
 		m =new ManagmentClient(mcli);
-		new LoadTest(hostname,port,filename);
+		new TestingComponent(hostname,port,filename);
 		
 		
 	}
-	public LoadTest(String hostname,int port, String filename){
+	public TestingComponent(String hostname,int port, String filename){
 		clients=new ConcurrentHashMap<Integer,Thread>();
 		
 		Properties p = new Properties();
@@ -105,6 +105,15 @@ public class LoadTest {
 			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli), 1000, 10000);
 		}
 		
+	}
+	/**
+	 * Kills all Timers
+	 */
+	public void shutdown(){
+		bid.cancel();bid.purge();
+		checker.cancel();checker.purge();
+		list.cancel();list.purge();
+		create.cancel();create.purge();
 	}
 
 }

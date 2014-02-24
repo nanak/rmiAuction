@@ -30,7 +30,7 @@ public class CLITest {
 
 	@After
 	public void cleanUpStreams() {
-	    System.setOut(null);
+//	    System.setOut(null);
 	}
 
 	@Test

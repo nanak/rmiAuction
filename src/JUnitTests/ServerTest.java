@@ -57,14 +57,14 @@ public class ServerTest {
 	public void end(){
 		bs.shutdown();
 		as.shutdown();
-		server.kill();
-//		server.setActive(false);
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		
+		server.setActive(false);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Test method for {@link server.Server#request(model.Message)}.

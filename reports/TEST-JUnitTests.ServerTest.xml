@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.BillingServerSecureTest" skipped="0" tests="10" time="0.083" timestamp="2014-02-24T10:34:05">
+<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.ServerTest" skipped="0" tests="10" time="50.48" timestamp="2014-02-24T10:36:06">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />
@@ -85,16 +85,88 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="your.BillingServer" />
   </properties>
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTest" time="0.004" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="deletePriceStepTest" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTest" time="0.008" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="toStringTest" time="0.0" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="billAuctionAndGetBillTestIntervalDoesNotExist" time="0.003" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException2" time="0.002" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="createPriceStepTestPriceStepIntervalOverlapException3" time="0.002" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="getBillTestFalse" time="0.001" />
-  <testcase classname="JUnitTests.BillingServerSecureTest" name="shutdownAndLoad" time="0.046" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestLogin" time="5.027" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestCreate" time="5.018" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestLogout" time="5.018" />
+  <testcase classname="JUnitTests.ServerTest" name="testGetTcpPort" time="5.019" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestBid" time="5.021" />
+  <testcase classname="JUnitTests.ServerTest" name="testIsActive" time="5.016" />
+  <testcase classname="JUnitTests.ServerTest" name="testRequestList" time="5.031" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetTcpPort" time="5.028" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetUser" time="5.023" />
+  <testcase classname="JUnitTests.ServerTest" name="testSetAuction" time="5.177" />
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
+  <system-err><![CDATA[Exception in thread "Timer-26" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-38" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-58" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-46" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-42" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-34" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-54" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-30" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-50" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-99" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-91" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-75" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-71" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-83" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-95" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-79" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-87" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+Exception in thread "Timer-67" java.lang.NullPointerException
+	at loadtest.CheckTimeTask.run(CheckTimeTask.java:43)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+]]></system-err>
 </testsuite>

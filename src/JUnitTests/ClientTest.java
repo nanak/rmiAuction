@@ -2,6 +2,8 @@ package JUnitTests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.FutureTask;
@@ -27,7 +29,7 @@ import Client.Client;
 
 public class ClientTest {
 
-	private int serverPort = 6000;
+	private int serverPort = 5000;
 	private FakeCli cli;
 	private Client c;
 
@@ -37,7 +39,10 @@ public class ClientTest {
 	private ManagmentClient m;
 	private StartBillingServer start;
 	private Server s;
-
+	private static int testcounter =0;
+	private ArrayList<Thread> threads = new ArrayList<>();
+	private ArrayList<Server> servers = new ArrayList<Server>();
+	
 	@Before
 	public void setUp() {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
@@ -51,32 +56,48 @@ public class ClientTest {
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
 		s = new Server();
-		System.setOut(System.out);
 		
-		s.setTcpPort(6000);
-		ReceiveConnection r = new ReceiveConnection(6000, s);	
+		s.setTcpPort(5000);
+		servers.add(s);
+		ReceiveConnection r = new ReceiveConnection(5000, s);	
 		Thread t = new Thread(r);
 		t.start();	
+		threads.add(t);
 		cli = new FakeCli("");
+		testcounter++;
 	}
 	/**
 	 * Shutdown the server
 	 */
 	@After
 	public void end(){
-		System.out.println("Shutdown");
-		bs.shutdown();
-		as.shutdown();
-		
-		
-//		s.setActive(false);
-//		
+		if(testcounter==17){
+			bs.shutdown();
+			as.shutdown();
+//			t.interrupt();
+			Iterator<Server> it = servers.iterator();
+			while(it.hasNext())
+				it.next().setActive(false);
+			
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (Iterator iterator = threads.iterator(); iterator.hasNext();) {
+				Thread type = (Thread) iterator.next();
+				type.interrupt();
+			}
+		}
+//		System.out.println("Shutdown");
 //		try {
-//			Thread.sleep(5000);
+//			Thread.sleep(500);
 //		} catch (InterruptedException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+
 		
 	}
 	@Test
@@ -107,15 +128,22 @@ public class ClientTest {
 	public void testLogin() {
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test\n!end");
-		
-		c.run();
+		cli.write("!login test\n");
+		Thread t = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		cli.write("!end");
 		c.setActive(false);
 	}
 
@@ -185,6 +213,13 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!end");
 		c.run();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	
@@ -193,7 +228,7 @@ public class ClientTest {
 	public void testBidWrongNumberOfArguments(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test2\n");
+		cli.write("!login testbid\n");
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -239,15 +274,35 @@ public class ClientTest {
 	public void testBidNotANumber(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test1\n!create 25200 Super small notebook\n!logout\n!login test2\n!bid 1 asdf\n!end");
-		c.run();
+		cli.write("!login test1\n!create 25200 Super small notebook\n");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
+		cli.write("!logout\n!login test2");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cli.write("\n!bid 1 asdf\n!end");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(5));
 	}
 	@Test
 	public void testNoSuchCommand(){
@@ -261,10 +316,23 @@ public class ClientTest {
 	public void testDoubleLogin(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		cli.write("!login test1\n!login test2\n!end");
-		c.run();
+		cli.write("!login test4\n");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				c.run();				
+			}
+		});
+		t.start();
 		try {
-			Thread.sleep(800);
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		cli.write("!login test5\n!end");
+		try {
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -300,7 +368,7 @@ public class ClientTest {
 	public void testGetTcpPort(){
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
-		assertEquals(6000, c.getTcpPort());
+		assertEquals(5000, c.getTcpPort());
 	}
 	
 	

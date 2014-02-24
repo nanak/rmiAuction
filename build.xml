@@ -125,6 +125,22 @@
         </junit>
     </target>
 
+	<target name="testClient">
+        <mkdir dir="${reports.dir}"/>
+
+        <junit haltonfailure="true" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">
+            <classpath refid="project.classpath" />
+            
+            <formatter type="plain"/>
+            <formatter type="xml"/>
+        
+            <batchtest fork="false" todir="${reports.dir}">
+                <fileset dir="${src.dir}">
+                    <include name="**/ClientTest.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
     <target name="clean" description="Clean project.">
         <delete dir="${build.dir}"/>
         <delete dir="${reports.dir}"/>

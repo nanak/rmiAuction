@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.CreateTask;
 import loadtest.FakeCli;
-import loadtest.LoadTest;
+import loadtest.TestingComponent;
 import management.AddStep;
 import management.ManagmentClient;
 
@@ -27,7 +27,7 @@ import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 
-public class LoadTestTest {
+public class Loading {
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
 	private AnalyticsServer as;
@@ -75,13 +75,14 @@ public class LoadTestTest {
 	}
 	@Test
 	public void constTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		l.shutdown();
 	}
 	@Test 
 	public void auctionTest(){
@@ -100,7 +101,7 @@ public class LoadTestTest {
 	}
 	@Test
 	public void randomStringTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
 		
 		String r=l.randomString(20);
 		try {
@@ -110,6 +111,6 @@ public class LoadTestTest {
 			e.printStackTrace();
 		}
 		assertEquals(20, r.length(), 0);
-		
+		l.shutdown();
 	}
 }

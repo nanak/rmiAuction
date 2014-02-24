@@ -1,0 +1,12 @@
+Testsuite: JUnitTests.EventHandlerTest
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 66,224 sec
+------------- Standard Error -----------------
+AuctionSucess
+AuctionSucess
+------------- ---------------- ---------------
+
+Testcase: testAuctionStartedEndedNoBid took 0,989 sec
+Testcase: testUserLoginLogoutSessionEvent took 0,753 sec
+Testcase: testBidOnAuctionChangesRatio took 1,757 sec
+Testcase: testPlaceBidAndBPM took 61,119 sec
+Testcase: testUserLoginEvent took 1,599 sec
