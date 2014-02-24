@@ -148,31 +148,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						running=false;
 						ir.unexport(this);
 					}
-					else if(cmd[0].equals("!login")){
-						c= commandFactory.createCommand(cmd);
-						Login l = (Login)c;
-						l.execute(cmd);
-
-//						try{ 
-							billingServerSecure=billingServer.login(l);
-							if(billingServerSecure == null){
-								ui.outM("Wrong password!");
-							}
-							else{
-								secure=true;
-								username=cmd[1];
-								ui.outM("Successfully logged in");
-							}
-						}
-//						catch(RemoteException | NullPointerException e){
-//							try {
-//								billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
-//								ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
-//							} catch (NotBoundException | RemoteException  ex) {
-//								ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
-//							}	
-//						}
-//					}
 					else if(cmd[0].equals("!print")){
 						Iterator<Event> it = events.iterator();
 						while(it.hasNext()){
@@ -270,9 +245,32 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 						}
 					}	
 					else{	
-						c=commandFactory.createCommand(cmd);
-						anwser=(String) c.execute(cmd);
-						ui.outM(anwser);
+						c= commandFactory.createCommand(cmd);
+						if(cmd[0].equals("!login")){
+							
+							Login l = (Login)c;
+							l.execute(cmd);
+
+							try{ 
+								billingServerSecure=billingServer.login(l);
+								if(billingServerSecure == null){
+									ui.outM("Wrong password!");
+								}
+								else{
+									secure=true;
+									username=cmd[1];
+									ui.outM("Successfully logged in");
+								}
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
+						}
 					}					
 				}catch(WrongNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
 					ui.outM(e.getMessage());

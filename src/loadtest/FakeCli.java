@@ -107,6 +107,9 @@ public class FakeCli implements UI{
 	public String getLastOutputM() {
 		return outputsM.get(outputsM.size()-1);
 	}
+	public String getPreLastOutputM() {
+		return outputsM.get(outputsM.size()-2);
+	}
 	public String getOutputBeforeEnd() {
 		return outputs.get(outputs.size()-2);
 	}

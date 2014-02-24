@@ -51,7 +51,7 @@ public class CheckTimeTask extends TimerTask{
 	public void run() {
 		status=System.currentTimeMillis()-starttime;
 		if(status>=min){
-			mcli.write("!unsubscribe 0_.*\n!end");
+			mcli.write("!unsubscribe 0\n!end");
 			list.cancel();
 			list.purge();
 			create.cancel();
