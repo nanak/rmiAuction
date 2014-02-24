@@ -133,11 +133,12 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
 							billingServerSecure=null;
 							username="";
-							ir.unexport(this);
+							
 						}
 						ui.outM("Management Client is shutting down!");
 						secure=false;
 						running=false;
+						ir.unexport(this);
 					}
 					else if(cmd[0].equals("!login")){
 						c= commandFactory.createCommand(cmd);
@@ -181,7 +182,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 								String s = analyticTaskComputing.unsubscribe(cmd[1]);
 								ui.outM(s);
 							}
-							catch(RemoteException e){
+							catch(RemoteException | NullPointerException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing)ir.lookup(analyticsIdentifier);
 									String s = analyticTaskComputing.unsubscribe(cmd[1]);
@@ -202,7 +203,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							try{
 								ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 							}
-							catch(RemoteException e){
+							catch(RemoteException | NullPointerException e){
 								try {
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
 									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
@@ -266,13 +267,15 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 			stream.close();
 			ir = new InitRMI(properties);
-			ir.init();
+			
 			analyticsIdentifier = properties.getProperty("rmi.analyticsServer");
 			System.out.println("Getting server: " + analyticsIdentifier );
 			billingIdentifier = properties.getProperty("rmi.billingServer");
+			ir.init();
+			ir.rebind(this,uniqueID);
 			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
 			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
-			ir.rebind(this,uniqueID);
+			
 			
 		} catch (RemoteException e) {
 			
@@ -280,7 +283,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			e.printStackTrace();
 		} catch (NotBoundException e) {
 			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
-			running=false;
+//			running=false;
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File not well formatet. Client shutting down.");
 			running=false;
