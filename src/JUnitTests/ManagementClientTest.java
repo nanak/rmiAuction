@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.rmi.NoSuchObjectException;
 import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.FakeCli;
@@ -56,8 +57,8 @@ public class ManagementClientTest {
 	 */
 	@After
 	public void end(){
-		bs.shutdown();
-		as.shutdown();
+			bs.shutdown();
+			as.shutdown();
 	}
 	/**
 	 * tests the login userinput
@@ -72,7 +73,7 @@ public class ManagementClientTest {
 	 * tests a wrong login userinput
 	 */
 	@Test
-	public void loginTest1(){
+	public void loginWrongPwTest(){
 		cli=new FakeCli("!login test muh");
 		m=new ManagmentClient(cli);
 		try {
@@ -303,6 +304,13 @@ public class ManagementClientTest {
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
 		cli.write("!end");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("Management Client is shutting down!", cli.getLastOutputM());
 	}
 	/**
 	 * tests if secureCOmmand is created if logged in
@@ -392,6 +400,13 @@ public class ManagementClientTest {
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
 		cli.write("!login test test\n!end");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("Management Client is shutting down!", cli.getLastOutputM());
 	}
 	/**
 	 * tests end when a user is logged in
@@ -425,10 +440,16 @@ public class ManagementClientTest {
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
 		cli.write("!muh");
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals("ERROR: This Command does not exist!\nAllowed commands:\n!login <username> <password>\n"
+				+ "!logout\n!steps\n!addStep <startPrice> <endPrice> <fixedPrice> <variablePricePercent>\n"
+				+ "!removeStep <startPrice> <endPrice>\n!bill <userName>\n!subscribe <filterRegex>\n"
+				+ "!unsubscribe <subscriptionID>\n!print\n!auto\n!hide", cli.getLastOutputM());
 	}
-	@Test
-	public void initRmiTest(){
-		cli=new FakeCli("");
-		m=new ManagmentClient(cli);
-	}
+
 }

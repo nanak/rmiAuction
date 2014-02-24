@@ -178,7 +178,7 @@ public class BillingServer implements RemoteBillingServer {
 			ir.unexport(bss);
 		} catch (NoSuchObjectException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		 
 	 }

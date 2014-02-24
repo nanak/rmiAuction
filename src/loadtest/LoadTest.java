@@ -1,6 +1,7 @@
 package loadtest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +18,7 @@ import Client.TaskExecuter;
 public class LoadTest {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
-	private static ConcurrentHashMap<Integer, Thread> clients;
+	private static ArrayList<Client> clients;
 	private static ManagmentClient m;
 	private static FakeCli mcli;
 	private ManagmentClient mc;
@@ -86,7 +87,7 @@ public class LoadTest {
 	 * @param filename Filename of the porpertiesfile
 	 */
 	public LoadTest(String hostname,int port, String filename){
-		clients=new ConcurrentHashMap<Integer,Thread>();
+		clients=new ArrayList<Client>();
 		
 		Properties p = new Properties();
 		//read properties from file
@@ -101,6 +102,7 @@ public class LoadTest {
 			starttime=System.currentTimeMillis();
 			cli=new FakeCli("");
 			c= new Client(hostname, port, cli);
+			clients.add(c);
 			t=c.getT();
 			tcp=c.getTcpPort();
 			create=new Timer();
@@ -123,6 +125,9 @@ public class LoadTest {
 		checker.cancel();checker.purge();
 		list.cancel();list.purge();
 		create.cancel();create.purge();
+		for (int i=0; i<clients.size(); i++){
+			clients.get(i).setActive(false);
+		}
 	}
 
 }

@@ -323,78 +323,78 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	public boolean getPrintAutomatic(){
 		return printAutomatic;
 	}
-	/**
-	 * initRMI if one name given
-	 * @param servername rmi Servername
-	 * @param server wich Servername (true if billing, false if analytic)
-	 */
-	private void initRMI(String servername, boolean server){
-		if(servername==null){
-			initRMI();
-			return;
-		}
-		try{
-			Properties properties = new Properties();
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-			
-			properties.load(stream);
-		
-			stream.close();
-			if(server){
-				properties.put("rmi.billingserver", servername);
-				
-			}else{
-				properties.put("rmi.analyticsServer", servername);
-			}
-			
-			
-			
-			initRMI (properties);
-		}catch (FileNotFoundException e) {
-			running=false;
-			System.out.println("Properties File doesn't exist. Client shutting down.");
-		}catch (IOException e) {
-			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-			running=false;
-		} 
-		
-		
-	}
-	private void initRMI(String analyticServerName, String billingServerName){
-
-		Properties properties = new Properties();
-		try{
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
-			
-			properties.load(stream);
-		
-			stream.close();
-		}catch (FileNotFoundException e) {
-			running=false;
-			System.out.println("Properties File doesn't exist. Client shutting down.");
-			return;
-		}catch (IOException e) {
-			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-			running=false;
-			return;
-		} 
-		if(analyticServerName == null){
-			if(billingServerName==null){
-				initRMI();
-				return;
-			}
-			initRMI(billingServerName,true);
-			return;
-		}
-		if(billingServerName==null){
-			initRMI(analyticServerName,false);
-			return;
-		}
-		Properties p = new Properties();
-		p.put("rmi.billingserver", billingServerName);
-		p.put("rmi.analyticsServer", analyticServerName);
-		initRMI(p);
-	}
+//	/**
+//	 * initRMI if one name given
+//	 * @param servername rmi Servername
+//	 * @param server wich Servername (true if billing, false if analytic)
+//	 */
+//	private void initRMI(String servername, boolean server){
+//		if(servername==null){
+//			initRMI();
+//			return;
+//		}
+//		try{
+//			Properties properties = new Properties();
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+//			
+//			properties.load(stream);
+//		
+//			stream.close();
+//			if(server){
+//				properties.put("rmi.billingserver", servername);
+//				
+//			}else{
+//				properties.put("rmi.analyticsServer", servername);
+//			}
+//			
+//			
+//			
+//			initRMI (properties);
+//		}catch (FileNotFoundException e) {
+//			running=false;
+//			System.out.println("Properties File doesn't exist. Client shutting down.");
+//		}catch (IOException e) {
+//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//		} 
+//		
+//		
+//	}
+//	private void initRMI(String analyticServerName, String billingServerName){
+//
+//		Properties properties = new Properties();
+//		try{
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+//			
+//			properties.load(stream);
+//		
+//			stream.close();
+//		}catch (FileNotFoundException e) {
+//			running=false;
+//			System.out.println("Properties File doesn't exist. Client shutting down.");
+//			return;
+//		}catch (IOException e) {
+//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//			return;
+//		} 
+//		if(analyticServerName == null){
+//			if(billingServerName==null){
+//				initRMI();
+//				return;
+//			}
+//			initRMI(billingServerName,true);
+//			return;
+//		}
+//		if(billingServerName==null){
+//			initRMI(analyticServerName,false);
+//			return;
+//		}
+//		Properties p = new Properties();
+//		p.put("rmi.billingserver", billingServerName);
+//		p.put("rmi.analyticsServer", analyticServerName);
+//		initRMI(p);
+//	}
 	/**
 	 * RMI Initialisation
 	 */

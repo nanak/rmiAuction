@@ -45,19 +45,18 @@ public class Loading {
 	 * starts analyticsserver and billingserver as their mains would
 	 */
 	@Before
-	public void setUp() {	
+	public void setUp() {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
-		as= new AnalyticsServer();
-		new AnalyticTaskComputing(as);
-		start=new StartBillingServer();
+		System.out.println("Now Billing Test initialization");
 		bs =new BillingServer(start.loginMap());
-//		BillingServerSecure bss = new BillingServerSecure();
-//		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-//		start.initRmi(bs, rbss);
+
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
+		System.out.println("New Analytics");
+		as= new AnalyticsServer();
+		new AnalyticTaskComputing(as);
 		s= new Server();
 		s.setTcpPort(5000);
 		ReceiveConnection r = new ReceiveConnection(5000, s);	
@@ -71,8 +70,15 @@ public class Loading {
 	public void end(){
 		as.shutdown();
 		bs.shutdown();
-		if(l!=null)
+		if(l!=null){
 			l.shutdown();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		s.setActive(false);
 		try {
 			Thread.sleep(5000);
