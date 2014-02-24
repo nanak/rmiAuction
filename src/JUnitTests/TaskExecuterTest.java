@@ -50,7 +50,7 @@ public class TaskExecuterTest {
 		as = new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start = new StartBillingServer();
-		bs =new BillingServer(start.loginMap());
+		bs =new BillingServer();
 
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);

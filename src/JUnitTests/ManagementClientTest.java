@@ -42,7 +42,7 @@ public class ManagementClientTest {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
 		System.out.println("Now Billing Test initialization");
-		bs =new BillingServer(start.loginMap());
+		bs =new BillingServer();
 
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);

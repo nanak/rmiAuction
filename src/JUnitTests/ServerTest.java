@@ -42,7 +42,7 @@ public class ServerTest {
 	public void setUp() throws Exception {
 		StartBillingServer start = new StartBillingServer();
 
-		 bs =new BillingServer(start.loginMap());
+		 bs =new BillingServer();
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		 as = new AnalyticsServer();
