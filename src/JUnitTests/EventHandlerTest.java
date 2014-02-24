@@ -47,7 +47,7 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +68,7 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		Date d = new Date();
@@ -79,7 +79,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(60000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Tests the Events
@@ -109,7 +108,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Tests the Events
@@ -133,7 +131,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -144,7 +141,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Test the Events:
@@ -167,7 +163,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		AuctionEnded ae = new AuctionEnded("Auction2", "AUCTION_ENDED", d.getTime()+50, 1);
@@ -176,7 +171,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Tests the Events
@@ -206,7 +200,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		AuctionEnded ae = new AuctionEnded("Auction2", "AUCTION_ENDED", d.getTime()+50, 1);
@@ -215,7 +208,6 @@ public class EventHandlerTest {
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//Tests the Events
