@@ -151,7 +151,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					else if(cmd[0].equals("!login")){
 						c= commandFactory.createCommand(cmd);
 						Login l = (Login)c;
-						c.execute(cmd);
+						l.execute(cmd);
+
 //						try{ 
 							billingServerSecure=billingServer.login(l);
 							if(billingServerSecure == null){
@@ -329,6 +330,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	 * @param server wich Servername (true if billing, false if analytic)
 	 */
 	private void initRMI(String servername, boolean server){
+		if(servername==null){
+			initRMI();
+			return;
+		}
 		try{
 			Properties properties = new Properties();
 			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
@@ -357,6 +362,23 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		
 	}
 	private void initRMI(String analyticServerName, String billingServerName){
+
+		Properties properties = new Properties();
+		try{
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+		}catch (FileNotFoundException e) {
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
+			return;
+		}catch (IOException e) {
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
+			return;
+		} 
 		if(analyticServerName == null){
 			if(billingServerName==null){
 				initRMI();
