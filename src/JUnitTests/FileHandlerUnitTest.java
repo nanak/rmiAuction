@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import Exceptions.CannotCastToMapException;
 import ServerModel.FileHandler;
-import billing.Bill;
+import billing.model.Bill;
 
 /**
  * Tests all functions from filehandler

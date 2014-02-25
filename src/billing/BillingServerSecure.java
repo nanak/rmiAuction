@@ -6,6 +6,9 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import billing.model.Bill;
+import billing.model.CompositeKey;
+import billing.model.PriceStep;
 import Exceptions.CannotCastToMapException;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;

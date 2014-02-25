@@ -11,7 +11,7 @@ import org.junit.Test;
 import Exceptions.IllegalValueException;
 import Exceptions.PriceStepIntervalOverlapException;
 import billing.BillingServerSecure;
-import billing.PriceStep;
+import billing.model.PriceStep;
 
 /**
  * tests the functions from BillingServerSecure

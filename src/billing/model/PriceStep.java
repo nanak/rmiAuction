@@ -1,4 +1,4 @@
-package billing;
+package billing.model;
 
 import java.text.DecimalFormat;
 

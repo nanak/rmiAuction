@@ -1,8 +1,5 @@
 package rmi;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.AccessException;
 import java.rmi.Naming;
@@ -31,14 +28,7 @@ public class InitRMI {
 		init=false;
 		this.p=p;
 	}
-	
-//	public InitRMI() throws IOException{
-//		init=false;
-//		p  = new Properties();
-//		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));	
-//		p.load(stream);
-//		stream.close();
-//	}
+
 	
 	public int init(){
 		System.out.println("Init registry");
@@ -49,7 +39,7 @@ public class InitRMI {
         }catch( RemoteException | NumberFormatException e){
         	System.out.println("Could not create RMI registry, getting RMI registry");
         	try{
-            	registry = LocateRegistry.getRegistry(p.getProperty("rmi.registryURL"),Integer.parseInt(p.getProperty("rmi.port")));
+            	registry = LocateRegistry.getRegistry(Integer.parseInt(p.getProperty("rmi.port")));
         	}catch(Exception xe){//TODO Einschraenken
         		return COULD_NOT_BIND_OR_LOCATE_REGISTRY;
         	}
