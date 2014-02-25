@@ -357,7 +357,7 @@ public class ClientTest {
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!loiigiin test1\n!end");
 		c.run();
-		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(1));
+		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again\nArguments: [!login, !logout, !create, !bid, !list]",cli.getOutputOnIndex(1));
 	}
 	
 	/**

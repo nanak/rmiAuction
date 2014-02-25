@@ -303,7 +303,7 @@ public class ManagementClientTest {
 	public void endUnsecureTest(){
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
-		cli.write("!end");
+		cli.write("!exit");
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
@@ -399,7 +399,7 @@ public class ManagementClientTest {
 	public void endSecureTest(){
 		cli=new FakeCli("");
 		m=new ManagmentClient(cli);
-		cli.write("!login test test\n!end");
+		cli.write("!login test test\n!exit");
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
@@ -423,7 +423,7 @@ public class ManagementClientTest {
 			e.printStackTrace();
 		}
 		bs.shutdown();
-		cli.write("!end");      
+		cli.write("!exit");      
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {

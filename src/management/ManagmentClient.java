@@ -292,8 +292,12 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		}
 
 	}
+	/**
+	 * Initialises RMI for the management cleint 
+	 * @param properties Properties for the RMI connection
+	 */
 	private void initRMI(Properties properties){
-//		try {
+		try {
 			
 			ir = new InitRMI(properties);
 			ir.init();
@@ -320,24 +324,13 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			try {
 				ir.rebind(this,uniqueID);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Error binding Client");
 			}
 			 
-//		} catch (RemoteException e) {
-//			
-//			running=false;
-//			e.printStackTrace();
-//		} catch (NotBoundException e) {
-//			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
-//			running=false;
-//		} catch (NumberFormatException nfe) {
-//			System.out.println("Properties File not well formatet. Client shutting down.");
-//			running=false;
-//		} catch (IOException e) {
-//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-//			running=false;
-//		} 
+		} catch (NumberFormatException|NullPointerException nfe) {
+			System.out.println("Properties File not well formatet. Client shutting down.");
+			running=false;
+		} 
 	}
 	public void setRunning(boolean running){
 		this.running=running;
@@ -418,7 +411,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 //		initRMI(p);
 //	}
 	/**
-	 * RMI Initialisation
+	 * RMI Initialisation wich loads the Properties from registry.properties file
 	 */
 	private void initRMI(){
 		try{

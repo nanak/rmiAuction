@@ -259,7 +259,8 @@ public class AnalyticsServer {
 			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
          System.out.println("AnalyticsServer bound");
 		 }catch(Exception e){
-			 //TODO handeln
+			 System.out.println("Could not bind Analyticserver. Shutting down");
+			 return false;
 		 }
 		 
 		 return true;
@@ -291,9 +292,9 @@ public class AnalyticsServer {
 				return initRmi(analytics, properties.getProperty("rmi.analyticsServer"));
 	            
 	        }catch (Exception e){
-	        	e.printStackTrace();
+	        	 System.out.println("Could not bind Analyticserver. Shutting down");
+				 return false;
 	        }
-		 return true;
 	 }
 
 }

@@ -1,6 +1,0 @@
-Testsuite: JUnitTests.LoginTest
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,007 sec
-
-Testcase: getNameTest took 0 sec
-Testcase: loginWrongNumber took 0 sec
-Testcase: LoginOk took 0 sec

@@ -1,5 +1,0 @@
-Testsuite: JUnitTests.LogoutTest
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,01 sec
-
-Testcase: logoutlWrongNumber took 0,002 sec
-Testcase: logoutOk took 0,001 sec
