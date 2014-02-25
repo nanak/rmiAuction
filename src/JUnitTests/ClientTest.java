@@ -344,7 +344,7 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputOnIndex(3));
+		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
 	}
 	
 	/**

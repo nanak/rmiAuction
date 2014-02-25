@@ -77,7 +77,7 @@ public class ManagementClientTest {
 		cli=new FakeCli("!login test muh");
 		m=new ManagmentClient(cli);
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,7 +120,7 @@ public class ManagementClientTest {
 		m=new ManagmentClient(cli);
 		cli.write("!auto");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
