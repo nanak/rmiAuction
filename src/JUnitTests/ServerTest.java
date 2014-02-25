@@ -4,6 +4,7 @@
 package JUnitTests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
@@ -291,4 +292,40 @@ public class ServerTest {
 		assertEquals(server.isActive(),true);
 	}
 
+	/**
+	 * Tests if Auction ended with Bid
+	 */
+	@Test
+	public void testAuctionEndedWithBid(){
+		server.request(new LoginMessage("test", "1.2.3.4", 0, 0));
+		server.request(new CreateMessage("test", "nein", 1l));
+		server.request(new LoginMessage("test2", "1.2.3.4", 0, 0));
+		server.request(new BidMessage("test2", 0, 5));
+		try {
+			Thread.sleep(1200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(!server.getAuction().get(0).isActive());
+		assertTrue(server.getAuction().get(0).getLastUser()!=null);
+	}
+	
+	/**
+	 * Tests if Auction ended without bid
+	 */
+	@Test
+	public void testAuctionEndedWithoutBid(){
+		server.request(new LoginMessage("test", "1.2.3.4", 0, 0));
+		server.request(new CreateMessage("test", "nein", 1l));
+		try {
+			Thread.sleep(1200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(!server.getAuction().get(0).isActive());
+
+		assertTrue(server.getAuction().get(0).getLastUser()==null);
+	}
 }

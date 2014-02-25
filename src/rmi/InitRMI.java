@@ -30,13 +30,13 @@ public class InitRMI {
 		this.p=p;
 	}
 	
-	public InitRMI() throws IOException{
-		init=false;
-		p  = new Properties();
-		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));	
-		p.load(stream);
-		stream.close();
-	}
+//	public InitRMI() throws IOException{
+//		init=false;
+//		p  = new Properties();
+//		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));	
+//		p.load(stream);
+//		stream.close();
+//	}
 	
 	public int init(){
 		System.out.println("Init registry");

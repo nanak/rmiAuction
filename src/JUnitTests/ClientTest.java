@@ -2,6 +2,7 @@ package JUnitTests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
