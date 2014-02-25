@@ -1,11 +1,42 @@
-OS: Xubuntu 13.04
-RAM: 8 GB
+﻿OS: Windows 7
+RAM: 12 GB
 CPU: Intel Core i7-4500U
-CPU Frequency: 1.8 GHz
-CPU Cores: 2
+CPU Frequency: 3.5GHz
+CPU Cores: 4
 
-Bei 200 Clients mit 1 Auction und 1 Bid per Minute  und einem List alle 20 Sekunden geht die CPU-Auslastung auf die 100% zu, 
-das System läuft jedoch noch stabil.
 
-Bei 200 Clients mit 100 Auction und 100 Bid per Minute und einem List alle 20 Sekunden geht die CPU-Auslastung auf die 100% zu, 
-das System läuft jedoch weiter stabil. Memory iegt hier be 40%.
+
+Maximale Clients:
+
+Bei 200 Clients mit 10 Auktionen und 10 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess durchschnittlich bei ca. 15%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Bei 300 Clients mit 10 Auktionen und 10 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess liegt zu Beginn bei ca 35%, danach durchschnittlich bei ca. 15%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Ab 300 Clients tritt das Problem auf, dass man an die Grenzen der JVM stößt, und folgende Exception auftritt: java.lang.OutOfMemoryError: unable to create new native thread
+
+
+
+Testen der anderen Parameter:
+
+Bei 300 Clients mit 100 Auktionen und 100 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess liegt zu Beginn bei ca 40%, danach durchschnittlich bei ca. 30%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Bei 100 Clients mit 300 Auktionen und 300 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess liegt durchschnittlich bei ca. 45%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Bei 100 Clients mit 300 Auktionen und 300 Bids per Minute und einem List alle 2 Sekunden ist die CPU-Auslastung für diesen Prozess liegt durchschnittlich bei ca. 50%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Bei 100 Clients mit 500 Auktionen und 500 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess liegt durchschnittlich bei ca. 55%.
+AM RAM sind kaum Änderungen zu bemerken.
+
+
+Bei 200 Clients mit 200 Auktionen und 200 Bids per Minute und einem List alle 2 Sekunden ist die CPU-Auslastung für diesen Prozess stark schwankend zwischen 40 und 60 %
+AM RAM sind kaum Änderungen zu bemerken.
