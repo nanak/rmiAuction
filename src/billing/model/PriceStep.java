@@ -1,5 +1,6 @@
 package billing.model;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
 import exceptions.IllegalValueException;
@@ -15,7 +16,7 @@ import exceptions.IllegalValueException;
  * @version 11.02.2014
  *
  */
-public class PriceStep{
+public class PriceStep implements Serializable{
 	private double startPrice, endPrice, fixedPrice, variablePricePercent;
 	private String[] desc= {"Min_Price", "Max_Price", "Max_Price", "Fee_Variable"};
 
