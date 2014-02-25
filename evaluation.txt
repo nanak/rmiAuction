@@ -1,5 +1,11 @@
-OS: Windows 7
-RAM: 12 GB
-CPU: Intel Core i7-3770
-CPU Frequency: 3.40 GHz
-CPU Cores: 4
+OS: Xubuntu 13.04
+RAM: 8 GB
+CPU: Intel Core i7-4500U
+CPU Frequency: 1.8 GHz
+CPU Cores: 2
+
+Bei 200 Clients mit 1 Auction und 1 Bid per Minute  und einem List alle 20 Sekunden geht die CPU-Auslastung auf die 100% zu, 
+das System läuft jedoch noch stabil.
+
+Bei 200 Clients mit 100 Auction und 100 Bid per Minute und einem List alle 20 Sekunden geht die CPU-Auslastung auf die 100% zu, 
+das System läuft jedoch weiter stabil. Memory iegt hier be 40%.
