@@ -58,8 +58,8 @@ public class Loading {
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		s= new Server();
-		s.setTcpPort(5000);
-		ReceiveConnection r = new ReceiveConnection(5000, s);	
+		s.setTcpPort(6000);
+		ReceiveConnection r = new ReceiveConnection(6000, s);	
 		Thread t = new Thread(r);
 		t.start();	
 	}
@@ -81,7 +81,7 @@ public class Loading {
 		}
 		s.setActive(false);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -91,7 +91,7 @@ public class Loading {
 	 */
 	@Test
 	public void constTest(){
-		l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
+		l = new LoadTest("localhost", 6000, "loadtest.properties",5000);
 		
 //		l.shutdown();
 		try {
@@ -105,7 +105,7 @@ public class Loading {
 	 */
 	@Test 
 	public void auctionTest(){
-		Client cl=new Client("localhost", 5000, new FakeCli(""));
+		Client cl=new Client("localhost", 6000, new FakeCli(""));
 		Timer t= new Timer();
 		CreateTask c = new CreateTask(100, 200, new TaskExecuter(cl), 5000);
 		t.schedule(c, 0, 100);
@@ -122,7 +122,7 @@ public class Loading {
 	 */
 	@Test
 	public void randomStringTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
+		LoadTest l = new LoadTest("localhost", 6000, "loadtest.properties",5000);
 		
 		String r=l.randomString(20);
 		try {

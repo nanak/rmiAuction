@@ -13,7 +13,7 @@ public class StartAnalytics {
 	public static void main(String[] args) {
 		AnalyticsServer as = new AnalyticsServer();
 		Scanner in = new Scanner(System.in);
-		in.nextLine();
+		while(!in.nextLine().equals("!exit"));
 		as.shutdown();
 	}
 }
