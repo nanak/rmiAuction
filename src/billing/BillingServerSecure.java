@@ -7,9 +7,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import serverModel.FileHandler;
+
 import billing.model.Bill;
 import billing.model.CompositeKey;
 import billing.model.PriceStep;
+import exceptions.CannotCastToMapException;
 import exceptions.IllegalValueException;
 import exceptions.PriceStepIntervalOverlapException;
 
@@ -22,8 +24,6 @@ import exceptions.PriceStepIntervalOverlapException;
  *
  */
 public class BillingServerSecure  {
-
-	//private ConcurrentHashMap<String,Login> user;
 
 	private ConcurrentSkipListMap<CompositeKey,PriceStep> priceSteps;
 
@@ -66,10 +66,9 @@ public class BillingServerSecure  {
 	 * @param variablePricePercent
 	 * @throws PriceStepIntervalOverlapException
 	 */
-	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException {
+	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException,IllegalValueException{
 		PriceStep p;
 		CompositeKey k;
-			try {
 				p = new PriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
 				k=new CompositeKey(startPrice, endPrice);
 				Iterator<CompositeKey> i=priceSteps.keySet().iterator();
@@ -79,9 +78,6 @@ public class BillingServerSecure  {
 					}
 				}
 				priceSteps.put(k, p);
-			} catch (IllegalValueException e) {
-				System.err.println(e);
-			}
 
 	}
 	/**

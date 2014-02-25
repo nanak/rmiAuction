@@ -36,29 +36,47 @@ public class BillingServerSecureTest{
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
 			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n200,00		300,00		7,00		9,00\n300,00		INFINITY	5,00		6,00");
-		} catch (PriceStepIntervalOverlapException e) {
+		} catch (RemoteException e) {
 		}
 	}
 	
 	@Test(expected=PriceStepIntervalOverlapException.class)
 	public void createPriceStepTestPriceStepIntervalOverlapException() throws PriceStepIntervalOverlapException {
 		BillingServerSecure s= new BillingServerSecure();
-			s.createPriceStep(0, 10, 5, 10);
-			s.createPriceStep(0, 11, 5, 6);
+			try {
+				s.createPriceStep(0, 10, 5, 10);
+				s.createPriceStep(0, 11, 5, 6);
+			} catch (IllegalValueException e) {
+			}
 	}
 	
 	@Test(expected=PriceStepIntervalOverlapException.class)
 	public void createPriceStepTestPriceStepIntervalOverlapException2() throws PriceStepIntervalOverlapException {
 		BillingServerSecure s= new BillingServerSecure();
-			s.createPriceStep(10, 0, 5, 10);
-			s.createPriceStep(11, 0, 5, 6);
+			try {
+				s.createPriceStep(10, 0, 5, 10);
+				s.createPriceStep(11, 0, 5, 6);
+			} catch (IllegalValueException e) {
+			}
 	}
 	
 	@Test(expected=PriceStepIntervalOverlapException.class)
 	public void createPriceStepTestPriceStepIntervalOverlapException3() throws PriceStepIntervalOverlapException {
 		BillingServerSecure s= new BillingServerSecure();
+		try{
 			s.createPriceStep(10, 0, 5, 10);
 			s.createPriceStep(11, 100, 5, 6);
+		} catch (IllegalValueException e) {
+		}
+	}
+	
+	@Test(expected=IllegalValueException.class)
+	public void createPriceStepTestIllegalValueException() throws IllegalValueException {
+		BillingServerSecure s= new BillingServerSecure();
+		try{
+			s.createPriceStep(-1, 1, 5, 10);
+		} catch (PriceStepIntervalOverlapException e) {
+		}
 	}
 
 	@Test
@@ -90,7 +108,7 @@ public class BillingServerSecureTest{
 		try {
 			s.createPriceStep(0, 10, 5.6,5);
 			s.createPriceStep(10, 30, 10,10);
-		} catch (PriceStepIntervalOverlapException e) {}
+		} catch (RemoteException e) {}
 		s.billAuction("test", 1, 9);
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
@@ -102,7 +120,7 @@ public class BillingServerSecureTest{
 		BillingServerSecure s= new BillingServerSecure();
 		try {
 			s.createPriceStep(0, 10, 5.6,5);
-		} catch (PriceStepIntervalOverlapException e) {
+		} catch (RemoteException e) {
 		}
 		s.billAuction("test", 1, 100);
 		s.billAuction("test", 1, 100);
@@ -120,7 +138,7 @@ public class BillingServerSecureTest{
 		try {
 			s.createPriceStep(0, 10, 5.6,5);
 			s.createPriceStep(10, 30, 10,10);
-		} catch (PriceStepIntervalOverlapException e) {}
+		} catch (RemoteException e) {}
 		s.billAuction("test", 1, 9);
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);

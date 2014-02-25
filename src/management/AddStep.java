@@ -1,5 +1,7 @@
 package management;
 
+import java.rmi.RemoteException;
+
 import exceptions.PriceStepIntervalOverlapException;
 import exceptions.WrongInputException;
 import exceptions.WrongNumberOfArgumentsException;
@@ -33,8 +35,8 @@ public class AddStep extends SecureCommand<String> {
 			variablePricePercent=Double.parseDouble(cmd[4]);
 			try {
 				bss.createPriceStep(startPrice, endPrice, fixedPrice, variablePricePercent);
-			} catch (PriceStepIntervalOverlapException e) {
-				e.printStackTrace();
+			} catch (RemoteException e) {
+				return e.getMessage();
 			}
 			
 		}
