@@ -20,6 +20,12 @@ public class CreateMessage implements Message{
 		this.desc=desc;
 		this.duration=duration;
 	}
+	/**
+	 * Creates empty CreateMessage
+	 */
+	public CreateMessage() {
+		
+	}
 	@Override
 	public String getName() {
 		return name;//null wurde vorher zurueckgeben -huang

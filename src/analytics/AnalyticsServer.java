@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -255,9 +256,12 @@ public class AnalyticsServer {
 		 properties.put("rmi.analyticsServer", analyticServerName);
 		 ir = new InitRMI(properties);
 			ir.init();
-			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
+			ir.bind(analytics, properties.getProperty("rmi.analyticsServer"));
          System.out.println("AnalyticsServer bound");
-		 }catch(Exception e){
+		 }catch(AlreadyBoundException ar){
+			 System.out.println("Server already started! Close this session!");
+		 }
+		 catch(Exception e){
 			 System.out.println("Could not bind Analyticserver. Shutting down");
 			 return false;
 		 }

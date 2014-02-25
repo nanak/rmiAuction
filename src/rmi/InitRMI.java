@@ -2,6 +2,7 @@ package rmi;
 
 import java.net.MalformedURLException;
 import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
@@ -76,6 +77,25 @@ public class InitRMI {
 			return i;
 		ro= UnicastRemoteObject.exportObject(r, 0);
 		registry.rebind(rmiIdentifier, ro);
+		
+		return REMOTE_BOUND;
+	}
+	/**
+	 * Binds the Remoteobject
+	 * @param r Remoteobject
+	 * @param rmiIdentifier Unique Identifier in the registry
+	 * @return Successtate
+	 * @throws RemoteException
+	 * @throws AlreadyBoundException If server is already bound
+	 */
+	public int bind(Remote r, String rmiIdentifier) throws RemoteException, AlreadyBoundException{
+		int i=0;
+		if(!init)
+			i=init();
+		if(i!=0)
+			return i;
+		ro= UnicastRemoteObject.exportObject(r, 0);
+		registry.bind(rmiIdentifier, ro);
 		
 		return REMOTE_BOUND;
 	}

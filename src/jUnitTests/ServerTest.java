@@ -157,7 +157,6 @@ public class ServerTest {
 		
 		String wert = server.request(login); //Before testing bid i must test login and need a user
 		assertEquals(wert,"Successfully suscribed and logged in as: name");
-		
 		Long duration = 10L;
 		CreateMessage create = new CreateMessage();
 		create.setDesc("laptop");

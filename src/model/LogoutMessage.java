@@ -14,6 +14,11 @@ public class LogoutMessage implements Message{
 	public LogoutMessage(String name){
 		this.name=name;
 	}
+	/**
+	 * Creates empty logout message
+	 */
+	public LogoutMessage() {
+	}
 	@Override
 	public String getName() {
 		return name;//null wurde vorher zurueckgeben -huang

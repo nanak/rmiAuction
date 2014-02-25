@@ -12,7 +12,9 @@ import java.util.Scanner;
 public class StartAnalytics {
 	public static void main(String[] args) {
 		AnalyticsServer as = new AnalyticsServer();
+		System.out.println("Server started. Close with !exit");
 		Scanner in = new Scanner(System.in);
+		
 		while(!in.nextLine().equals("!exit"));
 		as.shutdown();
 	}

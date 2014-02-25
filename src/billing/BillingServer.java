@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.rmi.AlreadyBoundException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -129,12 +130,15 @@ public class BillingServer implements RemoteBillingServer {
 //			System.out.println("Stuck in init");
 			ir = new InitRMI(properties);
 			ir.init();
-			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
+			ir.bind(bs, properties.getProperty("rmi.billingServer"));
             System.out.println("BillingServer bound");
-			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
+			ir.bind(bss, properties.getProperty("rmi.billingServerSecure"));
             System.out.println("BillingServerSecure bound");
 			 
-		 }catch(NullPointerException| RemoteException re){
+		 }catch(AlreadyBoundException ar){
+			 System.out.println("Server already started! Close this session!");
+		 }
+		 catch(NullPointerException| RemoteException re){
 			 System.out.println("Could not bind Billingserver. Shutting down");
 			 return false;
 	 	}catch(Exception e){

@@ -23,6 +23,10 @@ public class AddStep extends SecureCommand<String> {
 	private Double variablePricePercent;
 	private BillingServerSecure bss;
 
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#execute(java.lang.String[])
+	 */
 	@Override
 	public String execute(String[] cmd) throws WrongNumberOfArgumentsException, WrongInputException{
 		if(cmd.length!=5){
@@ -51,6 +55,10 @@ public class AddStep extends SecureCommand<String> {
 		}
 		
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#setBillingServerSecure(billing.BillingServerSecure)
+	 */
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;
 	}

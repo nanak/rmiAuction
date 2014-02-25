@@ -14,6 +14,11 @@ public class ListMessage implements Message{
 	public ListMessage(String name){
 		this.name=name;
 	}
+	/**
+	 * Creates empty ListMessage
+	 */
+	public ListMessage() {
+	}
 	@Override
 	public String getName() {
 		return name;//null wurde vorher zurueckgeben -huang

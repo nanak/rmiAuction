@@ -20,6 +20,11 @@ public class BidMessage implements Message{
 		this.id=id;
 		this.amount=amount;
 	}
+	/**
+	 * Creates empty BidMessage
+	 */
+	public BidMessage() {
+	}
 	@Override
 	public String getName() {
 		return name;//war vorher null -huang

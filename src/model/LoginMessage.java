@@ -22,6 +22,12 @@ public class LoginMessage implements Message{
 		this.tcpPort=tcpPort;
 		this.udpPort=udpPort;
 	}
+	/**
+	 * Creates empty loginMessage
+	 */
+	public LoginMessage() {
+		
+	}
 	@Override
 	public String getName() {
 		return name;//null wurde vorher zurueckgeben -huang
