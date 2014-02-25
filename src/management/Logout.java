@@ -23,6 +23,10 @@ public class Logout extends SecureCommand<String> {
 		}
 		return cmd[1]+" successfully logged out";
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#setBillingServerSecure(billing.BillingServerSecure)
+	 */
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;
 	}

@@ -9,9 +9,12 @@ public class BidMessage implements Message{
 	private int id;
 	private double amount;
 	
-	public BidMessage() {
-	}
-	
+	/**
+	 * Initialises a BidMessage
+	 * @param name	Bidsding Username
+	 * @param id	AuctionId
+	 * @param amount	Bid Amount
+	 */
 	public BidMessage(String name,int id,double amount){
 		this.name=name;
 		this.id=id;

@@ -16,6 +16,10 @@ public class RemoveStep extends SecureCommand<String> {
 	private Double endPrice;
 	private BillingServerSecure bss;
 
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#execute(java.lang.String[])
+	 */
 	@Override
 	public String execute(String[] cmd) throws WrongNumberOfArgumentsException, WrongInputException {
 		if(cmd.length!=3){
@@ -37,6 +41,10 @@ public class RemoveStep extends SecureCommand<String> {
 			return "ERROR: Price step ["+startPrice+" "+endPrice+"] does not exist";
 		}
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#setBillingServerSecure(billing.BillingServerSecure)
+	 */
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;
 	}

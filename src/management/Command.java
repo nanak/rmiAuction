@@ -17,9 +17,9 @@ public interface Command<T> extends Serializable{
 	 * Method execute, which executes all neccessary steps for the Command.
 	 * 
 	 * @param cmd Command as a String[]
-	 * @return T 
-	 * @throws WrongInputException
-	 * @throws WrongNumberOfArgumentsException
+	 * @return T	 
+	 * @throws WrongInputException	Input cannot be formatted right
+	 * @throws WrongNumberOfArgumentsException	Number of arguments in cmd is correct
 	 */
 	public abstract T execute(String[] cmd) throws WrongInputException, WrongNumberOfArgumentsException;
 

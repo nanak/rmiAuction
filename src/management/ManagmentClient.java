@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Iterator;
@@ -17,6 +16,10 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import rmi.InitRMI;
+import analytics.RemoteAnalyticsTaskComputing;
+import billing.IRemoteBillingServerSecure;
+import billing.RemoteBillingServer;
 import client.CLI;
 import client.UI;
 import event.Event;
@@ -24,10 +27,6 @@ import exceptions.CommandIsSecureException;
 import exceptions.CommandNotFoundException;
 import exceptions.WrongInputException;
 import exceptions.WrongNumberOfArgumentsException;
-import rmi.InitRMI;
-import analytics.RemoteAnalyticsTaskComputing;
-import billing.IRemoteBillingServerSecure;
-import billing.RemoteBillingServer;
 
 
 /**
@@ -286,9 +285,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			}
 			br.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-			
 		}
 
 	}
@@ -338,78 +334,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	public boolean getPrintAutomatic(){
 		return printAutomatic;
 	}
-//	/**
-//	 * initRMI if one name given
-//	 * @param servername rmi Servername
-//	 * @param server wich Servername (true if billing, false if analytic)
-//	 */
-//	private void initRMI(String servername, boolean server){
-//		if(servername==null){
-//			initRMI();
-//			return;
-//		}
-//		try{
-//			Properties properties = new Properties();
-//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
-//			
-//			properties.load(stream);
-//		
-//			stream.close();
-//			if(server){
-//				properties.put("rmi.billingserver", servername);
-//				
-//			}else{
-//				properties.put("rmi.analyticsServer", servername);
-//			}
-//			
-//			
-//			
-//			initRMI (properties);
-//		}catch (FileNotFoundException e) {
-//			running=false;
-//			System.out.println("Properties File doesn't exist. Client shutting down.");
-//		}catch (IOException e) {
-//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-//			running=false;
-//		} 
-//		
-//		
-//	}
-//	private void initRMI(String analyticServerName, String billingServerName){
-//
-//		Properties properties = new Properties();
-//		try{
-//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
-//			
-//			properties.load(stream);
-//		
-//			stream.close();
-//		}catch (FileNotFoundException e) {
-//			running=false;
-//			System.out.println("Properties File doesn't exist. Client shutting down.");
-//			return;
-//		}catch (IOException e) {
-//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-//			running=false;
-//			return;
-//		} 
-//		if(analyticServerName == null){
-//			if(billingServerName==null){
-//				initRMI();
-//				return;
-//			}
-//			initRMI(billingServerName,true);
-//			return;
-//		}
-//		if(billingServerName==null){
-//			initRMI(analyticServerName,false);
-//			return;
-//		}
-//		Properties p = new Properties();
-//		p.put("rmi.billingserver", billingServerName);
-//		p.put("rmi.analyticsServer", analyticServerName);
-//		initRMI(p);
-//	}
+
 	/**
 	 * RMI Initialisation wich loads the Properties from registry.properties file
 	 */
@@ -430,12 +355,5 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			running=false;
 		} 
 	}
-//		if (System.getSecurityManager() == null) {
-//			System.setSecurityManager(new SecurityManager());
-//		}
-	// neues Properties Objekt erstellen
-
-
-		
 
 }

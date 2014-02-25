@@ -64,8 +64,8 @@ public class InitRMI {
 	/**
 	 * Rebinds the Remoteobject
 	 * @param r Remoteobject
-	 * @param rmiIdentifier 
-	 * @return Successstate
+	 * @param rmiIdentifier Unique Identifier in the registry
+	 * @return Successtate
 	 * @throws RemoteException
 	 */
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{

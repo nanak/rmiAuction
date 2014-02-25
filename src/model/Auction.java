@@ -15,6 +15,12 @@ public class Auction implements Serializable {
 	private Date deadline;
 	private boolean finished;
 	
+	/**
+	 * Initialises an auction
+	 * @param owner	AuctionOwner
+	 * @param description	Description of the auction
+	 * @param duration		Duration of the auction
+	 */
 	public Auction(User owner,String description,Long duration){
 		highestBid=0.0;
 		this.owner=owner;
@@ -23,7 +29,13 @@ public class Auction implements Serializable {
 		deadline.setTime(deadline.getTime()+duration*1000);
 		finished = false;
 	}
-	
+	/**
+	 * Initialises an auction
+	 * @param owner	AuctionOwner
+	 * @param description	Description of the auction
+	 * @param duration		Duration of the auction
+	 * @param id			AuctionID
+	 */
 	public Auction(User owner,String description,Long duration, int id){
 		highestBid=0.0;
 		this.owner=owner;

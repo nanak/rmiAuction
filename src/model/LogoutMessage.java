@@ -7,9 +7,10 @@ package model;
 public class LogoutMessage implements Message{
 	private String name;
 	
-	public LogoutMessage() {
-	}
-	
+	/**
+	 * Creates a message to log out the User
+	 * @param name	Name of the User
+	 */
 	public LogoutMessage(String name){
 		this.name=name;
 	}

@@ -15,6 +15,9 @@ public class User implements Serializable{
 	boolean isActive;
 	private ArrayList<String> messages;
 	
+	/**
+	 * Creates a new User
+	 */
 	public User() {
 		
 	}

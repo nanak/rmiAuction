@@ -27,6 +27,10 @@ public class Steps extends SecureCommand<String> {
 			return ps;
 		}
 	}
+	/*
+	 * (non-Javadoc)
+	 * @see management.SecureCommand#setBillingServerSecure(billing.BillingServerSecure)
+	 */
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;
 	}

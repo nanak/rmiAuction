@@ -10,6 +10,10 @@ public abstract class SecureCommand<T> implements Command<T> {
 
 	private BillingServerSecure bss;
 
+	/**
+	 * Sets the BillingServer secure
+	 * @param bss
+	 */
 	public void setBillingServerSecure(BillingServerSecure bss) {
 		this.bss=bss;
 	}

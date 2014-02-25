@@ -9,9 +9,13 @@ public class LoginMessage implements Message{
 	private String adresse;
 	private int tcpPort, udpPort;
 	
-	public LoginMessage() {
-	}
-	
+	/**
+	 * LoginMessage for a user to log in
+	 * @param name	Name of the user
+	 * @param adresse	Hostname of the Client
+	 * @param tcpPort	TCPPort of the Client
+	 * @param udpPort	UDP Port the client listens
+	 */
 	public LoginMessage(String name,String adresse,int tcpPort,int udpPort){
 		this.name=name;
 		this.adresse=adresse;

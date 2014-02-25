@@ -26,7 +26,7 @@ public class Properties {
 	/**
 	 * Setter Method for the Amount of Clients.
 	 * 
-	 * @param number
+	 * @param number	Number of Clients
 	 */
 	public void setClients(int number) {
 		this.clients=number;

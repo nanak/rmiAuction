@@ -8,10 +8,13 @@ public class CreateMessage implements Message{
 	private String name;
 	private String desc;
 	private Long duration; //auf long geaendert da ueberall verwendet tobias 
-	
-	public CreateMessage() {
-	}
-	
+
+	/**
+	 * Creates a new AuctionMessage
+	 * @param name	Name of the user
+	 * @param desc	AuctionDescription
+	 * @param duration	AuctionDuration
+	 */
 	public CreateMessage(String name,String desc,Long duration){
 		this.name=name;
 		this.desc=desc;

@@ -21,9 +21,8 @@ public class CommandFactory {
 	 * @param args String[] of the user input
 	 * @return Command which matches the userinput
 	 * @throws CommandNotFoundException if the input doesnt match any Command
-	 * @throws CommandIsSecureException 
+	 * @throws CommandIsSecureException If The Commenad needs special privileges
 	 */
-	
 	public Login createCommand(String[] args) throws CommandNotFoundException, CommandIsSecureException{
 		if(args[0].equals("!login")){
 			return new Login();
@@ -43,7 +42,7 @@ public class CommandFactory {
 	 * @param args String[] of the user input
 	 * @return Command which matches the userinput
 	 * @throws CommandNotFoundException if the input doesnt match any Command
-	 * @throws CommandIsSecureException 
+	 * @throws CommandIsSecureException If the user needs special privileges
 	 */
 	public SecureCommand createSecureCommand(String[] args) throws CommandNotFoundException{
 		if(args[0].equals("!addStep")){

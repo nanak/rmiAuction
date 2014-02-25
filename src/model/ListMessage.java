@@ -6,10 +6,11 @@ package model;
  */
 public class ListMessage implements Message{
 	private String name;
-	
-	public ListMessage() {
-	}
-	
+
+	/**
+	 * Creates new ListMessage
+	 * @param name	Name of the user who wants it
+	 */
 	public ListMessage(String name){
 		this.name=name;
 	}
