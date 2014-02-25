@@ -46,7 +46,7 @@ public class InitRMI {
         try{
 //        	System.out.println("Getting registry");
             registry = LocateRegistry.createRegistry(Integer.parseInt(p.getProperty("rmi.port")));        	
-        }catch( RemoteException | NumberFormatException e){
+        }catch( RemoteException | NumberFormatException | NullPointerException e){
         	System.out.println("Could not create RMI registry, getting RMI registry");
         	try{
             	registry = LocateRegistry.getRegistry(Integer.parseInt(p.getProperty("rmi.port")));
@@ -83,7 +83,7 @@ public class InitRMI {
 	/**
 	 * Looksup a Server and gets a Remote object
 	 * @param rmiIdentifier		Unique Name in registry
-	 * @return	Remote Object which matches the identifier
+	 * @return	Remote Object which matches the identifier, Null if not initialised or couldn't lookup
 	 * 
 	 * @throws AccessException	Access to Registry not allowed
 	 * @throws RemoteException	Could not get Object
@@ -96,7 +96,11 @@ public class InitRMI {
 			i=init();
 		if(i!=0)
 			return null;
-		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
+		try {
+			return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
+		}catch (Exception e){
+			return null;
+		}
 	}
 	
 	/**
