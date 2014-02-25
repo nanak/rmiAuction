@@ -33,12 +33,13 @@ public class CheckTimeTask extends TimerTask{
 	 * @param m ManagementClient
 	 * @param mcli FakeCli of the ManagementClient initiated in LoadTest
 	 */
-	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli){
+	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli, long min){
 		this.mcli=mcli;
 		this.starttime=starttime;
 		this.list=list2;
 		this.create=create2;
 		this.m=m;
+		this.min=min;
 		this.bid=bid2;
 	}
 
@@ -51,7 +52,8 @@ public class CheckTimeTask extends TimerTask{
 	public void run() {
 		status=System.currentTimeMillis()-starttime;
 		if(status>=min){
-			mcli.write("!unsubscribe 0\n!end");
+			if(mcli!=null)
+				mcli.write("!unsubscribe 0\n!end");
 			list.cancel();
 			list.purge();
 			create.cancel();
@@ -60,7 +62,8 @@ public class CheckTimeTask extends TimerTask{
 			bid.purge();
 			long passed=min+status;
 			System.out.println("Loadtest ended. Time passed: "+passed);
-			m.setRunning(false);
+			if(m!=null)
+				m.setRunning(false);
 			this.cancel();
 		}
 	}

@@ -73,7 +73,7 @@ public class LoadTest {
 		}
 		mcli=new FakeCli("!subscribe .* \n!auto");
 		m =new ManagmentClient(mcli);
-		new LoadTest(hostname,port,filename);
+		new LoadTest(hostname,port,filename,1*60000);
 		
 		
 	}
@@ -86,7 +86,7 @@ public class LoadTest {
 	 * @param port Port of the Server
 	 * @param filename Filename of the porpertiesfile
 	 */
-	public LoadTest(String hostname,int port, String filename){
+	public LoadTest(String hostname,int port, String filename,long min){
 		clients=new ArrayList<Client>();
 		
 		Properties p = new Properties();
@@ -113,7 +113,7 @@ public class LoadTest {
 			create.schedule(c, 0, 60000/p.getAuctionsPerMin());
 			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
 			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
-			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli), 1000, 10000);
+			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli,min), 1000, 1000);
 		}
 		
 	}

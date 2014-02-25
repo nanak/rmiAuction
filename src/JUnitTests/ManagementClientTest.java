@@ -172,7 +172,7 @@ public class ManagementClientTest {
 //		m.setBillingServer(bs);
 		cli.write("!subscribe .*");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -401,7 +401,7 @@ public class ManagementClientTest {
 		m=new ManagmentClient(cli);
 		cli.write("!login test test\n!end");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

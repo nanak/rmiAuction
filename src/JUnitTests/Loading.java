@@ -91,11 +91,11 @@ public class Loading {
 	 */
 	@Test
 	public void constTest(){
-		l = new LoadTest("localhost", 5000, "loadtest.properties");
+		l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
 		
 //		l.shutdown();
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -110,7 +110,7 @@ public class Loading {
 		CreateTask c = new CreateTask(100, 200, new TaskExecuter(cl), 5000);
 		t.schedule(c, 0, 100);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -122,11 +122,11 @@ public class Loading {
 	 */
 	@Test
 	public void randomStringTest(){
-		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties");
+		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
 		
 		String r=l.randomString(20);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
