@@ -34,9 +34,11 @@ Bei 100 Clients mit 300 Auktionen und 300 Bids per Minute und einem List alle 2 
 AM RAM sind kaum Änderungen zu bemerken.
 
 
+Bei 200 Clients mit 200 Auktionen und 200 Bids per Minute und einem List alle 2 Sekunden ist die CPU-Auslastung für diesen Prozess stark schwankend zwischen 40 und 60 %
+AM RAM sind kaum Änderungen zu bemerken.
+
+
 Bei 100 Clients mit 500 Auktionen und 500 Bids per Minute und einem List alle 20 Sekunden ist die CPU-Auslastung für diesen Prozess liegt durchschnittlich bei ca. 55%.
 AM RAM sind kaum Änderungen zu bemerken.
 
 
-Bei 200 Clients mit 200 Auktionen und 200 Bids per Minute und einem List alle 2 Sekunden ist die CPU-Auslastung für diesen Prozess stark schwankend zwischen 40 und 60 %
-AM RAM sind kaum Änderungen zu bemerken.
