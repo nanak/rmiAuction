@@ -1,7 +1,7 @@
 package jUnitTests;
 
 /**
- * Tests alle Events and toString Methods
+ * Tests
  */
 import static org.junit.Assert.*;
 
@@ -12,7 +12,11 @@ import model.Auction;
 import org.junit.Test;
 
 import event.*;
-
+/**
+ * Tess all Event Classes
+ * @author Daniel
+ *
+ */
 public class EventTest {
 	private Event e;
 	
