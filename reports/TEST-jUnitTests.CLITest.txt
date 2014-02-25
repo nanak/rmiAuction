@@ -1,6 +1,0 @@
-Testsuite: jUnitTests.CLITest
-Tests run: 3, Failures: 0, Errors: 0, Time elapsed: 0,008 sec
-
-Testcase: testOut took 0,001 sec
-Testcase: testOutLn took 0 sec
-Testcase: testReadLn took 0,001 sec
