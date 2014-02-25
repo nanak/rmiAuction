@@ -143,9 +143,11 @@ public class BillingServerSecureTest{
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
+		assertEquals(s.getPriceSteps(), "Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,60		5,00\n10,00		30,00		10,00		10,00");
 		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
 		s.shutdown();
 		s= new BillingServerSecure();
+		assertEquals(s.getPriceSteps(), "Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,60		5,00\n10,00		30,00		10,00		10,00");
 		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
 	}
 }
