@@ -2,6 +2,7 @@ package billing.model;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import exceptions.IllegalValueException;
 
@@ -19,6 +20,7 @@ import exceptions.IllegalValueException;
 public class PriceStep implements Serializable{
 	private double startPrice, endPrice, fixedPrice, variablePricePercent;
 	private String[] desc= {"Min_Price", "Max_Price", "Max_Price", "Fee_Variable"};
+	private DecimalFormat f;
 
 	/**
 	 * Constructor
@@ -35,6 +37,10 @@ public class PriceStep implements Serializable{
 		this.startPrice=startPrice;
 		this.fixedPrice=fixedPrice;
 		this.variablePricePercent=variablePricePercent;
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+		otherSymbols.setDecimalSeparator('.');
+		otherSymbols.setGroupingSeparator('.');
+		f = new DecimalFormat("#0.00", otherSymbols);
 	}
 
 /**
@@ -49,8 +55,7 @@ public class PriceStep implements Serializable{
 	 * writes the values in a well formated line
 	 */
 	@Override
-	public String toString() {
-		DecimalFormat f = new DecimalFormat("#0.00");
+	public String toString() { 
 		String endp="";
 		if(endPrice==0){
 			endp="INFINITY";
