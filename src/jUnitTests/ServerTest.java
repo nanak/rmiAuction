@@ -29,7 +29,8 @@ import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 
 /**
- * @author tobi
+ * Tests all Server Methods
+ * @author Reichmann
  *
  */
 public class ServerTest {
