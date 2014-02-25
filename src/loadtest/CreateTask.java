@@ -12,7 +12,7 @@ import client.TaskExecuter;
  * @version 20140216
  *
  */
-public class CreateTask extends TimerTask{
+public class CreateTask implements Runnable{
 	private int aucpM,aucD;
 	private TaskExecuter t;
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
