@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.rmi.AccessException;
+import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
@@ -79,7 +80,7 @@ public class InitRMI {
 	 * @throws NotBoundException	Object not in registry
 	 */
 	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException{
-		return registry.lookup(rmiIdentifier);
+		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"rmiIdentifier);
 	}
 	
 	/**

@@ -1,16 +1,46 @@
 Testsuite: JUnitTests.ManagementClientTest
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9,131 sec
+Tests run: 14, Failures: 1, Errors: 3, Skipped: 0, Time elapsed: 24,111 sec
 
-Testcase: unsubscribeExceptionTest took 0,864 sec
-Testcase: endUnsecureTest took 0,519 sec
-Testcase: subscribeExceptionCaugthTest took 0,939 sec
-Testcase: printTest took 0,519 sec
-Testcase: hideTest took 0,625 sec
-Testcase: loginTest1 took 0,531 sec
-Testcase: loginTest took 0,558 sec
-Testcase: logoutTest took 0,523 sec
-Testcase: autoTest took 1,184 sec
-Testcase: secureTest took 0,6 sec
-Testcase: subscribeTest took 1,007 sec
-Testcase: endSecureTest took 0,521 sec
-Testcase: unsubscribeTest took 0,733 sec
+Testcase: unsubscribeExceptionTest took 1,171 sec
+Testcase: endUnsecureTest took 0,994 sec
+	Caused an ERROR
+-1
+java.lang.ArrayIndexOutOfBoundsException: -1
+	at java.util.ArrayList.elementData(ArrayList.java:400)
+	at java.util.ArrayList.get(ArrayList.java:413)
+	at loadtest.FakeCli.getLastOutputM(FakeCli.java:108)
+	at JUnitTests.ManagementClientTest.endUnsecureTest(ManagementClientTest.java:313)
+
+Testcase: subscribeExceptionCaugthTest took 0,835 sec
+	Caused an ERROR
+-1
+java.lang.ArrayIndexOutOfBoundsException: -1
+	at java.util.ArrayList.elementData(ArrayList.java:400)
+	at java.util.ArrayList.get(ArrayList.java:413)
+	at loadtest.FakeCli.getLastOutputM(FakeCli.java:108)
+	at JUnitTests.ManagementClientTest.subscribeExceptionCaugthTest(ManagementClientTest.java:297)
+
+Testcase: printTest took 1,135 sec
+Testcase: hideTest took 1,436 sec
+Testcase: loginTest took 0,842 sec
+Testcase: logoutTest took 0,891 sec
+Testcase: unsubscrieAnalyticsBackTest took 2,733 sec
+Testcase: subscrieAnalyticsBackTest took 2,304 sec
+Testcase: nonsenseTest took 2,472 sec
+	Caused an ERROR
+-1
+java.lang.ArrayIndexOutOfBoundsException: -1
+	at java.util.ArrayList.elementData(ArrayList.java:400)
+	at java.util.ArrayList.get(ArrayList.java:413)
+	at loadtest.FakeCli.getLastOutputM(FakeCli.java:108)
+	at JUnitTests.ManagementClientTest.nonsenseTest(ManagementClientTest.java:449)
+
+Testcase: secureTest took 0,993 sec
+Testcase: subscribeTest took 0,545 sec
+Testcase: endSecureTest took 4,64 sec
+	FAILED
+expected:<[Management Client is shutting down!]> but was:<[Successfully logged in]>
+junit.framework.AssertionFailedError: expected:<[Management Client is shutting down!]> but was:<[Successfully logged in]>
+	at JUnitTests.ManagementClientTest.endSecureTest(ManagementClientTest.java:409)
+
+Testcase: unsubscribeTest took 1,952 sec

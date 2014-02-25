@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.EventHandlerTest" skipped="0" tests="5" time="66.224" timestamp="2014-02-24T10:34:17">
+<testsuite errors="0" failures="0" hostname="Daniel-HP" name="JUnitTests.EventHandlerTest" skipped="0" tests="5" time="66.997" timestamp="2014-02-25T10:45:47">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="your.Client" />
@@ -85,11 +85,11 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="your.BillingServer" />
   </properties>
-  <testcase classname="JUnitTests.EventHandlerTest" name="testAuctionStartedEndedNoBid" time="0.989" />
-  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginLogoutSessionEvent" time="0.753" />
-  <testcase classname="JUnitTests.EventHandlerTest" name="testBidOnAuctionChangesRatio" time="1.757" />
-  <testcase classname="JUnitTests.EventHandlerTest" name="testPlaceBidAndBPM" time="61.119" />
-  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginEvent" time="1.599" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testAuctionStartedEndedNoBid" time="0.872" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginLogoutSessionEvent" time="1.014" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testBidOnAuctionChangesRatio" time="1.803" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testPlaceBidAndBPM" time="61.109" />
+  <testcase classname="JUnitTests.EventHandlerTest" name="testUserLoginEvent" time="2.192" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[AuctionSucess
 AuctionSucess

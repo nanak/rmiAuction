@@ -1,5 +1,0 @@
-Testsuite: JUnitTests.StepsTest
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,111 sec
-
-Testcase: stepsOk took 0,003 sec
-Testcase: stepsWrongNumber took 0,003 sec

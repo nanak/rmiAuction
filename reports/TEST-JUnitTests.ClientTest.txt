@@ -1,20 +1,19 @@
 Testsuite: JUnitTests.ClientTest
-Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11,054 sec
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8,524 sec
 
-Testcase: testBid took 0,924 sec
-Testcase: testEnd took 0,635 sec
-Testcase: testLogin took 0,221 sec
-Testcase: testGetTcpPort took 0,027 sec
-Testcase: testList took 0,627 sec
-Testcase: testBidNotANumber took 0,698 sec
-Testcase: testLogoutNotLoggedIn took 0,121 sec
-Testcase: testBidNotLoggedIn took 0,128 sec
-Testcase: testLoginWrongNumberOfArguments took 0,119 sec
-Testcase: testBidWrongNumberOfArguments took 0,545 sec
+Testcase: testBid took 0,385 sec
+Testcase: testEnd took 0,599 sec
+Testcase: testLogin took 0,381 sec
+Testcase: testGetTcpPort took 0,029 sec
+Testcase: testList took 0,662 sec
+Testcase: testBidNotANumber took 1,448 sec
+Testcase: testLogoutNotLoggedIn took 0,189 sec
+Testcase: testBidNotLoggedIn took 0,178 sec
+Testcase: testLoginWrongNumberOfArguments took 0,3 sec
 Testcase: testCreateNotLoggedIn took 0,127 sec
-Testcase: testSetUsername took 0,017 sec
-Testcase: testCreate took 0,84 sec
-Testcase: testGetCli took 0,018 sec
-Testcase: testNoSuchCommand took 0,273 sec
-Testcase: testLogout took 0,219 sec
-Testcase: testDoubleLogin took 5,504 sec
+Testcase: testSetUsername took 0,025 sec
+Testcase: testCreate took 0,832 sec
+Testcase: testGetCli took 0,656 sec
+Testcase: testNoSuchCommand took 0,213 sec
+Testcase: testLogout took 0,316 sec
+Testcase: testDoubleLogin took 2,171 sec
