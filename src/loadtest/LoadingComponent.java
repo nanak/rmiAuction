@@ -158,7 +158,7 @@ public class LoadingComponent {
 		
 	}
 	/**
-	 * Kills all Timers
+	 * Kills everything
 	 */
 	public void shutdown(){
 		checker.cancel();checker.purge();

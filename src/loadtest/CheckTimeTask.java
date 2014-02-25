@@ -64,7 +64,7 @@ public class CheckTimeTask extends TimerTask{
 		status=System.currentTimeMillis()-starttime;
 		if(status>=min){
 			if(mcli!=null)
-				mcli.write("!unsubscribe 0\n!end");
+				mcli.write("!unsubscribe 0\n!exit");
 			shutdownAndAwaitTermination(create);
 			shutdownAndAwaitTermination(list);
 			shutdownAndAwaitTermination(bid);
