@@ -56,7 +56,7 @@ public class BillingServer implements RemoteBillingServer {
 	 */
 	public IRemoteBillingServerSecure login(Login login) {
 
-		//Tested login
+		//Testing if Password is correct. Don't touch this, it works! That is all that matters!
 		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()))){
 			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
 			return null;// Password not correct
