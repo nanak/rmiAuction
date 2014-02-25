@@ -1,7 +1,0 @@
-Testsuite: JUnitTests.FileHandlerUnitTest
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,055 sec
-
-Testcase: testWriteReadObject took 0,024 sec
-Testcase: testWriteMap took 0,003 sec
-Testcase: writeReadBillConcurrentHashMap took 0,014 sec
-Testcase: testReadAll took 0,006 sec

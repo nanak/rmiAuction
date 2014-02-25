@@ -1,18 +1,18 @@
-Testsuite: JUnitTests.EventTest
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,316 sec
+Testsuite: jUnitTests.EventTest
+Tests run: 15, Failures: 0, Errors: 0, Time elapsed: 0,017 sec
 
 Testcase: testBidPlacedToString took 0,001 sec
 Testcase: testAuctionStartedToString took 0 sec
-Testcase: testBidWonToString took 0 sec
+Testcase: testBidWonToString took 0,001 sec
 Testcase: testBidCountPerMinuteToString took 0 sec
 Testcase: testUserSessionMinToString took 0 sec
 Testcase: testBidOverbidToString took 0 sec
 Testcase: testAuctionEndedToString took 0 sec
-Testcase: testUserSessionMaxToString took 0,001 sec
+Testcase: testUserSessionMaxToString took 0 sec
 Testcase: testUserLogoutToString took 0 sec
 Testcase: testUserLoginToString took 0 sec
 Testcase: testAuctionSuccessToString took 0 sec
 Testcase: testUserSessionAVGToString took 0 sec
 Testcase: testAuctionTimeAVGToString took 0,001 sec
 Testcase: testBidPriceMaxToString took 0 sec
-Testcase: testBUserDisconnectedToString took 0,002 sec
+Testcase: testBUserDisconnectedToString took 0,001 sec
