@@ -46,19 +46,27 @@ public class Loading {
 	 */
 	@Test
 	public void constTest(){
-		l = new LoadingComponent("localhost", 6000, "loadtest.properties",5000);
+		l = new LoadingComponent("localhost", 6000, "loadtest.properties",30000);
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		l.shutdown();
 	}
+	
 
 	/**
 	 * Tests if the randomString method creates the string with the correct length
 	 */
 	@Test
 	public void randomStringTest(){
-		LoadingComponent l = new LoadingComponent("localhost", 6000, "loadtest.properties",5000);
+		LoadingComponent l = new LoadingComponent("localhost", 6000, "loadtest.properties",20000);
 		
 		String r=l.randomString(20);
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

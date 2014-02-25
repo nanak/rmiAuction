@@ -26,7 +26,7 @@ public class LoginMessage implements Message{
 	 * Creates empty loginMessage
 	 */
 	public LoginMessage() {
-		
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String getName() {
