@@ -255,11 +255,6 @@ public class BillingServer implements RemoteBillingServer {
 		 }
 		 File f = new File("user.properties");
 			try {
-				if(f.exists())
-					while(!f.delete());
-				
-					
-				f.createNewFile();
 				
 				PrintWriter pw = new PrintWriter (new FileOutputStream(f));
 				properties.store(pw, null);
