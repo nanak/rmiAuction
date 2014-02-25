@@ -277,7 +277,7 @@ public class ClientTest {
 		}
 		cli.write("!bid 1 123456.12 1234\n!end\n");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -339,7 +339,7 @@ public class ClientTest {
 //		}
 		cli.write("!bid sd 1\n!end");
 		try {
-			Thread.sleep(1200);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
