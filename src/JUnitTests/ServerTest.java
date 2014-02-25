@@ -54,11 +54,8 @@ public class ServerTest {
 	 */
 	@After
 	public void end(){
-		System.out.println("v");
 		bs.shutdown();
-		System.out.println("d");
 		as.shutdown();
-		System.out.println("n");
 		server.setActive(false);
 		try {
 			Thread.sleep(5000);
