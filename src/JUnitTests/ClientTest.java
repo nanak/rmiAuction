@@ -275,9 +275,9 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cli.write("\n!bid 1 123456.12 1234\n!end\n");
+		cli.write("!bid 1 123456.12 1234\n!end\n");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -330,21 +330,21 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cli.write("!logout\n!login test2");
+//		cli.write("!logout\n!login test2");
+//		try {
+//			Thread.sleep(200);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		cli.write("!bid sd 1\n!end");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cli.write("\n!bid sd 1\n!end");
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
+		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputOnIndex(3));
 	}
 	
 	/**
@@ -375,14 +375,14 @@ public class ClientTest {
 		});
 		t.start();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(1500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cli.write("!login test5\n!end");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
