@@ -256,10 +256,8 @@ public class AnalyticsServer {
 		 properties.put("rmi.analyticsServer", analyticServerName);
 		 ir = new InitRMI(properties);
 			ir.init();
-			ir.bind(analytics, properties.getProperty("rmi.analyticsServer"));
+			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
          System.out.println("AnalyticsServer bound");
-		 }catch(AlreadyBoundException ar){
-			 System.out.println("Server already started! Close this session!");
 		 }
 		 catch(Exception e){
 			 System.out.println("Could not bind Analyticserver. Shutting down");
