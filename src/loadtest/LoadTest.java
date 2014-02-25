@@ -6,6 +6,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import server.Server;
+import connect.ReceiveConnection;
+import analytics.AnalyticTaskComputing;
+import analytics.AnalyticsServer;
+import billing.BillingServer;
+import billing.BillingServerSecure;
+import billing.RemoteBillingServerSecure;
 import management.ManagmentClient;
 import Client.Client;
 import Client.TaskExecuter;
@@ -31,6 +38,9 @@ public class LoadTest {
 	private Timer list;
 	private FakeCli cli;
 	private Timer checker;
+	private AnalyticsServer as;
+	private BillingServer bs;
+	private Server s;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -71,10 +81,8 @@ public class LoadTest {
 				port=5000;
 			}
 		}
-		mcli=new FakeCli("!subscribe .* \n!auto");
-		m =new ManagmentClient(mcli);
-		new LoadTest(hostname,port,filename,1*60000);
 		
+		new LoadTest(hostname,port,filename,8*60000);
 		
 	}
 	/**
@@ -87,6 +95,31 @@ public class LoadTest {
 	 * @param filename Filename of the porpertiesfile
 	 */
 	public LoadTest(String hostname,int port, String filename,long min){
+		System.out.println("Now Billing Test initialization");
+		bs =new BillingServer();
+
+		BillingServerSecure bss = new BillingServerSecure();
+		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
+		bs.initRmi(bs, rbss);
+		System.out.println("New Analytics");
+		as= new AnalyticsServer();
+		new AnalyticTaskComputing(as);
+		s= new Server();
+		s.setTcpPort(5000);
+		ReceiveConnection r = new ReceiveConnection(5000, s);	
+		Thread th = new Thread(r);
+		th.start();	
+		try {
+			Thread.sleep(300);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		mcli=new FakeCli("!subscribe .* \n!auto");
+		m =new ManagmentClient(mcli);
+		
+		
 		clients=new ArrayList<Client>();
 		
 		Properties p = new Properties();
@@ -97,6 +130,7 @@ public class LoadTest {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+		System.out.println(filename+p.getClients());
 
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();
@@ -113,7 +147,7 @@ public class LoadTest {
 			create.schedule(c, 0, 60000/p.getAuctionsPerMin());
 			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
 			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
-			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli,min), 1000, 1000);
+			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli,min, as, bs), 1000, 1000);
 		}
 		
 	}

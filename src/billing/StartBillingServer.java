@@ -35,11 +35,12 @@ public class StartBillingServer {
 	//		saveUserMap(user);
 			Scanner in=new Scanner(System.in);
 			//Shutting down
-			in.nextLine();
+			while(!in.nextLine().equals("!exit"));
 			System.out.println("Server ending!");
 		}//If Enter Button pressed, Server will end
-		
+		bss.shutdown();
 		bs.shutdown();
+		
 
 	}
 }

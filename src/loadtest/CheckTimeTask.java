@@ -3,6 +3,8 @@ package loadtest;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import analytics.AnalyticsServer;
+import billing.BillingServer;
 import management.ManagmentClient;
 
 
@@ -14,13 +16,15 @@ import management.ManagmentClient;
  */
 public class CheckTimeTask extends TimerTask{
 	private long starttime;
-	private long min=1*60000;
+	private long min=8*60000;
 	private long status;
 	private Timer list;
 	private Timer create;
 	private Timer bid;
 	private ManagmentClient m;
 	private FakeCli mcli;
+	private AnalyticsServer as;
+	private BillingServer bs;
 	
 	/**
 	 * Constructor, which saves the starttime of the loadtest, the managementClient, the FakeCli of the ManagementClient initiated in LoadTest,
@@ -32,8 +36,10 @@ public class CheckTimeTask extends TimerTask{
 	 * @param bid2 Timer of BidTask
 	 * @param m ManagementClient
 	 * @param mcli FakeCli of the ManagementClient initiated in LoadTest
+	 * @param bs 
+	 * @param as 
 	 */
-	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli, long min){
+	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli, long min, AnalyticsServer as, BillingServer bs){
 		this.mcli=mcli;
 		this.starttime=starttime;
 		this.list=list2;
@@ -41,6 +47,8 @@ public class CheckTimeTask extends TimerTask{
 		this.m=m;
 		this.min=min;
 		this.bid=bid2;
+		this.as=as;
+		this.bs=bs;
 	}
 
 	/**
@@ -64,6 +72,8 @@ public class CheckTimeTask extends TimerTask{
 			System.out.println("Loadtest ended. Time passed: "+passed);
 			if(m!=null)
 				m.setRunning(false);
+			as.shutdown();
+			bs.shutdown();
 			this.cancel();
 		}
 	}

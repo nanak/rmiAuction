@@ -25,7 +25,7 @@ public class ServerStart {
 		Thread t = new Thread(r);
 		t.start();		//Generate and start Thread
 		Scanner in=new Scanner(System.in);
-		in.nextLine();
+		while(!in.nextLine().equals("!exit"));
 		System.out.println("Server ends in 5sec");		//If Enter Button pressed, Server will end
 		s.shutdown();
 		s.setActive(false);
