@@ -78,6 +78,7 @@ public class AnalyticsServer {
 		eh.setActive(false);
 		//Push Event for shutdown
 		processEvent(new AuctionEnded(null, null, 0, 0));
+		
 	}
 	
 	/**
@@ -237,14 +238,14 @@ public class AnalyticsServer {
 	 private boolean initRmi(AnalyticTaskComputing analytics, String analyticServerName) throws RemoteException{
 		 try{
 		 Properties properties = new Properties();
-		 File f = new File("Server.properties");
+		 File f = new File("registry.properties");
 			if(!f.exists()){
 					System.out.println("Properties File doesn't exist. Server shutting down.");
 					return false;
 			}
 				
 			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 			
 			properties.load(stream);
 		
@@ -273,15 +274,15 @@ public class AnalyticsServer {
 	 private boolean initRmi(AnalyticTaskComputing analytics){
 		 try {
 			 Properties properties = new Properties();
-			 //Sicherstellen dass Server.properties existiert
-			 File f = new File("Server.properties");
+			 //Sicherstellen dass registry.properties existiert
+			 File f = new File("registry.properties");
 				if(!f.exists()){
 						System.out.println("Properties File doesn't exist. Server shutting down.");
 						return false;
 				}
 					
 				// neuen stream mit der messenger.properties Datei erstellen
-				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 				
 				properties.load(stream);
 			

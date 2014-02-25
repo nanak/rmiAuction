@@ -68,7 +68,7 @@ public class BillingServer implements RemoteBillingServer {
 
 		try {
 			BufferedInputStream stream = new BufferedInputStream(
-					new FileInputStream("Server.properties"));
+					new FileInputStream("registry.properties"));
 
 			properties.load(stream);
 			stream.close();
@@ -94,7 +94,7 @@ public class BillingServer implements RemoteBillingServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
-			System.out.println("server.properties File Fehlerhaft");
+			System.out.println("registry.properties File Fehlerhaft");
 		}
 		//TODO Mehr ausgaben
 		return null;// Fehler bei der Serverlokalisierung
@@ -109,7 +109,7 @@ public class BillingServer implements RemoteBillingServer {
 			 return initRmi(bs,bss);
 		 }
 		 properties.put("rmi.billingServer", billingServerName);
-		 File f = new File("Server.properties");
+		 File f = new File("registry.properties");
 			if(!f.exists()){
 					System.out.println("Properties File doesn't exist. Server shutting down.");
 					return false;
@@ -149,7 +149,7 @@ public class BillingServer implements RemoteBillingServer {
 //			 System.out.println("init");
 			 this.bs = bs;
 			 this.bss = bss;
-			 File f = new File("Server.properties");
+			 File f = new File("registry.properties");
 				if(!f.exists()){
 						System.out.println("Properties File doesn't exist. Server shutting down.");
 						return false;
@@ -276,7 +276,7 @@ public class BillingServer implements RemoteBillingServer {
 			saveUserMap(user);
 			ir.unexport(bs);
 			ir.unexport(bss);
-		} catch (NoSuchObjectException e) {
+		} catch (NoSuchObjectException|NullPointerException e) {
 			// TODO Auto-generated catch block
 //			e.printStackTrace();
 		}

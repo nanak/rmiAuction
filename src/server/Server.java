@@ -141,7 +141,7 @@ public class Server {
 		try {
 			Properties properties = new Properties();
 			// neuen stream mit der messenger.properties Datei erstellen
-			File f = new File("server.properties");
+			File f = new File("registry.properties");
 			if(!f.exists())
 				return false;
 			BufferedInputStream stream = new BufferedInputStream(
@@ -244,7 +244,7 @@ public class Server {
 		} catch (IOException | NullPointerException e) {
 			
 		}
-		
+		active=false;
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class InitRMI {
 	public InitRMI() throws IOException{
 		init=false;
 		p  = new Properties();
-		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));	
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));	
 		p.load(stream);
 		stream.close();
 	}

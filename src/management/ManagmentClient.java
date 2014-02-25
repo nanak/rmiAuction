@@ -335,7 +335,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 //		}
 //		try{
 //			Properties properties = new Properties();
-//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 //			
 //			properties.load(stream);
 //		
@@ -364,7 +364,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 //
 //		Properties properties = new Properties();
 //		try{
-//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 //			
 //			properties.load(stream);
 //		
@@ -401,7 +401,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	private void initRMI(){
 		try{
 			Properties properties = new Properties();
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 			
 			properties.load(stream);
 		
