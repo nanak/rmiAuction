@@ -3,6 +3,7 @@ package rmi;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.rmi.AccessException;
 import java.rmi.Naming;
 import java.rmi.NoSuchObjectException;
@@ -78,9 +79,10 @@ public class InitRMI {
 	 * @throws AccessException	Access to Registry not allowed
 	 * @throws RemoteException	Could not get Object
 	 * @throws NotBoundException	Object not in registry
+	 * @throws MalformedURLException 
 	 */
-	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException{
-		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"rmiIdentifier);
+	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException, MalformedURLException{
+		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
 	}
 	
 	/**

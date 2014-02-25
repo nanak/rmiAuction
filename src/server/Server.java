@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -128,6 +129,9 @@ public class Server {
 			} catch (RemoteException | NotBoundException e2) {
 				System.out
 						.println("AnalyticsServer not available anymore. Looking up next time");
+			} catch (MalformedURLException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
 			}
 		}
 	}
@@ -204,6 +208,9 @@ public class Server {
 				// Could not receive billing server
 				System.err
 						.println("Billing Server is not available anymore. Looking up next time");
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 
