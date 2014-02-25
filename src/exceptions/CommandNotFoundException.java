@@ -10,9 +10,9 @@ public class CommandNotFoundException extends Exception{
      * Constructor, which calls the superclasses constructor with 
      * the text of the exception.
      */
-    public CommandNotFoundException(){
-    	super("ERROR: This Command does not exist!");
-    }
+//    public CommandNotFoundException(){
+//    	super("ERROR: This Command does not exist!");
+//    }
     public CommandNotFoundException(String msg){
     	super("ERROR: This Command does not exist!\n"+msg);
     }

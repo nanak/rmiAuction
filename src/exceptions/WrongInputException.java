@@ -11,9 +11,9 @@ public class WrongInputException extends Exception{
      * Constructor, which calls the superclasses constructor with 
      * the text of the exception.
      */
-    public WrongInputException(){
-    	super("ERROR: One or more arguments are invalid!");
-    }
+//    public WrongInputException(){
+//    	super("ERROR: One or more arguments are invalid!");
+//    }
     public WrongInputException(String msg){
     	super("ERROR: One or more arguments are invalid!\n"+msg);
     }

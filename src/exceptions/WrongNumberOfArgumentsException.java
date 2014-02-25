@@ -11,9 +11,9 @@ public class WrongNumberOfArgumentsException extends Exception{
      * Constructor, which calls the superclasses constructor with 
      * the text of the exception.
      */
-    public WrongNumberOfArgumentsException(){
-    	super("ERROR: Wrong number of arguments given!");
-    }
+//    public WrongNumberOfArgumentsException(){
+//    	super("ERROR: Wrong number of arguments given!");
+//    }
     public WrongNumberOfArgumentsException(String msg){
     	super("ERROR: Wrong number of arguments given!\n"+msg);
     }
