@@ -103,7 +103,7 @@ public class FileHandlerUnitTest {
 			assertTrue(fh.writeMap(map));
 			assertEquals(
 					((Bill) (fh.readObject("user"))).toString(),
-					"auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		10,40		1,20		0,21		1,41		\n");
+					"auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		10.40		1.20		0.21		1.41		\n");
 			assertTrue(fh.deleteFile());
 		} catch (IOException | CannotCastToMapException e) {
 			e.printStackTrace();

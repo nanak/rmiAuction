@@ -40,7 +40,7 @@ public class EventHandler implements Runnable{
 	private long auctionTimeAVG = 0L;
 	private long auctionTimeSUM= 0L;
 	private long auctionsEnded = 0L; //Counts ended auctions
-	private static long auctionSuccessfull =0L; //Counts auctionSuccessFull
+	private long auctionSuccessfull =0L; //Counts auctionSuccessFull
 	
 	//User
 	private long userTimeMin = Long.MAX_VALUE;

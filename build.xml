@@ -110,7 +110,7 @@
         </java>
     </target>
     
-    <target name="test">
+    <target name="test" depends="compile">
         <mkdir dir="${reports.dir}"/>
 
         <junit haltonfailure="true" includeantruntime="true" logfailedtests="true" showoutput="true" printsummary="true">

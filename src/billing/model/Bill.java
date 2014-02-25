@@ -2,6 +2,7 @@ package billing.model;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import java.util.List;
 public class Bill implements Serializable{
 	
 	private List<BillingLine> billigLines;
+	private DecimalFormat f;
 	
 	/**
 	 * calls addBillingLine
@@ -31,6 +33,10 @@ public class Bill implements Serializable{
 	public Bill(String user, long auctionID, double price,double fixedPrice, double variablePricePercent) {
 		this.billigLines=Collections.synchronizedList(new LinkedList<BillingLine>());
 		addBillingLine(auctionID, price, fixedPrice, variablePricePercent);
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+		otherSymbols.setDecimalSeparator('.');
+		otherSymbols.setGroupingSeparator('.'); 
+		f = new DecimalFormat("#0.00", otherSymbols);
 	}
 
 
@@ -39,7 +45,6 @@ public class Bill implements Serializable{
 	 */
 	@Override
 	public String toString() {
-		DecimalFormat f = new DecimalFormat("#0.00");
 		String r=String.format("%s\t%s\t%s\t%s\t%s","auction_ID","strike_price","fee_fixed","fee_variable","fee_total")+"\n";
 		Iterator<BillingLine> bills=billigLines.iterator();
 		BillingLine bill;

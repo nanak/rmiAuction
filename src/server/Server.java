@@ -163,6 +163,10 @@ public class Server {
 			try {
 				RemoteBillingServer bs = (RemoteBillingServer) ir
 						.lookup(billingServer);
+				if(bs==null){
+					System.err.println("Wrong Lookup for BillingServer. Start it and fix it");
+					return false;
+				}
 				login(bs);
 			} catch (NotBoundException ex) {
 				System.out
