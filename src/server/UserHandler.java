@@ -5,6 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Date;
+import java.util.UUID;
+
+import event.UserDisconnected;
 
 import model.LoginMessage;
 import model.Message;
@@ -64,6 +68,12 @@ public class UserHandler implements Runnable{
 				m = (Message) o;
 			} catch(SocketException e){
 				System.out.println("Connection to Client lost.");
+				if(user != null)
+					if(user.isActive()){
+						user.setActive(false);
+						server.notify(new UserDisconnected(UUID.randomUUID().toString(), "USER_DISCONNECTED", new Date().getTime(), user.getName()));
+
+					}
 				break;
 			}
 			catch (ClassNotFoundException e) {

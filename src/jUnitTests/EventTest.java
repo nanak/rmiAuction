@@ -95,7 +95,7 @@ public class EventTest {
 	@Test
 	public void testBUserDisconnectedToString() {
 		UserDisconnected ae = new UserDisconnected("1","USER_DISCONNECTED", 1L, "USER");
-		assertEquals(ae.toString(), "USER_DISCONNECTED: Thu Jan 01 01:00:00 CET 1970 - User diconnected: USER");
+		assertEquals(ae.toString(), "USER_DISCONNECTED: Thu Jan 01 01:00:00 CET 1970 - User disconnected: USER");
 	}
 	/**
 	 * Tests UserLogin to String

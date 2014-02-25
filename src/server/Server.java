@@ -9,7 +9,9 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -246,6 +248,12 @@ public class Server {
 	 */
 	public void shutdown(){
 		try {
+			//Set user logged out
+			Set<String> suser = user.keySet();
+			Iterator<String> it = suser.iterator();
+			while(it.hasNext()){
+				user.get(it.next()).setActive(false);
+			}
 			fauction.writeMap(auction);
 			fuser.writeMap(user);
 		} catch (IOException | NullPointerException e) {

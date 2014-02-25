@@ -12,7 +12,7 @@ public class UserDisconnected extends UserEvent {
  
 	@Override
 	public String toString(){
-		return "" + type + ": "+new Date(timestamp).toString() + " - User diconnected: " + username;
+		return "" + type + ": "+new Date(timestamp).toString() + " - User disconnected: " + username;
 	}
 }
  
