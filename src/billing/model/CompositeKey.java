@@ -1,5 +1,7 @@
 package billing.model;
 
+import java.io.Serializable;
+
 
 /**
  * Class to store the interval (keys)(in a Map) for price steps and to compare them
