@@ -1,12 +1,12 @@
 Testsuite: jUnitTests.CommandFactoryTest
-Tests run: 9, Failures: 0, Errors: 0, Time elapsed: 0,015 sec
+Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,245 sec
 
-Testcase: createSecureSteps took 0,003 sec
+Testcase: createSecureSteps took 0,004 sec
 Testcase: createSecureLogout took 0 sec
 Testcase: createCommandSecureExcpetion took 0 sec
 Testcase: createSecureRemoveSteps took 0 sec
 Testcase: createSecureBill took 0 sec
-Testcase: createSecureAddStep took 0 sec
+Testcase: createSecureAddStep took 0,001 sec
 Testcase: createCommandLogin took 0 sec
 Testcase: createSecureCommandNotFound took 0 sec
-Testcase: createCommandNotFound took 0 sec
+Testcase: createCommandNotFound took 0,001 sec

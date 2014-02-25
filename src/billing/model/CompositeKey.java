@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @version 11.02.2014
  *
  */
-public class CompositeKey implements Serializable,Comparable<CompositeKey>{
+public class CompositeKey implements Serializable, Comparable<CompositeKey>{
    private Double key1, key2;
    
    public CompositeKey(double startPrice,double endPrice){
