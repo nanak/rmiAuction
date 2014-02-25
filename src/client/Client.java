@@ -135,7 +135,12 @@ public class Client{
 					desc=desc+" "+werte[i];
 				}
 				if(desc.startsWith(" ")) desc=desc.substring(1);
-				t.create(Long.parseLong(werte[1]),desc);
+				try{
+					t.create(Long.parseLong(werte[1]),desc);
+				}catch (NumberFormatException e){
+					cli.out("First argument must be a number!");
+				}
+				
 				}else{
 					cli.out("Currently not logged in\nPlease login first");
 				}
@@ -165,7 +170,8 @@ public class Client{
 				//If command is not recognized, another try will be granted
 			else{
 				try {
-					throw new CommandNotFoundException("Could not recognize input\nPlease try again");
+					throw new CommandNotFoundException("Could not recognize input\nPlease try again\n"+
+							"Arguments: [!login, !logout, !create, !bid, !list]");
 				} catch (CommandNotFoundException e) {
 					cli.out(e.getMessage());
 				}
