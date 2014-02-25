@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.Iterator;
@@ -136,6 +138,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 								username="";
 							}catch(RemoteException | NullPointerException e){
 								try {
+									ui.outM("INFO: BillingServer seemed to have moved. Looking up");
 									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
 									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
 								} catch (NotBoundException | RemoteException  ex) {
@@ -174,8 +177,9 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 								String s = analyticTaskComputing.unsubscribe(cmd[1]);
 								ui.outM(s);
 							}
-							catch(RemoteException e){
+							catch(RemoteException|NullPointerException e){
 								try {
+									ui.outM("INFO: Analytics seemed to have moved. Looking up");
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing)ir.lookup(analyticsIdentifier);
 									String s = analyticTaskComputing.unsubscribe(cmd[1]);
 									ui.outM(s);
@@ -195,7 +199,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							try{
 								ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 							}
-							catch(RemoteException e){
+							catch(RemoteException |NullPointerException e){
 								try {
 									ui.outM("INFO: Analytics seemed to have moved. Looking up");
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
@@ -223,6 +227,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							}
 							catch(RemoteException | NullPointerException e){
 								try {
+									ui.outM("INFO: BillingServer seemed to have moved. Looking up");
 									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
 									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
 								} catch (NotBoundException | RemoteException  ex) {
@@ -237,6 +242,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							}
 							catch(RemoteException | NullPointerException e){
 								try {
+									ui.outM("INFO: BillingServer seemed to have moved. Looking up");
 									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
 									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
 								} catch (NotBoundException | RemoteException  ex) {
@@ -265,6 +271,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							}
 							catch(RemoteException | NullPointerException e){
 								try {
+									ui.outM("INFO: BillingServer seemed to have moved. Looking up");
 									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
 									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
 								} catch (NotBoundException | RemoteException  ex) {
@@ -286,7 +293,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	}
 	private void initRMI(Properties properties){
-		try {
+//		try {
 			
 			ir = new InitRMI(properties);
 			ir.init();
@@ -298,24 +305,39 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			analyticsIdentifier = properties.getProperty("rmi.analyticsServer");
 			System.out.println("Getting server: " + analyticsIdentifier );
 			billingIdentifier = properties.getProperty("rmi.billingServer");
-			billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
-			analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
-			ir.rebind(this,uniqueID);
-			
-		} catch (RemoteException e) {
-			
-			running=false;
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
-			running=false;
-		} catch (NumberFormatException nfe) {
-			System.out.println("Properties File not well formatet. Client shutting down.");
-			running=false;
-		} catch (IOException e) {
-			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
-			running=false;
-		} 
+			try {
+				billingServer= (RemoteBillingServer) ir.lookup(properties.getProperty("rmi.billingServer"));
+			} catch (RemoteException | MalformedURLException
+					| NotBoundException e) {
+				System.out.println("ERROR: Problem binding BillingServer. ");
+			}
+			try {
+				analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(properties.getProperty("rmi.analyticsServer"));
+			} catch (RemoteException | MalformedURLException
+					| NotBoundException e) {
+				System.out.println("ERROR: Problem binding AnalyticServer. ");
+			}
+			try {
+				ir.rebind(this,uniqueID);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 
+//		} catch (RemoteException e) {
+//			
+//			running=false;
+//			e.printStackTrace();
+//		} catch (NotBoundException e) {
+//			System.out.println("ERROR: Problem binding Server: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//		} catch (NumberFormatException nfe) {
+//			System.out.println("Properties File not well formatet. Client shutting down.");
+//			running=false;
+//		} catch (IOException e) {
+//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//		} 
 	}
 	public void setRunning(boolean running){
 		this.running=running;
