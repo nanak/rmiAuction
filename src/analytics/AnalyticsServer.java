@@ -16,10 +16,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import event.AuctionEnded;
+import event.Event;
 import management.ClientInterface;
 import rmi.InitRMI;
-import Event.AuctionEnded;
-import Event.Event;
 /**
  * Processes Events from the auction Server and forwards them to the Management Client, after
  * it has done several calculations.

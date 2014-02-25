@@ -4,10 +4,10 @@ package server;
 import java.util.Date;
 import java.util.UUID;
 
+import event.UserLogout;
 import model.LogoutMessage;
 import model.Message;
 import model.User;
-import Event.UserLogout;
 
 
 

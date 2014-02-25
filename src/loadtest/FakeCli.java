@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
-import Client.UI;
+import client.UI;
 
 /**
  * This implementation defines the input via InputStream.

@@ -6,6 +6,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import client.Client;
+import client.TaskExecuter;
 import server.Server;
 import connect.ReceiveConnection;
 import analytics.AnalyticTaskComputing;
@@ -14,8 +16,6 @@ import billing.BillingServer;
 import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import management.ManagmentClient;
-import Client.Client;
-import Client.TaskExecuter;
 /**
  * Class LoadTest which starts the Loadtests.
  * 

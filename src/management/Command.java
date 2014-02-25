@@ -2,8 +2,8 @@ package management;
 
 import java.io.Serializable;
 
-import Exceptions.WrongInputException;
-import Exceptions.WrongNumberOfArgumentsException;
+import exceptions.WrongInputException;
+import exceptions.WrongNumberOfArgumentsException;
 
 /**
  * Interface Command, which contains the method execute for all implementing Commands.

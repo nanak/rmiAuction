@@ -1,6 +1,6 @@
 package management;
 
-import Exceptions.WrongNumberOfArgumentsException;
+import exceptions.WrongNumberOfArgumentsException;
 import billing.BillingServerSecure;
 
 /**

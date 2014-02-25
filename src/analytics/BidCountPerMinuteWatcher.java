@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import Event.BidCountPerMinute;
+import event.BidCountPerMinute;
 
 /**
  * Creates every 60 seconds a Event which tells how many bids are placed statistically per minute

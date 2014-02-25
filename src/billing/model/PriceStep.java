@@ -2,7 +2,7 @@ package billing.model;
 
 import java.text.DecimalFormat;
 
-import Exceptions.IllegalValueException;
+import exceptions.IllegalValueException;
 
 
 /**

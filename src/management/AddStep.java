@@ -1,8 +1,8 @@
 package management;
 
-import Exceptions.PriceStepIntervalOverlapException;
-import Exceptions.WrongInputException;
-import Exceptions.WrongNumberOfArgumentsException;
+import exceptions.PriceStepIntervalOverlapException;
+import exceptions.WrongInputException;
+import exceptions.WrongNumberOfArgumentsException;
 import billing.BillingServerSecure;
 
 /**

@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import Exceptions.WrongNumberOfArgumentsException;
+import exceptions.WrongNumberOfArgumentsException;
 
 /**
  * Class login, which sets username and hashes the password.

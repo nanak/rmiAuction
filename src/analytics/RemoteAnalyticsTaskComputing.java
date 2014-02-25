@@ -3,8 +3,8 @@ package analytics;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import event.Event;
 import management.ClientInterface;
-import Event.Event;
 
 public interface RemoteAnalyticsTaskComputing extends Remote{
 

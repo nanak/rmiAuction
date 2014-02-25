@@ -1,7 +1,7 @@
 package analytics;
 
+import event.Event;
 import management.ClientInterface;
-import Event.Event;
 
 /**
  * RemoteKlasse des AnalyticsSercer

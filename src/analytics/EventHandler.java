@@ -5,24 +5,24 @@ import java.util.HashSet;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import event.AuctionEnded;
+import event.AuctionEvent;
+import event.AuctionStarted;
+import event.AuctionSuccessRatio;
+import event.AuctionTimeAvg;
+import event.BidEvent;
+import event.BidPlaced;
+import event.BidPriceMax;
+import event.Event;
+import event.UserDisconnected;
+import event.UserEvent;
+import event.UserLogin;
+import event.UserLogout;
+import event.UserSessionTimeAvg;
+import event.UserSessionTimeMax;
+import event.UserSessionTimeMin;
 import analytics.exceptions.AuctionEndedButNotStartedException;
 import analytics.exceptions.InvalidUserLogoutException;
-import Event.AuctionEnded;
-import Event.AuctionEvent;
-import Event.AuctionStarted;
-import Event.AuctionSuccessRatio;
-import Event.AuctionTimeAvg;
-import Event.BidEvent;
-import Event.BidPlaced;
-import Event.BidPriceMax;
-import Event.Event;
-import Event.UserDisconnected;
-import Event.UserEvent;
-import Event.UserLogin;
-import Event.UserLogout;
-import Event.UserSessionTimeAvg;
-import Event.UserSessionTimeMax;
-import Event.UserSessionTimeMin;
 
 
 /**

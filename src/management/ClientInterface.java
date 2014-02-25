@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import Event.Event;
+import event.Event;
 
 public interface ClientInterface extends Remote, Serializable {
 

@@ -1,7 +1,7 @@
 package management;
 
-import Exceptions.CommandIsSecureException;
-import Exceptions.CommandNotFoundException;
+import exceptions.CommandIsSecureException;
+import exceptions.CommandNotFoundException;
 
 /**
  * Class CommandFactory, which creates Commands matching the Userinput.

@@ -18,15 +18,15 @@ import model.Auction;
 import model.Message;
 import model.User;
 import rmi.InitRMI;
-import Event.Event;
-import Exceptions.CannotCastToMapException;
-import Exceptions.WrongNumberOfArgumentsException;
-import ServerModel.FileHandler;
+import serverModel.FileHandler;
 import analytics.RemoteAnalyticsTaskComputing;
 import billing.BillingServer;
 import billing.IRemoteBillingServerSecure;
 import billing.RemoteBillingServer;
 import connect.Notifier;
+import event.Event;
+import exceptions.CannotCastToMapException;
+import exceptions.WrongNumberOfArgumentsException;
 
 /**
  * The main server with all functionalities and the user data. Has a request

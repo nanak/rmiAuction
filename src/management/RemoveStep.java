@@ -1,7 +1,7 @@
 package management;
 
-import Exceptions.WrongInputException;
-import Exceptions.WrongNumberOfArgumentsException;
+import exceptions.WrongInputException;
+import exceptions.WrongNumberOfArgumentsException;
 import billing.BillingServerSecure;
 
 /**

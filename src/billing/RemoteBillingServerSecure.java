@@ -2,10 +2,10 @@ package billing;
 
 import java.rmi.RemoteException;
 
+import exceptions.PriceStepIntervalOverlapException;
+import exceptions.WrongInputException;
+import exceptions.WrongNumberOfArgumentsException;
 import management.SecureCommand;
-import Exceptions.PriceStepIntervalOverlapException;
-import Exceptions.WrongInputException;
-import Exceptions.WrongNumberOfArgumentsException;
 
 /**
  * BillingServer RMI object (which basically just provides login capability)

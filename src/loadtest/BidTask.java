@@ -2,7 +2,7 @@ package loadtest;
 
 import java.util.TimerTask;
 
-import Client.TaskExecuter;
+import client.TaskExecuter;
 
 
 /**

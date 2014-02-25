@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import event.BidOverbid;
+import event.BidPlaced;
 import model.Auction;
 import model.BidMessage;
 import model.Message;
 import model.User;
-import Event.BidOverbid;
-import Event.BidPlaced;
 
 /**
  * This class is responsible for the a functionality of the server.
