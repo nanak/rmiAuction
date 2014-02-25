@@ -1,5 +1,7 @@
 package billing.model;
 
+import java.io.Serializable;
+
 
 /**
  * Class to store the interval (keys)(in a Map) for price steps and to compare them
@@ -9,7 +11,7 @@ package billing.model;
  * @version 11.02.2014
  *
  */
-public class CompositeKey implements Comparable<CompositeKey>{
+public class CompositeKey implements Serializable,Comparable<CompositeKey>{
    private Double key1, key2;
    
    public CompositeKey(double startPrice,double endPrice){

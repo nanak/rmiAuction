@@ -30,16 +30,20 @@ public class BillingServerSecure  {
 	private ConcurrentHashMap<String,Bill> bills;
 
 	private FileHandler<String,Bill> fileHandler;
+	private FileHandler<CompositeKey,PriceStep> fhSteps;
 	
 	
 	public BillingServerSecure(){
-		priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
 		try {
 			fileHandler= new FileHandler<String,Bill>("bills.txt");
 			bills=(ConcurrentHashMap<String, Bill>) fileHandler.readAll();
 			fileHandler.deleteFile();
-		} catch (IOException | CannotCastToMapException e) {
+			fhSteps= new FileHandler<CompositeKey,PriceStep>("pricesteps.txt");
+			priceSteps=(ConcurrentSkipListMap<CompositeKey,PriceStep>) fhSteps.readAll();
+			fhSteps.deleteFile();
+		} catch (IOException | CannotCastToMapException | ClassCastException e) {
 			bills=new ConcurrentHashMap<String,Bill>();
+			priceSteps=new ConcurrentSkipListMap<CompositeKey,PriceStep>();
 		}
 	}
 	/**
@@ -145,6 +149,8 @@ public class BillingServerSecure  {
 		try {
 			fileHandler= new FileHandler<String,Bill>("bills.txt");
 			fileHandler.writeMap(bills);
+			fhSteps= new FileHandler<CompositeKey,PriceStep>("pricesteps.txt");
+			fhSteps.writeMap(priceSteps);
 		} catch (IOException e) {
 			System.err.println("Could not save bill.");
 		}

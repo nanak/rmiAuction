@@ -292,6 +292,10 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		}
 
 	}
+	/**
+	 * Initialises RMI for the management cleint 
+	 * @param properties Properties for the RMI connection
+	 */
 	private void initRMI(Properties properties){
 //		try {
 			
@@ -418,7 +422,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 //		initRMI(p);
 //	}
 	/**
-	 * RMI Initialisation
+	 * RMI Initialisation wich loads the Properties from registry.properties file
 	 */
 	private void initRMI(){
 		try{
