@@ -74,6 +74,7 @@ public class CheckTimeTask extends TimerTask{
 				m.setRunning(false);
 			as.shutdown();
 			bs.shutdown();
+			this.cancel();
 		}
 	}
 	/**
