@@ -139,7 +139,7 @@ public class EventHandlerTest {
 		UserLogout uout = new UserLogout("2", "USER_LOGOUT", d.getTime(), "Testuser");
 		dummyAs.processEvent(uout);
 		try {
-			Thread.sleep(100);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -161,7 +161,7 @@ public class EventHandlerTest {
 		AuctionStarted as = new AuctionStarted("Auction1", "AUCTION_STARTED", d.getTime(), 1);
 		dummyAs.processEvent(as);
 		try {
-			Thread.sleep(100);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -169,7 +169,7 @@ public class EventHandlerTest {
 		dummyAs.processEvent(ae);
 		//Wait for processing
 		try {
-			Thread.sleep(100);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="Daniel-HP" name="jUnitTests.CLITest" skipped="0" tests="3" time="0.012" timestamp="2014-02-25T15:31:14">
+<testsuite errors="0" failures="0" hostname="Daniel-HP" name="jUnitTests.TaskExecuterTest" skipped="0" tests="5" time="5.144" timestamp="2014-02-25T15:33:24">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="client.name" value="Client.MainClient" />
@@ -85,9 +85,11 @@
     <property name="ant.project.invoked-targets" value="test" />
     <property name="billing.name" value="billing.StartBillingServer" />
   </properties>
-  <testcase classname="jUnitTests.CLITest" name="testOut" time="0.002" />
-  <testcase classname="jUnitTests.CLITest" name="testOutLn" time="0.001" />
-  <testcase classname="jUnitTests.CLITest" name="testReadLn" time="0.002" />
+  <testcase classname="jUnitTests.TaskExecuterTest" name="testBid" time="1.027" />
+  <testcase classname="jUnitTests.TaskExecuterTest" name="testLogin" time="1.031" />
+  <testcase classname="jUnitTests.TaskExecuterTest" name="testList" time="1.028" />
+  <testcase classname="jUnitTests.TaskExecuterTest" name="testCreate" time="1.029" />
+  <testcase classname="jUnitTests.TaskExecuterTest" name="testLogout" time="1.022" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

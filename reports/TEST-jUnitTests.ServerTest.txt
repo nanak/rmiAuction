@@ -1,0 +1,19 @@
+Testsuite: jUnitTests.ServerTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 62,702 sec
+------------- Standard Error -----------------
+AuctionSucess
+AuctionSucess
+------------- ---------------- ---------------
+
+Testcase: testRequestLogin took 5,046 sec
+Testcase: testRequestCreate took 5,023 sec
+Testcase: testRequestLogout took 5,027 sec
+Testcase: testGetTcpPort took 5,02 sec
+Testcase: testAuctionEndedWithoutBid took 6,228 sec
+Testcase: testRequestBid took 5,027 sec
+Testcase: testIsActive took 5,019 sec
+Testcase: testRequestList took 5,022 sec
+Testcase: testSetTcpPort took 5,018 sec
+Testcase: testAuctionEndedWithBid took 6,22 sec
+Testcase: testSetUser took 5,029 sec
+Testcase: testSetAuction took 5,018 sec

@@ -26,7 +26,7 @@ import billing.StartBillingServer;
  * @author Michaela Lipovits
  * @version 20140222
  */
-public class ManagementClientTest {
+public class ManagementClientTets {
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
 	private AnalyticsServer as;
@@ -253,7 +253,7 @@ public class ManagementClientTest {
 //		m.setBillingServer(bs);
 		cli.write("!unsubscribe 0");
 		try {
-			Thread.sleep(200);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -266,16 +266,19 @@ public class ManagementClientTest {
 	@Test
 	public void unsubscribeExceptionTest(){
 		cli=new FakeCli("");
+		System.out.println("FakeCli");
 		m=new ManagmentClient(cli);
+		System.out.println("Management");
 //		m.setAnalyticTaskComputing(ats);
 //		m.setBillingServer(bs);
-		cli.write("!unsubscribe");
+		cli.write("!unsubscribe\n");
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("Finished waiting");
 		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !unsubscribe <subscriptionID>", cli.getLastOutputM());
 	}
 	/**
