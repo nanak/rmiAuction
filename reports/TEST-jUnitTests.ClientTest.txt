@@ -1,20 +1,20 @@
 Testsuite: jUnitTests.ClientTest
-Tests run: 17, Failures: 0, Errors: 0, Time elapsed: 13,938 sec
+Tests run: 17, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18,401 sec
 
-Testcase: testBid took 0,421 sec
-Testcase: testEnd took 0,568 sec
-Testcase: testLogin took 0,218 sec
-Testcase: testGetTcpPort took 0,016 sec
-Testcase: testList took 0,617 sec
-Testcase: testBidNotANumber took 1,754 sec
-Testcase: testLogoutNotLoggedIn took 0,169 sec
-Testcase: testBidNotLoggedIn took 0,138 sec
-Testcase: testLoginWrongNumberOfArguments took 0,12 sec
-Testcase: testBidWrongNumberOfArguments took 1,721 sec
-Testcase: testCreateNotLoggedIn took 0,118 sec
-Testcase: testSetUsername took 0,017 sec
-Testcase: testCreate took 0,668 sec
-Testcase: testGetCli took 0,019 sec
-Testcase: testNoSuchCommand took 0,121 sec
-Testcase: testLogout took 0,222 sec
-Testcase: testDoubleLogin took 7,023 sec
+Testcase: testBid took 1,769 sec
+Testcase: testEnd took 0,578 sec
+Testcase: testLogin took 0,229 sec
+Testcase: testGetTcpPort took 0,041 sec
+Testcase: testList took 0,649 sec
+Testcase: testBidNotANumber took 1,749 sec
+Testcase: testLogoutNotLoggedIn took 0,218 sec
+Testcase: testBidNotLoggedIn took 0,185 sec
+Testcase: testLoginWrongNumberOfArguments took 0,133 sec
+Testcase: testBidWrongNumberOfArguments took 1,787 sec
+Testcase: testCreateNotLoggedIn took 0,189 sec
+Testcase: testSetUsername took 0,058 sec
+Testcase: testCreate took 0,889 sec
+Testcase: testGetCli took 0,036 sec
+Testcase: testNoSuchCommand took 0,235 sec
+Testcase: testLogout took 2,406 sec
+Testcase: testDoubleLogin took 7,237 sec

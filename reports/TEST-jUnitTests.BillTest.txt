@@ -1,5 +1,5 @@
 Testsuite: jUnitTests.BillTest
-Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 0,008 sec
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0,009 sec
 
 Testcase: billOk took 0,002 sec
-Testcase: billWrongNumber took 0,001 sec
+Testcase: billWrongNumber took 0,002 sec
