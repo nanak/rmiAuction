@@ -244,7 +244,7 @@ public class AnalyticsServer {
 			}
 				
 			// neuen stream mit der messenger.properties Datei erstellen
-			InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 			
 			properties.load(stream);
 		
@@ -281,7 +281,7 @@ public class AnalyticsServer {
 				}
 					
 				// neuen stream mit der messenger.properties Datei erstellen
-				InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 				
 				properties.load(stream);
 			

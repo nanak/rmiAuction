@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -68,7 +67,8 @@ public class BillingServer implements RemoteBillingServer {
 		// neuen stream mit der messenger.properties Datei erstellen
 
 		try {
-			InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
+			BufferedInputStream stream = new BufferedInputStream(
+					new FileInputStream("Server.properties"));
 
 			properties.load(stream);
 			stream.close();
@@ -118,7 +118,7 @@ public class BillingServer implements RemoteBillingServer {
 		 Properties p2 = new Properties();
 		// neuen stream mit der messenger.properties Datei erstellen
 		 try{
-		InputStream stream = ClassLoader.getSystemResourceAsStream(f.toString());
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
 			//TODO catch file not found exception
 		p2.load(stream);
 	
@@ -157,7 +157,7 @@ public class BillingServer implements RemoteBillingServer {
 					
 			 Properties properties = new Properties();
 			// neuen stream mit der messenger.properties Datei erstellen
-			InputStream stream = ClassLoader.getSystemResourceAsStream(f.toString());
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
 				//TODO catch file not found exception
 			properties.load(stream);
 		
