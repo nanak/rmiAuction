@@ -16,7 +16,7 @@ import exceptions.IllegalValueException;
 import exceptions.PriceStepIntervalOverlapException;
 
 /**
- * provides the actual functionality of the BillingServer
+ * Provides the actual functionality of the BillingServer
  *    
  * @author Rudolf Krepela
  * @email rkrepela@student.tgm.ac.at
@@ -29,10 +29,12 @@ public class BillingServerSecure  {
 
 	private ConcurrentHashMap<String,Bill> bills;
 
-	private FileHandler<String,Bill> fileHandler;
-	private FileHandler<CompositeKey,PriceStep> fhSteps;
+	private FileHandler<String,Bill> fileHandler;	//FileHandler to Save the bills
+	private FileHandler<CompositeKey,PriceStep> fhSteps; //FileHandler to save the pricesteps
 	
-	
+	/**
+	 * Loads the Bills/Pricesteps and puts it into the attributes.
+	 */
 	public BillingServerSecure(){
 		try {
 			fileHandler= new FileHandler<String,Bill>("bills.txt");
@@ -49,7 +51,7 @@ public class BillingServerSecure  {
 	/**
 	 * This method returns the current configuration of price steps. 
 	 * (prints all PriceSteps)
-	 * @return
+	 * @return	Formatted String with allPricesteps
 	 */
 	public String getPriceSteps() {
 		Iterator<PriceStep> i=priceSteps.values().iterator();
@@ -64,11 +66,12 @@ public class BillingServerSecure  {
 	}
 	/**
 	 * This method allows to create a price step for a given price interval.
-	 * @param startPrice
-	 * @param endPrice
-	 * @param fixedPrice
-	 * @param variablePricePercent
-	 * @throws PriceStepIntervalOverlapException
+	 * 
+	 * @param startPrice	Starting Price
+	 * @param endPrice		End Price
+	 * @param fixedPrice	Fix Price for an auction in this interval
+	 * @param variablePricePercent	Variable percentage 
+	 * @throws PriceStepIntervalOverlapException	Is thrown, if it overlaps with an existing pricestep
 	 */
 	public void createPriceStep(double startPrice, double endPrice, double fixedPrice, double variablePricePercent)throws PriceStepIntervalOverlapException,IllegalValueException{
 		PriceStep p;
@@ -82,13 +85,14 @@ public class BillingServerSecure  {
 					}
 				}
 				priceSteps.put(k, p);
-
 	}
 	/**
 	 * This method allows to delete a price step for the pricing curve.
-	 * @param startPrice
-	 * @param endPrice
+	 * 
+	 * @param startPrice		StartPrice
+	 * @param endPrice			EndPrice
 	 * @throws RemoteException if interval does not exist
+	 * @return	true if pricestep was successfully deleted
 	 */
 	public boolean deletePriceStep(Double startPrice, Double endPrice) {
 		CompositeKey k=new CompositeKey(startPrice, endPrice);
@@ -105,7 +109,9 @@ public class BillingServerSecure  {
 	 * and later uses this information to calculate the bill for a user.
 	 * 
 	 * if price step does not exist adds 0,0 as pricing curve
-	 * @param auction
+	 * @param user	User the bill is for
+	 * @param auctionID	AuctionID from the Auction
+	 * @param price	StrikePrice of the auction
 	 */
 	public void billAuction(String user, long auctionID, double price) {
 		boolean fail=true;
@@ -134,8 +140,8 @@ public class BillingServerSecure  {
 	/**
 	 * This method calculates and returns the bill for a given user,
 	 * based on the price steps stored within the billing server.
-	 * @param user
-	 * @return
+	 * @param user	User for whom the bill is
+	 * @return	Returns the formatted bill for the specific user
 	 */
 	public String getBill(String user) {
 		if(bills.containsKey(user))return bills.get(user).toString();
@@ -143,7 +149,7 @@ public class BillingServerSecure  {
 	}
 	
 	/**
-	 * saves all data to files
+	 * Saves all data to files
 	 */
 	public void shutdown(){
 		try {

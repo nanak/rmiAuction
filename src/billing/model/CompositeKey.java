@@ -14,6 +14,11 @@ import java.io.Serializable;
 public class CompositeKey implements Serializable, Comparable<CompositeKey>{
    private Double key1, key2;
    
+   /**
+    * Creates a new Key
+    * @param startPrice	Intervall start
+    * @param endPrice	Intervall end
+    */
    public CompositeKey(double startPrice,double endPrice){
 	   this.key1=startPrice;
 	   this.key2=endPrice;
@@ -22,6 +27,8 @@ public class CompositeKey implements Serializable, Comparable<CompositeKey>{
 /**
  * Tests if an pricestep interval overlaps with another pricestep
  * return true if they overlap
+ * 
+ * @return true if steps overlap
  */
    public boolean overlaps(CompositeKey s) {
 	   if (this.key2 == 0 && s.getKey2() == 0) {
@@ -38,8 +45,8 @@ public class CompositeKey implements Serializable, Comparable<CompositeKey>{
 
 /**
  * tests if value is between interval
- * @param obj
- * @return
+ * @param value value to be tested
+ * @return false if value is not insde intervall
  */
 public boolean matches(Double value) {
 	if(this.key2==0&&this.key1<=value)return true;
@@ -64,7 +71,7 @@ public Double getKey2() {
 }
 
 /**
- * Methode zum Vergleichen- Sortieren
+ * Compares method in order to sort them
  */
 @Override
 public int compareTo(CompositeKey o) {

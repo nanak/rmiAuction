@@ -184,7 +184,6 @@ public class EventHandler implements Runnable{
 								continue;
 							}
 						auctionsEnded++;
-						System.out.println(aevent.getAuctionID());
 						//Test if auction was successfull
 						if(bidAuctionIDs.contains(aevent.getAuctionID()))
 							auctionSuccessfull++;
@@ -202,13 +201,9 @@ public class EventHandler implements Runnable{
 							e.printStackTrace();
 						}
 						//Calculate successRatio
-						System.out.println("Successfull " + auctionSuccessfull);
-						System.out.println("Ended " + auctionsEnded);
 						float asuccess = ((float)auctionSuccessfull)/auctionsEnded;
-						System.out.println(asuccess);
 						//Create Event
 						date= new java.util.Date();
-						System.err.println("AuctionSucess");
 						AuctionSuccessRatio asuc = new AuctionSuccessRatio("" +UUID.randomUUID().getMostSignificantBits(), "AUCTION_SUCCESS_RATIO", date.getTime(), asuccess);
 						//Try to push event into Queue
 						try {

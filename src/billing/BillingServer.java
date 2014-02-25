@@ -58,7 +58,7 @@ public class BillingServer implements RemoteBillingServer {
 
 		//Testing if Password is correct. Don't touch this, it works! That is all that matters!
 		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()))){
-			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
+//			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
 			return null;// Password not correct
 			
 		}
@@ -101,48 +101,12 @@ public class BillingServer implements RemoteBillingServer {
 	}
 	
 	
-	
-//	public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss, String billingServerName){
-//		
-//		 Properties properties = new Properties();
-//		 if(billingServerName == null){
-//			 return initRmi(bs,bss);
-//		 }
-//		 properties.put("rmi.billingServer", billingServerName);
-//		 File f = new File("registry.properties");
-//			if(!f.exists()){
-//					System.out.println("Properties File doesn't exist. Server shutting down.");
-//					return false;
-//			}
-//				
-//		 Properties p2 = new Properties();
-//		// neuen stream mit der messenger.properties Datei erstellen
-//		 try{
-//		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
-//			//TODO catch file not found exception
-//		p2.load(stream);
-//	
-//		stream.close();
-//		 properties.put("rmi.billingServerSecure", p2.getProperty("rmi.billingServerSecure"));
-//		 
-//		 
-//		 ir = new InitRMI(properties);
-//			ir.init();
-//			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
-//         System.out.println("BillingServer bound");
-//			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
-//         System.out.println("BillingServerSecure bound");
-//		 
-//		 }catch(Exception e){
-//			 
-//		 }
-//		 
-//		return true;
-//	}
-	
-	
 	/**
-	 * Initialisiert den RMI-stub fuer den Billingserver
+	 * Initialises the BillingServer and BillingServerSecue and returns true if it was possible
+	 * 
+	 * @param bs	BillingServer which shall be bound
+	 * @param bss	BillingServerSecure which shall be bound
+	 * @return		true if binding was successfull/false if not
 	 */
 	 public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss){
 		 try {
@@ -181,7 +145,9 @@ public class BillingServer implements RemoteBillingServer {
 	 }
 	 
 	 /**
-	  * loginMap from Properties File
+	  * Loads the LoginMap from the properties.
+	  * Creates new default user if there is no properties file.
+	  * 
 	  * @return	Map with username and hashed pw
 	  */
 	 public ConcurrentHashMap<String,byte[]> loginMap(){
@@ -247,7 +213,7 @@ public class BillingServer implements RemoteBillingServer {
 			return null;
 	 }
 	 /**
-	  * Saves a specific map to a file
+	  * Saves a specific map to the properties file
 	  * 
 	  * @param user	userMap with name and password
 	  */
@@ -267,7 +233,7 @@ public class BillingServer implements RemoteBillingServer {
 			}
 	 }
 	 /**
-	  * Shuts down all Servers and unexports them from the registry
+	  * Shuts down all Servers and unexports them from the registry.
 	  */
 	 public void shutdown(){
 		 try {

@@ -23,12 +23,13 @@ public class PriceStep implements Serializable{
 	private DecimalFormat f;
 
 	/**
-	 * Constructor
-	 * @param startPrice
-	 * @param endPrice
-	 * @param fixedPrice
-	 * @param variablePricePercent
-	 * @throws IllegalValueException
+	 * Constructor for a PriceStep
+	 * 
+	 * @param startPrice	Startprice for the PriceStep
+	 * @param endPrice		EndPrice for the PriceStep
+	 * @param fixedPrice	Fixprice for this Pricestep
+	 * @param variablePricePercent	Perecentage for this PriceStep
+	 * @throws IllegalValueException	IllegalValue if a price is negative
 	 */
 	public PriceStep(double startPrice,double endPrice,double fixedPrice,double variablePricePercent) throws IllegalValueException{
 		if(startPrice<0||endPrice<0||fixedPrice<0||variablePricePercent<0)throw new IllegalValueException("values below zero");
@@ -44,15 +45,16 @@ public class PriceStep implements Serializable{
 	}
 
 /**
- * creates a meta description string that contains all variable names for output
- * @return
+ * Creates a meta description string that contains all variable names for output
+ * @return	DescriptionLine
  */
 	public String getVariableNames(){
 		return String.format("%s\t%s\t%s\t%s",desc[0], desc[1], desc[2],desc[3]);
 	}
 	
 	/**
-	 * writes the values in a well formated line
+	 * Writes the values in a well formated line
+	 * @return	Well formatted PriceStep
 	 */
 	@Override
 	public String toString() { 
