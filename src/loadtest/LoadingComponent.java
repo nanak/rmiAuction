@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import client.Client;
 import client.TaskExecuter;
@@ -130,8 +133,10 @@ public class LoadingComponent {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-		System.out.println(filename+p.getClients());
-
+		
+		ScheduledThreadPoolExecutor bid=new ScheduledThreadPoolExecutor(p.getClients());
+		ScheduledThreadPoolExecutor list=new ScheduledThreadPoolExecutor(p.getClients());
+		ScheduledThreadPoolExecutor create=new ScheduledThreadPoolExecutor(p.getClients());
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();
 			cli=new FakeCli("");
@@ -139,14 +144,14 @@ public class LoadingComponent {
 			clients.add(c);
 			t=c.getT();
 			tcp=c.getTcpPort();
-			create=new Timer();
-			bid=new Timer();
-			list=new Timer();
+			
 			checker=new Timer();
 			TimerTask c=new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp);
-			create.schedule(c, 0, 60000/p.getAuctionsPerMin());
-			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
-			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
+			create.scheduleAtFixedRate(c, 0, 60000/p.getAuctionsPerMin(),TimeUnit.MILLISECONDS);
+			
+			
+			bid.scheduleAtFixedRate(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, p.getUpdateIntervalSec()*1000, TimeUnit.MILLISECONDS);
+			list.scheduleAtFixedRate(new ListTask(t), 600, p.getUpdateIntervalSec()*1000, TimeUnit.MILLISECONDS);
 			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli,min, as, bs), 1000, 1000);
 		}
 		

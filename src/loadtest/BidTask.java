@@ -11,7 +11,7 @@ import client.TaskExecuter;
  * @author Michaela Lipovits
  * @version 20140217
  */
-public class BidTask extends TimerTask{
+public class BidTask implements Runnable{
 	private int bidpM;
 	private long starttime;
 	private boolean first;

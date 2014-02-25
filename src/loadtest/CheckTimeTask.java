@@ -2,6 +2,9 @@ package loadtest;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import analytics.AnalyticsServer;
 import billing.BillingServer;
@@ -18,9 +21,9 @@ public class CheckTimeTask extends TimerTask{
 	private long starttime;
 	private long min=8*60000;
 	private long status;
-	private Timer list;
-	private Timer create;
-	private Timer bid;
+	private ScheduledThreadPoolExecutor list;
+	private ScheduledThreadPoolExecutor create;
+	private ScheduledThreadPoolExecutor bid;
 	private ManagmentClient m;
 	private FakeCli mcli;
 	private AnalyticsServer as;
@@ -39,7 +42,7 @@ public class CheckTimeTask extends TimerTask{
 	 * @param bs 
 	 * @param as 
 	 */
-	public CheckTimeTask(long starttime, Timer list2, Timer create2, Timer bid2, ManagmentClient m, FakeCli mcli, long min, AnalyticsServer as, BillingServer bs){
+	public CheckTimeTask(long starttime, ScheduledThreadPoolExecutor list2, ScheduledThreadPoolExecutor create2, ScheduledThreadPoolExecutor bid2, ManagmentClient m, FakeCli mcli, long min, AnalyticsServer as, BillingServer bs){
 		this.mcli=mcli;
 		this.starttime=starttime;
 		this.list=list2;
@@ -62,20 +65,35 @@ public class CheckTimeTask extends TimerTask{
 		if(status>=min){
 			if(mcli!=null)
 				mcli.write("!unsubscribe 0\n!end");
-			list.cancel();
-			list.purge();
-			create.cancel();
-			create.purge();
-			bid.cancel();
-			bid.purge();
+			shutdownAndAwaitTermination(create);
+			shutdownAndAwaitTermination(list);
+			shutdownAndAwaitTermination(bid);
 			long passed=min+status;
 			System.out.println("Loadtest ended. Time passed: "+passed);
 			if(m!=null)
 				m.setRunning(false);
 			as.shutdown();
 			bs.shutdown();
-			this.cancel();
 		}
 	}
-
+	/**
+	 * Terminates all actve Threads
+	 * @param pool Executor Service
+	 */
+	public void shutdownAndAwaitTermination(ExecutorService pool) {
+		pool.shutdown();//once the above task has been executed by threads,shut down executor ?
+		 try {
+		     // Wait 5 seconds  for existing tasks to terminate
+		     if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {     
+		     pool.shutdownNow(); // Cancel currently executing tasks
+		       
+		       if (!pool.awaitTermination(5, TimeUnit.SECONDS))
+		           System.err.println("Pool did not terminate");
+		     }
+		   } catch (InterruptedException ie) {
+		     // (Re-)Cancel if current thread also interrupted
+		     pool.shutdownNow();
+		     Thread.currentThread().interrupt();
+		   }
+	}
 }
