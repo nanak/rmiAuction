@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.CreateTask;
 import loadtest.FakeCli;
-import loadtest.LoadTest;
+import loadtest.LoadingComponent;
 import management.ManagmentClient;
 
 import org.junit.After;
@@ -26,7 +26,7 @@ import billing.StartBillingServer;
 import connect.ReceiveConnection;
 
 /**
- * Tests the {@link LoadTest} class
+ * Tests the {@link LoadingComponent} class
  * @author Michaela Lipovits
  * @version 20140221
  */
@@ -39,7 +39,7 @@ public class Loading {
 	private ConcurrentHashMap<String, byte[]> ret;
 	private StartBillingServer start;
 	private Server s;
-	private LoadTest l;
+	private LoadingComponent l;
 	
 	/**
 	 * starts analyticsserver and billingserver as their mains would
@@ -91,7 +91,7 @@ public class Loading {
 	 */
 	@Test
 	public void constTest(){
-		l = new LoadTest("localhost", 6000, "loadtest.properties",5000);
+		l = new LoadingComponent("localhost", 6000, "loadtest.properties",5000);
 		
 //		l.shutdown();
 		try {
@@ -122,7 +122,7 @@ public class Loading {
 	 */
 	@Test
 	public void randomStringTest(){
-		LoadTest l = new LoadTest("localhost", 6000, "loadtest.properties",5000);
+		LoadingComponent l = new LoadingComponent("localhost", 6000, "loadtest.properties",5000);
 		
 		String r=l.randomString(20);
 		try {

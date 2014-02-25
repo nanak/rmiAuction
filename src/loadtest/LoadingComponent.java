@@ -22,7 +22,7 @@ import management.ManagmentClient;
  * @author Michaela Lipovits
  * @version 20140209
  */
-public class LoadTest {
+public class LoadingComponent {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
 	private static ArrayList<Client> clients;
@@ -82,7 +82,7 @@ public class LoadTest {
 			}
 		}
 		
-		new LoadTest(hostname,port,filename,8*60000);
+		new LoadingComponent(hostname,port,filename,8*60000);
 		
 	}
 	/**
@@ -94,7 +94,7 @@ public class LoadTest {
 	 * @param port Port of the Server
 	 * @param filename Filename of the porpertiesfile
 	 */
-	public LoadTest(String hostname,int port, String filename,long min){
+	public LoadingComponent(String hostname,int port, String filename,long min){
 		System.out.println("Now Billing Test initialization");
 		bs =new BillingServer();
 
