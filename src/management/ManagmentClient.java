@@ -126,7 +126,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 				}
 				try{
 					cmd=line.split(" ");
-					if(line.equals("!end")){
+					if(line.equals("!exit")){
 						if(secure==true){
 							try{
 								logout[0]="!logout";
