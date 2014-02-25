@@ -11,7 +11,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Properties;
-
+/**
+ * Class that encapsulates some necessary RMI steps
+ * @author Thomas Traxler <ttraxler@student.tgm.ac.at>
+ * @version 2014-02-25
+ */
 public class InitRMI {
 	
 	private Properties p;
@@ -23,13 +27,19 @@ public class InitRMI {
 	public static final int REGISTRY_BOUND = 0;
 	public static final int REMOTE_BOUND=0;
 	
-	
+	/**
+	 * Konstructor with a properties object
+	 * @param p
+	 */
 	public InitRMI(Properties p){
 		init=false;
 		this.p=p;
 	}
 
-	
+	/**
+	 * Initialises this Object
+	 * @return successstate (0 if successfull, see the static fields for other possibilities)
+	 */
 	public int init(){
 		System.out.println("Init registry");
 		registry = null;
@@ -51,7 +61,13 @@ public class InitRMI {
 		return REGISTRY_BOUND;
 	}
 	
-	
+	/**
+	 * Rebinds the Remoteobject
+	 * @param r Remoteobject
+	 * @param rmiIdentifier 
+	 * @return Successstate
+	 * @throws RemoteException
+	 */
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{
 		if(!init)
 			init();
