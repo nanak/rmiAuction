@@ -290,8 +290,8 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			
 			ir = new InitRMI(properties);
 			ir.init();
-			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null){
-				running=false;
+			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null||properties.getProperty("rmi.port")==null){
+					running=false;
 				ui.out("Properties not sufficcient. Client shutting down. ");
 				return;
 			}
