@@ -1,6 +1,7 @@
 package loadtest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,10 +15,10 @@ import Client.TaskExecuter;
  * @author Michaela Lipovits
  * @version 20140209
  */
-public class TestingComponent {
+public class LoadTest {
 	private static final String STRING_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	public Properties properties;
-	private static ConcurrentHashMap<Integer, Thread> clients;
+	private static ArrayList<Client> clients;
 	private static ManagmentClient m;
 	private static FakeCli mcli;
 	private ManagmentClient mc;
@@ -72,7 +73,7 @@ public class TestingComponent {
 		}
 		mcli=new FakeCli("!subscribe .* \n!auto");
 		m =new ManagmentClient(mcli);
-		new TestingComponent(hostname,port,filename);
+		new LoadTest(hostname,port,filename,1*60000);
 		
 		
 	}
@@ -85,8 +86,8 @@ public class TestingComponent {
 	 * @param port Port of the Server
 	 * @param filename Filename of the porpertiesfile
 	 */
-	public LoadTest(String hostname,int port, String filename){
-		clients=new ConcurrentHashMap<Integer,Thread>();
+	public LoadTest(String hostname,int port, String filename,long min){
+		clients=new ArrayList<Client>();
 		
 		Properties p = new Properties();
 		//read properties from file
@@ -101,6 +102,7 @@ public class TestingComponent {
 			starttime=System.currentTimeMillis();
 			cli=new FakeCli("");
 			c= new Client(hostname, port, cli);
+			clients.add(c);
 			t=c.getT();
 			tcp=c.getTcpPort();
 			create=new Timer();
@@ -111,7 +113,7 @@ public class TestingComponent {
 			create.schedule(c, 0, 60000/p.getAuctionsPerMin());
 			bid.schedule(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, 60000/p.getBidsPerMin());
 			list.schedule(new ListTask(t), 600, p.getUpdateIntervalSec()*1000);
-			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli), 1000, 10000);
+			checker.schedule(new CheckTimeTask(starttime, list, create, bid, m, mcli,min), 1000, 1000);
 		}
 		
 	}
@@ -123,6 +125,9 @@ public class TestingComponent {
 		checker.cancel();checker.purge();
 		list.cancel();list.purge();
 		create.cancel();create.purge();
+		for (int i=0; i<clients.size(); i++){
+			clients.get(i).setActive(false);
+		}
 	}
 
 }

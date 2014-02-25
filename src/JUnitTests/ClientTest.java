@@ -22,7 +22,14 @@ import billing.BillingServerSecure;
 import billing.RemoteBillingServerSecure;
 import billing.StartBillingServer;
 import connect.ReceiveConnection;
-
+/**
+ * Tests all functions of the Client
+ * 
+ * @author Nanak Tattyrek
+ * @version 23.02.2014
+ * @email ntattyrek@student.tgm.ac.at
+ *
+ */
 public class ClientTest {
 
 	private int serverPort = 5000;
@@ -39,6 +46,10 @@ public class ClientTest {
 	private ArrayList<Thread> threads = new ArrayList<>();
 	private ArrayList<Server> servers = new ArrayList<Server>();
 	
+	/**
+	 * Gets executed before every test method
+	 * Starts all needed components like servers, etc.
+	 */
 	@Before
 	public void setUp() {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
@@ -46,7 +57,7 @@ public class ClientTest {
 		as= new AnalyticsServer();
 		new AnalyticTaskComputing(as);
 		start=new StartBillingServer();
-		bs =new BillingServer(start.loginMap());
+		bs =new BillingServer();
 
 //		bs =new BillingServer(start.loginTestMap());
 		BillingServerSecure bss = new BillingServerSecure();
@@ -64,6 +75,7 @@ public class ClientTest {
 		testcounter++;
 	}
 	/**
+	 * Gets executed after every test method
 	 * Shutdown the server
 	 */
 	@After
@@ -97,6 +109,10 @@ public class ClientTest {
 
 		
 	}
+	
+	/**
+	 * Tests if setUsername() works as expected
+	 */
 	@Test
 	public void testSetUsername() {
 		cli = new FakeCli("");
@@ -105,7 +121,9 @@ public class ClientTest {
 		assertEquals("test", c.getUsername());
 	}
 
-	
+	/**
+	 * tests the execution of the !list command
+	 */
 	@Test
 	public void testList() {
 		cli = new FakeCli("");
@@ -121,6 +139,9 @@ public class ClientTest {
 
 	}
 
+	/**
+	 * tests the executoin of the !login command
+	 */
 	@Test
 	public void testLogin() {
 		cli = new FakeCli("");
@@ -144,6 +165,9 @@ public class ClientTest {
 		c.setActive(false);
 	}
 
+	/**
+	 * tests the execution of the !create command
+	 */
 	@Test
 	public void testCreate() {
 		cli = new FakeCli("");
@@ -159,6 +183,9 @@ public class ClientTest {
 		c.setActive(false);
 	}
 
+	/**
+	 * tests the execution of the !bid command
+	 */
 	@Test
 	public void testBid() {
 		cli = new FakeCli("");
@@ -182,6 +209,9 @@ public class ClientTest {
 		c.setActive(false);
 	}
 
+	/**
+	 * tests the execution of the !logout command
+	 */
 	@Test
 	public void testLogout() {
 		cli = new FakeCli("");
@@ -204,6 +234,9 @@ public class ClientTest {
 		c.setActive(false);
 	}
 
+	/**
+	 * tests the execution of the !logout command
+	 */
 	@Test
 	public void testEnd() {
 		cli = new FakeCli("");
@@ -221,6 +254,9 @@ public class ClientTest {
 	
 	
 
+	/**
+	 * test the error handling if the !bid command gets a wrong number of arguments
+	 */
 	@Test
 	public void testBidWrongNumberOfArguments(){
 		cli = new FakeCli("");
@@ -249,8 +285,11 @@ public class ClientTest {
 		assertEquals("ERROR: Wrong number of arguments given!\nUsage !bid ID Amount",cli.getOutputBeforeEnd());
 	}
 	
+	/**
+	 * tests the error handing if the !login command gets a wrong number of arguments
+	 */
 	@Test
-	public void testLoginWrongNumberOfArguments(){
+	public void testLoginWrongNumberOfArguments(){ //TODO:  "TestClient wirft irgendeinen RandomOutput, der nicht immer passt"
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test test\n!end");
@@ -258,6 +297,9 @@ public class ClientTest {
 		assertEquals("ERROR: Wrong number of arguments given!\nUsage: !login Username",cli.getOutputOnIndex(1));
 	}
 	
+	/**
+	 * tests the error handling if trying to !bid without being logged in
+	 */
 	@Test
 	public void testBidNotLoggedIn(){
 		cli = new FakeCli("");
@@ -267,6 +309,9 @@ public class ClientTest {
 		assertEquals("Currently not logged in\nPlease login first",cli.getOutputOnIndex(1));
 	}
 	
+	/**
+	 * tests the error handling if the !bid command doesn't get a number as value
+	 */
 	@Test
 	public void testBidNotANumber(){
 		cli = new FakeCli("");
@@ -292,15 +337,19 @@ public class ClientTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cli.write("\n!bid 1 asdf\n!end");
+		cli.write("\n!bid sd 1\n!end");
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(5));
+		assertEquals("ERROR: One or more arguments are invalid!",cli.getOutputBeforeEnd());
 	}
+	
+	/**
+	 * tests the error handling if the specified command doesn't exist
+	 */
 	@Test
 	public void testNoSuchCommand(){
 		cli = new FakeCli("");
@@ -309,8 +358,12 @@ public class ClientTest {
 		c.run();
 		assertEquals("ERROR: This Command does not exist!\nCould not recognize input\nPlease try again",cli.getOutputOnIndex(1));
 	}
+	
+	/**
+	 * tests error handling if already logged in user tries to login again
+	 */
 	@Test
-	public void testDoubleLogin(){
+	public void testDoubleLogin(){ //TODO:  "TestClient wirft irgendeinen RandomOutput, der nicht immer passt"
 		cli = new FakeCli("");
 		c = new Client("127.0.0.1", serverPort, cli);
 		cli.write("!login test4\n");
@@ -336,6 +389,10 @@ public class ClientTest {
 		}
 		assertEquals("Already logged in, logout first!",cli.getOutputBeforeEnd());
 	}
+	
+	/**
+	 * tests error handling if user tries to create an auction without being logged in
+	 */
 	@Test
 	public void testCreateNotLoggedIn(){
 		cli = new FakeCli("");
@@ -344,6 +401,10 @@ public class ClientTest {
 		c.run();
 		assertEquals("Currently not logged in\nPlease login first",cli.getOutputOnIndex(1));
 	}
+	
+	/**
+	 * tests error handling if user tries to logout without being logged in first
+	 */
 	@Test
 	public void testLogoutNotLoggedIn(){
 		System.out.println("Not logged in Test");
@@ -354,6 +415,9 @@ public class ClientTest {
 		assertEquals("Logout not possible, not logged in!",cli.getOutputOnIndex(1));
 	}
 	
+	/**
+	 * tests if getCli() works as expected
+	 */
 	@Test
 	public void testGetCli(){
 		cli = new FakeCli("");
@@ -361,6 +425,9 @@ public class ClientTest {
 		assertEquals(cli, c.getCli());
 	}
 	
+	/**
+	 * tests if getTcpPort() works as expected
+	 */
 	@Test
 	public void testGetTcpPort(){
 		cli = new FakeCli("");

@@ -27,6 +27,7 @@ public class ServerStart {
 		Scanner in=new Scanner(System.in);
 		in.nextLine();
 		System.out.println("Server ends in 5sec");		//If Enter Button pressed, Server will end
+		s.shutdown();
 		s.setActive(false);
 		in.close();
 	}

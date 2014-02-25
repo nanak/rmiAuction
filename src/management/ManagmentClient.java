@@ -41,17 +41,17 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 
 	private UI ui;
 
-	private static CommandFactory commandFactory;
+	private CommandFactory commandFactory;
 
-	private static RemoteBillingServer billingServer;
+	private RemoteBillingServer billingServer;
 
 	private RemoteAnalyticsTaskComputing analyticTaskComputing;
 
-	private static IRemoteBillingServerSecure billingServerSecure;
+	private IRemoteBillingServerSecure billingServerSecure;
 	
 	private String uniqueID;
 
-	InitRMI ir;
+	private InitRMI ir;
 	private ConcurrentLinkedQueue<Event> events;
 	private boolean running;
 	private Command c;
@@ -128,33 +128,25 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 					cmd=line.split(" ");
 					if(line.equals("!end")){
 						if(secure==true){
-							logout[0]="!logout";
-							logout[1]=username;
-							System.out.println(billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
-							billingServerSecure=null;
-							username="";
-							ir.unexport(this);
+							try{
+								logout[0]="!logout";
+								logout[1]=username;
+								ui.outM((String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(logout),logout));
+								billingServerSecure=null;
+								username="";
+							}catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer is not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 						}
 						ui.outM("Management Client is shutting down!");
 						secure=false;
 						running=false;
-					}
-					else if(cmd[0].equals("!login")){
-						System.out.println("Login in");
-						c= commandFactory.createCommand(cmd);
-						ui.outM((String) c.execute(cmd));
-						Login l = (Login)c;
-//						System.err.println(new String(l.getPw()));
-						billingServerSecure=billingServer.login(l);
-						if(billingServerSecure == null){
-							ui.outM("Wrong password!");
-						}
-						else{
-							secure=true;
-							username=cmd[1];
-							ui.outM("Successfully logged in");
-						}
-								
+						ir.unexport(this);
 					}
 					else if(cmd[0].equals("!print")){
 						Iterator<Event> it = events.iterator();
@@ -205,12 +197,13 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							}
 							catch(RemoteException e){
 								try {
+									ui.outM("INFO: Analytics seemed to have moved. Looking up");
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
 									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 									
 								} catch (NotBoundException | RemoteException  ex) {
 									ui.outM("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
-									
+									 
 								}	
 							}
 							
@@ -221,21 +214,64 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 							usernameLogout=new String[2];
 							usernameLogout[0]=cmd[0];
 							usernameLogout[1]=username;
-							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
-							ui.outM(anwser);
-							username=""; 
-							billingServerSecure=null;
-							secure=false;
+							try{
+								anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),usernameLogout);
+								ui.outM(anwser);
+								username=""; 
+								billingServerSecure=null;
+								secure=false;
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 						}
 						else{
-							anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
-							ui.outM(anwser);
+							try{ 
+								anwser=(String)billingServerSecure.executeSecureCommand(commandFactory.createSecureCommand(cmd),cmd);
+								ui.outM(anwser);
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
 						}
 					}	
 					else{	
-						c=commandFactory.createCommand(cmd);
-						anwser=(String) c.execute(cmd);
-						ui.outM(anwser);
+						c= commandFactory.createCommand(cmd);
+						if(cmd[0].equals("!login")){
+							
+							Login l = (Login)c;
+							l.execute(cmd);
+
+							try{ 
+								billingServerSecure=billingServer.login(l);
+								if(billingServerSecure == null){
+									ui.outM("Wrong password!");
+								}
+								else{
+									secure=true;
+									username=cmd[1];
+									ui.outM("Successfully logged in");
+								}
+							}
+							catch(RemoteException | NullPointerException e){
+								try {
+									billingServer = (RemoteBillingServer) ir.lookup(billingIdentifier);
+									ui.outM("ERROR: Connection to BillingServer lost. You have to login again!");
+								} catch (NotBoundException | RemoteException  ex) {
+									ui.outM("ERROR: BillingServer not available right now. Retry after starting BillingServer");			 
+								}	
+							}
+						}
 					}					
 				}catch(WrongNumberOfArgumentsException | WrongInputException | CommandNotFoundException | CommandIsSecureException e){
 					ui.outM(e.getMessage());
@@ -244,30 +280,21 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			br.close();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+//			e1.printStackTrace();
 			
 		}
 
 	}
-	/**
-	 * RMI Initialisation
-	 */
-	private void initRMI(){
-//		if (System.getSecurityManager() == null) {
-//			System.setSecurityManager(new SecurityManager());
-//		}
-	// neues Properties Objekt erstellen
-
-
+	private void initRMI(Properties properties){
 		try {
-			Properties properties = new Properties();
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
 			
-			properties.load(stream);
-		
-			stream.close();
 			ir = new InitRMI(properties);
 			ir.init();
+			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null||properties.getProperty("rmi.port")==null){
+					running=false;
+				ui.out("Properties not sufficcient. Client shutting down. ");
+				return;
+			}
 			analyticsIdentifier = properties.getProperty("rmi.analyticsServer");
 			System.out.println("Getting server: " + analyticsIdentifier );
 			billingIdentifier = properties.getProperty("rmi.billingServer");
@@ -285,9 +312,6 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 		} catch (NumberFormatException nfe) {
 			System.out.println("Properties File not well formatet. Client shutting down.");
 			running=false;
-		} catch (FileNotFoundException e) {
-			running=false;
-			System.out.println("Properties File doesn't exist. Client shutting down.");
 		} catch (IOException e) {
 			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
 			running=false;
@@ -299,5 +323,104 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	public boolean getPrintAutomatic(){
 		return printAutomatic;
 	}
+//	/**
+//	 * initRMI if one name given
+//	 * @param servername rmi Servername
+//	 * @param server wich Servername (true if billing, false if analytic)
+//	 */
+//	private void initRMI(String servername, boolean server){
+//		if(servername==null){
+//			initRMI();
+//			return;
+//		}
+//		try{
+//			Properties properties = new Properties();
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
+//			
+//			properties.load(stream);
+//		
+//			stream.close();
+//			if(server){
+//				properties.put("rmi.billingserver", servername);
+//				
+//			}else{
+//				properties.put("rmi.analyticsServer", servername);
+//			}
+//			
+//			
+//			
+//			initRMI (properties);
+//		}catch (FileNotFoundException e) {
+//			running=false;
+//			System.out.println("Properties File doesn't exist. Client shutting down.");
+//		}catch (IOException e) {
+//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//		} 
+//		
+//		
+//	}
+//	private void initRMI(String analyticServerName, String billingServerName){
+//
+//		Properties properties = new Properties();
+//		try{
+//			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
+//			
+//			properties.load(stream);
+//		
+//			stream.close();
+//		}catch (FileNotFoundException e) {
+//			running=false;
+//			System.out.println("Properties File doesn't exist. Client shutting down.");
+//			return;
+//		}catch (IOException e) {
+//			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+//			running=false;
+//			return;
+//		} 
+//		if(analyticServerName == null){
+//			if(billingServerName==null){
+//				initRMI();
+//				return;
+//			}
+//			initRMI(billingServerName,true);
+//			return;
+//		}
+//		if(billingServerName==null){
+//			initRMI(analyticServerName,false);
+//			return;
+//		}
+//		Properties p = new Properties();
+//		p.put("rmi.billingserver", billingServerName);
+//		p.put("rmi.analyticsServer", analyticServerName);
+//		initRMI(p);
+//	}
+	/**
+	 * RMI Initialisation
+	 */
+	private void initRMI(){
+		try{
+			Properties properties = new Properties();
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+			initRMI (properties);
+		}catch (FileNotFoundException e) {
+			running=false;
+			System.out.println("Properties File doesn't exist. Client shutting down.");
+		}catch (IOException e) {
+			System.out.println("ERROR: Problem loading Properties File: "+e.getMessage()+". Client shutting down.");
+			running=false;
+		} 
+	}
+//		if (System.getSecurityManager() == null) {
+//			System.setSecurityManager(new SecurityManager());
+//		}
+	// neues Properties Objekt erstellen
+
+
+		
 
 }

@@ -42,7 +42,7 @@ public class ServerTest {
 	public void setUp() throws Exception {
 		StartBillingServer start = new StartBillingServer();
 
-		 bs =new BillingServer(start.loginMap());
+		 bs =new BillingServer();
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		 as = new AnalyticsServer();
@@ -56,7 +56,6 @@ public class ServerTest {
 	public void end(){
 		bs.shutdown();
 		as.shutdown();
-		
 		server.setActive(false);
 		try {
 			Thread.sleep(5000);

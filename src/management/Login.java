@@ -35,7 +35,7 @@ public class Login implements Command<String>{
 		byte[] bytesOfMessage;
 		MessageDigest md;
 		try {
-			System.out.println(cmd[2]);
+//			System.out.println(cmd[2]);
 			bytesOfMessage = cmd[2].getBytes("UTF-8");
 			md = MessageDigest.getInstance("MD5");
 			byte[] thedigest = md.digest(bytesOfMessage);

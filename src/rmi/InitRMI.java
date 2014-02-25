@@ -33,18 +33,19 @@ public class InitRMI {
 	public InitRMI() throws IOException{
 		init=false;
 		p  = new Properties();
-		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));	
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));	
 		p.load(stream);
 		stream.close();
 	}
 	
 	public int init(){
+		System.out.println("Init registry");
 		registry = null;
         try{
 //        	System.out.println("Getting registry");
             registry = LocateRegistry.createRegistry(Integer.parseInt(p.getProperty("rmi.port")));        	
         }catch( RemoteException | NumberFormatException e){
-//        	System.out.println("Could not create RMI registry, getting RMI registry");
+        	System.out.println("Could not create RMI registry, getting RMI registry");
         	try{
             	registry = LocateRegistry.getRegistry(p.getProperty("rmi.registryURL"),Integer.parseInt(p.getProperty("rmi.port")));
         	}catch(Exception xe){//TODO Einschraenken

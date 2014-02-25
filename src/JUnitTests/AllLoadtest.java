@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 //JUST FOR QUICK TESTING
 @RunWith(Suite.class)
-@SuiteClasses({PropertiesTest.class, FakeCliTest.class, LoadTestTest.class})
+@SuiteClasses({PropertiesTest.class, FakeCliTest.class, Loading.class})
 public class AllLoadtest {
 	
 }

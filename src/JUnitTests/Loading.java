@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import loadtest.CreateTask;
 import loadtest.FakeCli;
-import loadtest.TestingComponent;
+import loadtest.LoadTest;
 import management.ManagmentClient;
 
 import org.junit.After;
@@ -30,7 +30,7 @@ import connect.ReceiveConnection;
  * @author Michaela Lipovits
  * @version 20140221
  */
-public class LoadTestTest {
+public class Loading {
 	private BillingServer bs;
 	private AnalyticTaskComputing ats;
 	private AnalyticsServer as;
@@ -39,24 +39,24 @@ public class LoadTestTest {
 	private ConcurrentHashMap<String, byte[]> ret;
 	private StartBillingServer start;
 	private Server s;
+	private LoadTest l;
 	
 	/**
 	 * starts analyticsserver and billingserver as their mains would
 	 */
 	@Before
-	public void setUp() {	
+	public void setUp() {
 		ConcurrentHashMap<String,byte[]> map=new ConcurrentHashMap<String,byte[]>();
 		String[] args=new String[0];
-		as= new AnalyticsServer();
-		new AnalyticTaskComputing(as);
-		start=new StartBillingServer();
-		bs =new BillingServer(start.loginMap());
-//		BillingServerSecure bss = new BillingServerSecure();
-//		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
-//		start.initRmi(bs, rbss);
+		System.out.println("Now Billing Test initialization");
+		bs =new BillingServer();
+
 		BillingServerSecure bss = new BillingServerSecure();
 		RemoteBillingServerSecure rbss = new RemoteBillingServerSecure(bss);
 		bs.initRmi(bs, rbss);
+		System.out.println("New Analytics");
+		as= new AnalyticsServer();
+		new AnalyticTaskComputing(as);
 		s= new Server();
 		s.setTcpPort(5000);
 		ReceiveConnection r = new ReceiveConnection(5000, s);	
@@ -70,12 +70,19 @@ public class LoadTestTest {
 	public void end(){
 		as.shutdown();
 		bs.shutdown();
-		
+		if(l!=null){
+			l.shutdown();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		s.setActive(false);
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -84,14 +91,14 @@ public class LoadTestTest {
 	 */
 	@Test
 	public void constTest(){
-		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
+		l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
+		
+//		l.shutdown();
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		l.shutdown();
 	}
 	/**
 	 * tests the CreateTask
@@ -103,9 +110,8 @@ public class LoadTestTest {
 		CreateTask c = new CreateTask(100, 200, new TaskExecuter(cl), 5000);
 		t.schedule(c, 0, 100);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		t.cancel();
@@ -116,13 +122,12 @@ public class LoadTestTest {
 	 */
 	@Test
 	public void randomStringTest(){
-		TestingComponent l = new TestingComponent("localhost", 5000, "loadtest.properties");
+		LoadTest l = new LoadTest("localhost", 5000, "loadtest.properties",5000);
 		
 		String r=l.randomString(20);
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(20, r.length(), 0);

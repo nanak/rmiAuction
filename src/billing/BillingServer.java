@@ -3,13 +3,19 @@ package billing;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.rmi.NoSuchObjectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,20 +41,22 @@ public class BillingServer implements RemoteBillingServer {
 	private BillingServer bs;
 	private RemoteBillingServerSecure bss;
 
-	public BillingServer(ConcurrentHashMap<String, byte[]> user) {
-		this.user = user;
+	/**
+	 * Initialieses the user + passwords
+	 */
+	public BillingServer() {
+		user = loginMap();
 	}
 
 	/**
+	 *  Executes a login.
+	 *  Compares the given usernae + password with them from the list.
 	 *  
+	 *  @return	null if no matching password, Interface to BillingServerSecure if login mathces
 	 */
 	public IRemoteBillingServerSecure login(Login login) {
-		System.out.println(login.getName());
-//		for (Iterator iterator = user.keySet().iterator(); iterator.hasNext();) {
-//			String type = (String) iterator.next();
-//			System.out.println(type);
-//		}
-		// TODO Login testen
+
+		//Tested login
 		if (!Arrays.toString(user.get(login.getName())).equals(Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()))){
 			System.out.println("invalid login atempt" + " " + Arrays.toString(user.get(login.getName())) + " " +Arrays.toString(String.format("%040x", new BigInteger(1,login.getPw())).getBytes()));
 			return null;// Password not correct
@@ -60,7 +68,7 @@ public class BillingServer implements RemoteBillingServer {
 
 		try {
 			BufferedInputStream stream = new BufferedInputStream(
-					new FileInputStream("Server.properties"));
+					new FileInputStream("registry.properties"));
 
 			properties.load(stream);
 			stream.close();
@@ -86,11 +94,52 @@ public class BillingServer implements RemoteBillingServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NumberFormatException nfe) {
-			System.out.println("server.properties File Fehlerhaft");
+			System.out.println("registry.properties File Fehlerhaft");
 		}
 		//TODO Mehr ausgaben
 		return null;// Fehler bei der Serverlokalisierung
 	}
+	
+	
+	
+	public boolean initRmi(BillingServer bs, RemoteBillingServerSecure bss, String billingServerName){
+		
+		 Properties properties = new Properties();
+		 if(billingServerName == null){
+			 return initRmi(bs,bss);
+		 }
+		 properties.put("rmi.billingServer", billingServerName);
+		 File f = new File("registry.properties");
+			if(!f.exists()){
+					System.out.println("Properties File doesn't exist. Server shutting down.");
+					return false;
+			}
+				
+		 Properties p2 = new Properties();
+		// neuen stream mit der messenger.properties Datei erstellen
+		 try{
+		BufferedInputStream stream = new BufferedInputStream(new FileInputStream(f));
+			//TODO catch file not found exception
+		p2.load(stream);
+	
+		stream.close();
+		 properties.put("rmi.billingServerSecure", p2.getProperty("rmi.billingServerSecure"));
+		 
+		 
+		 ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
+         System.out.println("BillingServer bound");
+			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
+         System.out.println("BillingServerSecure bound");
+		 
+		 }catch(Exception e){
+			 
+		 }
+		 
+		return true;
+	}
+	
 	
 	/**
 	 * Initialisiert den RMI-stub fuer den Billingserver
@@ -100,7 +149,7 @@ public class BillingServer implements RemoteBillingServer {
 //			 System.out.println("init");
 			 this.bs = bs;
 			 this.bss = bss;
-			 File f = new File("Server.properties");
+			 File f = new File("registry.properties");
 				if(!f.exists()){
 						System.out.println("Properties File doesn't exist. Server shutting down.");
 						return false;
@@ -117,9 +166,9 @@ public class BillingServer implements RemoteBillingServer {
 			ir = new InitRMI(properties);
 			ir.init();
 			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
-//            System.out.println("BillingServer bound");
+            System.out.println("BillingServer bound");
 			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
-//            System.out.println("BillingServerSecure bound");
+            System.out.println("BillingServerSecure bound");
 			 
 		 }catch(Exception e){
 			 //TODO Handeln
@@ -127,16 +176,104 @@ public class BillingServer implements RemoteBillingServer {
 		 }
 		 return true;
 	 }
+	 
+	 /**
+	  * loginMap from Properties File
+	  * @return	Map with username and hashed pw
+	  */
+	 public ConcurrentHashMap<String,byte[]> loginMap(){
+		 
+			Properties properties = new Properties();
+			// neuen stream mit der messenger.properties Datei erstellen
+
+			try {
+				BufferedInputStream stream = new BufferedInputStream(
+						new FileInputStream("user.properties"));
+
+				properties.load(stream);
+				stream.close();
+			} catch (IOException e1) {
+
+				System.out.println("user.properties konnte nicht geladen werden. Erzeuge neues user.properties File");
+				properties = new Properties();
+				
+				try {
+					byte[] bytesOfMessage;
+					MessageDigest md;
+					bytesOfMessage = "auctionpw".getBytes("UTF-8");
+					md = MessageDigest.getInstance("MD5");
+					byte[] thedigest = md.digest(bytesOfMessage);
+					;
+					properties.put("auction", String.format("%040x", new BigInteger(1, thedigest)));
+					bytesOfMessage = "test".getBytes("UTF-8");
+					md = MessageDigest.getInstance("MD5");
+					thedigest = md.digest(bytesOfMessage);
+					properties.put("test", String.format("%040x", new BigInteger(1, thedigest)));
+					File f = new File("user.properties");
+					if(f.exists())
+						f.delete();
+					f.createNewFile();
+					PrintWriter pw = new PrintWriter (new FileOutputStream(f));
+					properties.store(pw, null);
+				} catch (NoSuchAlgorithmException e) {
+					System.out.println("Should not possible to Reach");
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					System.out.println("Should not possible to Reach");
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					System.out.println("Should not possible to Reach");
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			ConcurrentHashMap<String,byte[]> ret = new ConcurrentHashMap<String,byte[]>();
+			
+			try {
+				for (Object o : properties.keySet()){
+					ret.put((String)o, ((String)properties.get(o)).getBytes());
+				}
+				
+				return ret;
+			} catch (ClassCastException e) {
+				System.out.println("user.properties Fehlerhaft");
+			}
+			return null;
+	 }
+	 /**
+	  * Saves a specific map to a file
+	  * 
+	  * @param user	userMap with name and password
+	  */
+	 private void saveUserMap (ConcurrentHashMap<String,byte[]> user){
+		 Properties properties = new Properties();
+		 for(String s : user.keySet()){
+			 properties.put(s, new String(user.get(s)));
+		 }
+		 File f = new File("user.properties");
+			try {
+				
+				PrintWriter pw = new PrintWriter (new FileOutputStream(f));
+				properties.store(pw, null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	 }
 	 /**
 	  * Shuts down all Servers and unexports them from the registry
 	  */
 	 public void shutdown(){
 		 try {
+			saveUserMap(user);
 			ir.unexport(bs);
 			ir.unexport(bss);
-		} catch (NoSuchObjectException e) {
+		} catch (NoSuchObjectException|NullPointerException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		 
 	 }

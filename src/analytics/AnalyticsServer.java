@@ -3,6 +3,7 @@ package analytics;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -34,8 +35,8 @@ public class AnalyticsServer {
 	private EventHandler eh;
 	private InitRMI ir; //RMI Stub for export/unexport
 	private static int id = 0; //Saves all subsrciption IDs
-	AnalyticTaskComputing remoteTask;
-	Timer bidTimer; //Timer for BidCountPerMinute
+	private AnalyticTaskComputing remoteTask;
+	private Timer bidTimer; //Timer for BidCountPerMinute
 	 
 	/**
 	 * Starts the EventHandler and the Timer to schedule the BidCount per Minute
@@ -77,6 +78,7 @@ public class AnalyticsServer {
 		eh.setActive(false);
 		//Push Event for shutdown
 		processEvent(new AuctionEnded(null, null, 0, 0));
+		
 	}
 	
 	/**
@@ -102,6 +104,9 @@ public class AnalyticsServer {
 	 */
 	public String subscribe(String regex, ClientInterface ci){
 	
+		//Delete ' or " from regex
+		regex = regex.replaceAll("\"", "");
+		regex = regex.replaceAll("\'", "");
 		//Iterate over all Keys
 		Set<String> keyset = subscriptions.keySet();
 		Iterator<String> it = keyset.iterator();
@@ -114,7 +119,7 @@ public class AnalyticsServer {
 			return "Your pattern is invalid!";
 		}
 		boolean foundMatch = false;
-		String subsid=id+"_"+pattern;
+		String subsid=id+"";
 		while(it.hasNext()){
 			String compare = it.next();			
 			Matcher matcher = pattern.matcher(compare);
@@ -125,13 +130,35 @@ public class AnalyticsServer {
 		}
 		if(foundMatch){
 			id++;
-			return subsid;
+			return "Created subscription with ID " + subsid + " with filter "+regex;
 		}
 			
 		else
 			return "No Matching Events for your pattern found";
 	}
-	
+	 /**
+	  * Iterates throug notification list and deletes specific notifications for one ID
+	  * 
+	  * @param subsId	NotificationID which shall be canceled
+	  * @return
+	  */
+	public String unsubscribe(String subsId) {
+		boolean canceled = false;
+		//Iterator through map
+		Iterator<String> it = subscriptions.keySet().iterator();
+		while(it.hasNext()){
+			ConcurrentHashMap<String, ClientInterface> clientPEvent = subscriptions.get(it.next());
+			if(clientPEvent.remove(subsId)!=null)
+				canceled = true;
+		}
+		if(canceled)
+			return "Subscription " + subsId + "successfully canceled";
+		else
+			return "No subscription found";
+		// TODO Auto-generated method stub
+		
+	}
+	 
 	/**
 	 * Notifies Clients that new Events have occurred
 	 */
@@ -201,6 +228,42 @@ public class AnalyticsServer {
 				,"BID_PRICE_MAX","BID_COUNT_PER_MINUTE"};
 		return events;
 	}
+	/**
+	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
+	 * 
+	 * @param atc	AnalyticsTaskComputing which is exported into the registry
+	 * @param analyticServerName RMIname for the analyticserver
+	 * @return true if successfull
+	 */
+	 private boolean initRmi(AnalyticTaskComputing analytics, String analyticServerName) throws RemoteException{
+		 try{
+		 Properties properties = new Properties();
+		 File f = new File("registry.properties");
+			if(!f.exists()){
+					System.out.println("Properties File doesn't exist. Server shutting down.");
+					return false;
+			}
+				
+			// neuen stream mit der messenger.properties Datei erstellen
+			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
+			
+			properties.load(stream);
+		
+			stream.close();
+		 if(analyticServerName == null){
+			 return initRmi(analytics);
+		 }
+		 properties.put("rmi.analyticsServer", analyticServerName);
+		 ir = new InitRMI(properties);
+			ir.init();
+			ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
+         System.out.println("AnalyticsServer bound");
+		 }catch(Exception e){
+			 //TODO handeln
+		 }
+		 
+		 return true;
+	 }
 	
 	/**
 	 * Initialieses the RMI Connection and exports the AnalyticsServer into the registry
@@ -211,52 +274,27 @@ public class AnalyticsServer {
 	 private boolean initRmi(AnalyticTaskComputing analytics){
 		 try {
 			 Properties properties = new Properties();
-			 //Sicherstellen dass Server.properties existiert
-			 File f = new File("Server.properties");
+			 //Sicherstellen dass registry.properties existiert
+			 File f = new File("registry.properties");
 				if(!f.exists()){
 						System.out.println("Properties File doesn't exist. Server shutting down.");
 						return false;
 				}
 					
 				// neuen stream mit der messenger.properties Datei erstellen
-				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("registry.properties"));
 				
 				properties.load(stream);
 			
 				stream.close();
-				ir = new InitRMI(properties);
-				ir.init();
-				ir.rebind(analytics, properties.getProperty("rmi.analyticsServer"));
-//	            System.out.println("AnalyticsServer bound");
-
+				
+				return initRmi(analytics, properties.getProperty("rmi.analyticsServer"));
 	            
 	        }catch (Exception e){
 	        	e.printStackTrace();
 	        }
 		 return true;
 	 }
-	 /**
-	  * Iterates throug notification list and deletes specific notifications for one ID
-	  * 
-	  * @param subsId	NotificationID which shall be canceled
-	  * @return
-	  */
-	public String unsubscribe(String subsId) {
-		boolean canceled = false;
-		//Iterator through map
-		Iterator<String> it = subscriptions.keySet().iterator();
-		while(it.hasNext()){
-			ConcurrentHashMap<String, ClientInterface> clientPEvent = subscriptions.get(it.next());
-			if(clientPEvent.remove(subsId)!=null)
-				canceled = true;
-		}
-		if(canceled)
-			return "Subscription " + subsId + "successfully canceled";
-		else
-			return "No subscription found";
-		// TODO Auto-generated method stub
-		
-	}
-	 
+
 }
  
