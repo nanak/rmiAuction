@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
@@ -290,7 +291,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 			
 			ir = new InitRMI(properties);
 			ir.init();
-			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null){
+			if(properties.getProperty("rmi.analyticsServer")==null || properties.getProperty("rmi.billingServer")==null||properties.getProperty("rmi.port")==null){
 				running=false;
 				ui.out("Properties not sufficcient. Client shutting down. ");
 				return;
@@ -401,7 +402,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 	private void initRMI(){
 		try{
 			Properties properties = new Properties();
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
 			
 			properties.load(stream);
 		

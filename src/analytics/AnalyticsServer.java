@@ -3,6 +3,7 @@ package analytics;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.util.HashSet;
@@ -243,7 +244,7 @@ public class AnalyticsServer {
 			}
 				
 			// neuen stream mit der messenger.properties Datei erstellen
-			BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+			InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
 			
 			properties.load(stream);
 		
@@ -280,7 +281,7 @@ public class AnalyticsServer {
 				}
 					
 				// neuen stream mit der messenger.properties Datei erstellen
-				BufferedInputStream stream = new BufferedInputStream(new FileInputStream("Server.properties"));
+				InputStream stream = ClassLoader.getSystemResourceAsStream("Server.properties");
 				
 				properties.load(stream);
 			
