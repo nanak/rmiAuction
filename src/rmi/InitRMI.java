@@ -69,8 +69,11 @@ public class InitRMI {
 	 * @throws RemoteException
 	 */
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{
+		int i=0;
 		if(!init)
-			init();
+			i=init();
+		if(i!=0)
+			return i;
 		ro= UnicastRemoteObject.exportObject(r, 0);
 		registry.rebind(rmiIdentifier, ro);
 		
@@ -88,6 +91,11 @@ public class InitRMI {
 	 * @throws MalformedURLException 
 	 */
 	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException, MalformedURLException{
+		int i=0;
+		if(!init)
+			i=init();
+		if(i!=0)
+			return null;
 		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
 	}
 	
@@ -97,6 +105,11 @@ public class InitRMI {
 	 * @exception NoSuchObjectException	Object no in Registry
 	 */
 	public void unexport(Remote r) throws NoSuchObjectException{
+		int i=0;
+		if(!init)
+			i=init();
+		if(i!=0)
+			return;//TODO throw new Exception
 		UnicastRemoteObject.unexportObject(r, true);
 	}
 
