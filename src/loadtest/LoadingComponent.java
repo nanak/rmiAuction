@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -35,15 +36,15 @@ public class LoadingComponent {
 	private Client c;
 	private TaskExecuter t;
 	private int tcp;
-	private Timer create;
-	private Timer bid;
 	private long starttime;
-	private Timer list;
 	private FakeCli cli;
 	private Timer checker;
 	private AnalyticsServer as;
 	private BillingServer bs;
 	private Server s;
+	private ScheduledThreadPoolExecutor bid;
+	private ScheduledThreadPoolExecutor list;
+	private ScheduledThreadPoolExecutor create;
 	/**
 	 * Method which reads and creates a System Descrtiption.
 	 * 
@@ -134,9 +135,9 @@ public class LoadingComponent {
 			System.out.println(e.getMessage());
 		}
 		
-		ScheduledThreadPoolExecutor bid=new ScheduledThreadPoolExecutor(p.getClients());
-		ScheduledThreadPoolExecutor list=new ScheduledThreadPoolExecutor(p.getClients());
-		ScheduledThreadPoolExecutor create=new ScheduledThreadPoolExecutor(p.getClients());
+		bid=new ScheduledThreadPoolExecutor(p.getClients());
+		list=new ScheduledThreadPoolExecutor(p.getClients());
+		create=new ScheduledThreadPoolExecutor(p.getClients());
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();
 			cli=new FakeCli("");
@@ -146,8 +147,7 @@ public class LoadingComponent {
 			tcp=c.getTcpPort();
 			
 			checker=new Timer();
-			TimerTask c=new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp);
-			create.scheduleAtFixedRate(c, 0, 60000/p.getAuctionsPerMin(),TimeUnit.MILLISECONDS);
+			create.scheduleAtFixedRate(new CreateTask(p.getAuctionsPerMin(), p.getAuctionDuration(), t, tcp), 0, 60000/p.getAuctionsPerMin(),TimeUnit.MILLISECONDS);
 			
 			
 			bid.scheduleAtFixedRate(new BidTask(p.getBidsPerMin(), starttime, t,cli), 500, p.getUpdateIntervalSec()*1000, TimeUnit.MILLISECONDS);
@@ -161,13 +161,32 @@ public class LoadingComponent {
 	 * Kills all Timers
 	 */
 	public void shutdown(){
-		bid.cancel();bid.purge();
 		checker.cancel();checker.purge();
-		list.cancel();list.purge();
-		create.cancel();create.purge();
+		shutdownAndAwaitTermination(create);
+		shutdownAndAwaitTermination(bid);
+		shutdownAndAwaitTermination(list);
 		for (int i=0; i<clients.size(); i++){
 			clients.get(i).setActive(false);
 		}
 	}
-
+	/**
+	 * Terminates all actve Threads
+	 * @param pool Executor Service
+	 */
+	public void shutdownAndAwaitTermination(ExecutorService pool) {
+		pool.shutdown();//once the above task has been executed by threads,shut down executor ?
+		 try {
+		     // Wait 5 seconds  for existing tasks to terminate
+		     if (!pool.awaitTermination(5, TimeUnit.SECONDS)) {     
+		     pool.shutdownNow(); // Cancel currently executing tasks
+		       
+		       if (!pool.awaitTermination(5, TimeUnit.SECONDS))
+		           System.err.println("Pool did not terminate");
+		     }
+		   } catch (InterruptedException ie) {
+		     // (Re-)Cancel if current thread also interrupted
+		     pool.shutdownNow();
+		     Thread.currentThread().interrupt();
+		   }
+	}
 }

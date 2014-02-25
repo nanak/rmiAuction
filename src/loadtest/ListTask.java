@@ -11,7 +11,7 @@ import client.TaskExecuter;
  * @author Michaela Lipovits
  * @version 20140217
  */
-public class ListTask extends TimerTask{
+public class ListTask implements Runnable{
 	private boolean first;
 	private TaskExecuter t;
 	
