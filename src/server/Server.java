@@ -127,6 +127,7 @@ public class Server {
 		} catch (RemoteException e1) {
 			// AnalyticsServer not available anymore
 			try {
+				System.out.println("AnalyticsServer disconnected. Looking up....");
 				atc = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsServer);
 			} catch (RemoteException | NotBoundException e2) {
 				System.out

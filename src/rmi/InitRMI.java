@@ -96,7 +96,6 @@ public class InitRMI {
 			return i;
 		ro= UnicastRemoteObject.exportObject(r, 0);
 		registry.bind(rmiIdentifier, ro);
-		
 		return REMOTE_BOUND;
 	}
 	

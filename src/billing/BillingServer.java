@@ -130,13 +130,11 @@ public class BillingServer implements RemoteBillingServer {
 //			System.out.println("Stuck in init");
 			ir = new InitRMI(properties);
 			ir.init();
-			ir.bind(bs, properties.getProperty("rmi.billingServer"));
+			ir.rebind(bs, properties.getProperty("rmi.billingServer"));
             System.out.println("BillingServer bound");
-			ir.bind(bss, properties.getProperty("rmi.billingServerSecure"));
+			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
             System.out.println("BillingServerSecure bound");
 			 
-		 }catch(AlreadyBoundException ar){
-			 System.out.println("Server already started! Close this session!");
 		 }
 		 catch(NullPointerException| RemoteException re){
 			 System.out.println("Could not bind Billingserver. Shutting down");
