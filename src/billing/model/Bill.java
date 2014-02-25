@@ -9,7 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * saves the bill history for one user
+ * Saves the bill history for one user.
+ * Contains several billingLines
  * 
  * @author Rudolf Krepela
  * @email rkrepela@student.tgm.ac.at
@@ -19,16 +20,16 @@ import java.util.List;
 public class Bill implements Serializable{
 	
 	private List<BillingLine> billigLines;
-	private DecimalFormat f;
+	private DecimalFormat f; //Formats the Decimal Output
 	
 	/**
-	 * calls addBillingLine
+	 * Creates a new Bill for a user
 	 * 
-	 * @param user
-	 * @param auctionID
-	 * @param price
-	 * @param fixedPrice
-	 * @param variablePricePercent
+	 * @param user		Username
+	 * @param auctionID	Auction which the user has to pay for
+	 * @param price	StrikePrice of the auction
+	 * @param fixedPrice	Fixed price the user has to pay
+	 * @param variablePricePercent	Calculated percentage price
 	 */
 	public Bill(String user, long auctionID, double price,double fixedPrice, double variablePricePercent) {
 		this.billigLines=Collections.synchronizedList(new LinkedList<BillingLine>());
@@ -41,7 +42,7 @@ public class Bill implements Serializable{
 
 
 	/**
-	 * shows the total history and the total price
+	 * Shows the total history and the total price, well formatted
 	 */
 	@Override
 	public String toString() {
@@ -59,10 +60,11 @@ public class Bill implements Serializable{
 	}
 
 	/**
-	 * saves a billing line
-	 * @param auctionID
-	 * @param price
-	 * @param step 
+	 * Saves an additional billing line(auction user has to pay for)
+	 * @param auctionID	Auction the user has to pay for
+	 * @param price	strikeprice of the auction
+	 * @param fixedPrice	FixedPrice the user has to pay
+	 * @param variablePricePercent Variable percentage which is added to the price
 	 */
 	public void addBillingLine(long auctionID, double price, double fixedPrice, double variablePricePercent){
 		this.billigLines.add(new BillingLine(auctionID, price, fixedPrice, variablePricePercent));

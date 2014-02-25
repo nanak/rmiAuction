@@ -32,12 +32,10 @@ public class BidCountPerMinuteWatcher extends TimerTask{
 	public void run() {
 			cycles ++;
 			double bidsmin = ((double)as.getEventHandler().getBidCount()) / cycles;
-			System.out.println(bidsmin);
 			Date now = new Date();
 			BidCountPerMinute bpm =  new BidCountPerMinute("" +UUID.randomUUID().getMostSignificantBits(),"BID_COUNT_PER_MINUTE", now.getTime(), bidsmin);
 			as.getDispatchedEvents().add(bpm);
 			as.notifyClients();
-			System.out.println("One Minute past");
 	}
 	
 }

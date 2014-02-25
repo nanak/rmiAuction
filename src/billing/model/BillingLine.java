@@ -3,7 +3,7 @@ package billing.model;
 import java.io.Serializable;
 
 /**
- * collects all attributes for a billing line
+ * Represents a line in a bill
  * 
  * @author Rudolf Krepela
  * @email rkrepela@student.tgm.ac.at
@@ -16,13 +16,13 @@ public class BillingLine implements Serializable{
 	private Double price,fixedPrice,variablePricePercent;
 	
 	/**
-	 * collects all attributes for a billing line
+	 * Collects all attributes for a billing line
 	 * 
-	 * @param user
-	 * @param auctionID
-	 * @param price
-	 * @param fixedPrice
-	 * @param variablePricePercent
+	 * @param user		Name of the user the bill is written for
+	 * @param auctionID	Id of the auction
+	 * @param price		StrikePrice
+	 * @param fixedPrice	FixedPrice the user has to pay
+	 * @param variablePricePercent VariablePrice the user has to pay
 	 */
 	public BillingLine(long auctionID, double price,double fixedPrice, double variablePricePercent) {
 		this.auctionID=auctionID;

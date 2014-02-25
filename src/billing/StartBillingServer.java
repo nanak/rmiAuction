@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * main class and startpoint for the billing server
+ * Main class and startpoint for the billing server
  *    
  * @author Rudolf Krepela, Thomas Traxler
  * @email rkrepela@student.tgm.ac.at, ttraxler@student.tgm.ac.at
@@ -40,7 +40,5 @@ public class StartBillingServer {
 		}//If Enter Button pressed, Server will end
 		bss.shutdown();
 		bs.shutdown();
-		
-
 	}
 }

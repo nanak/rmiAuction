@@ -78,6 +78,7 @@ public class AnalyticsServer {
 		eh.setActive(false);
 		//Push Event for shutdown
 		processEvent(new AuctionEnded(null, null, 0, 0));
+		System.out.println("Server end");
 		
 	}
 	
@@ -91,7 +92,6 @@ public class AnalyticsServer {
 		try {
 			incomingEvents.put(e);
 		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -137,7 +137,7 @@ public class AnalyticsServer {
 			return "No Matching Events for your pattern found";
 	}
 	 /**
-	  * Iterates throug notification list and deletes specific notifications for one ID
+	  * Iterates through notification list and deletes specific notifications for one ID
 	  * 
 	  * @param subsId	NotificationID which shall be canceled
 	  * @return
@@ -155,12 +155,12 @@ public class AnalyticsServer {
 			return "Subscription " + subsId + "successfully canceled";
 		else
 			return "No subscription found";
-		// TODO Auto-generated method stub
 		
 	}
 	 
 	/**
-	 * Notifies Clients that new Events have occurred
+	 * Notifies Clients that new Events have occurred.
+	 * Removes a Client from the list, if he is not reachable anymore
 	 */
 	public void notifyClients(){
 		while(!dispatchedEvents.isEmpty()){
@@ -168,7 +168,6 @@ public class AnalyticsServer {
 			try {
 				event = dispatchedEvents.take();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//Get Map with Interfaces of the SubscriptionId/Clients who want notification

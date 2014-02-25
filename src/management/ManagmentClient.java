@@ -205,7 +205,7 @@ public class ManagmentClient implements Serializable, ClientInterface, Runnable 
 									analyticTaskComputing = (RemoteAnalyticsTaskComputing) ir.lookup(analyticsIdentifier);
 									ui.outM(analyticTaskComputing.subscribe(cmd[1], this));
 									
-								} catch (NotBoundException | RemoteException  ex) {
+								} catch (NotBoundException | RemoteException |NullPointerException ex) {
 									ui.outM("ERROR: AnalyticsServer not available right now. Retry after starting Analytics");
 									 
 								}	
