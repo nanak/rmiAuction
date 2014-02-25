@@ -82,7 +82,7 @@ public class LoadTest {
 			}
 		}
 		
-		new LoadTest(hostname,port,filename,1*60000);
+		new LoadTest(hostname,port,filename,8*60000);
 		
 	}
 	/**
@@ -130,7 +130,7 @@ public class LoadTest {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
-		System.out.println(p.getClients());
+		System.out.println(filename+p.getClients());
 
 		for (int i=0; i<p.getClients(); i++){
 			starttime=System.currentTimeMillis();

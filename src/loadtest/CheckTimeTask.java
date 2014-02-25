@@ -16,7 +16,7 @@ import management.ManagmentClient;
  */
 public class CheckTimeTask extends TimerTask{
 	private long starttime;
-	private long min=1*60000;
+	private long min=8*60000;
 	private long status;
 	private Timer list;
 	private Timer create;
