@@ -170,7 +170,10 @@ public class BillingServer implements RemoteBillingServer {
 			ir.rebind(bss, properties.getProperty("rmi.billingServerSecure"));
             System.out.println("BillingServerSecure bound");
 			 
-		 }catch(Exception e){
+		 }catch(NullPointerException| RemoteException re){
+			 System.out.println("Could not bind Billingserver. Shutting down");
+			 return false;
+	 	}catch(Exception e){
 			 //TODO Handeln
 			 e.printStackTrace();
 		 }
