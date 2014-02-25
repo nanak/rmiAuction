@@ -35,7 +35,7 @@ public class BillingServerSecureTest{
 			s.createPriceStep(0, 10, 5, 10);
 			s.createPriceStep(200, 300, 7, 9);
 			s.createPriceStep(300, 0, 5, 6);
-			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0,00		10,00		5,00		10,00\n10,00		100,00		5,00		10,00\n200,00		300,00		7,00		9,00\n300,00		INFINITY	5,00		6,00");
+			assertEquals(s.getPriceSteps(),"Min_Price	Max_Price	Max_Price	Fee_Variable\n0.00		10.00		5.00		10.00\n10.00		100.00		5.00		10.00\n200.00		300.00		7.00		9.00\n300.00		INFINITY	5.00		6.00");
 		} catch (RemoteException e) {
 		}
 	}
@@ -96,7 +96,7 @@ public class BillingServerSecureTest{
 	public void toStringTest(){
 		try {
 			PriceStep p= new PriceStep(0, 10, 5, 5);
-			assertEquals(p.toString(),"0,00		10,00		5,00		5,00");
+			assertEquals(p.toString(),"0.00		10.00		5.00		5.00");
 		} catch (IllegalValueException e) {
 		}
 		
@@ -113,7 +113,7 @@ public class BillingServerSecureTest{
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9.00		5.60		0.45		6.05		\n2		20.00		10.00		2.00		12.00		\n3		10.00		10.00		1.00		11.00		\n", s.getBill("test"));
 	}
 	@Test
 	public void billAuctionAndGetBillTestIntervalDoesNotExist(){
@@ -124,7 +124,7 @@ public class BillingServerSecureTest{
 		}
 		s.billAuction("test", 1, 100);
 		s.billAuction("test", 1, 100);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100,00		0,00		0,00		0,00		\n1		100,00		0,00		0,00		0,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		100.00		0.00		0.00		0.00		\n1		100.00		0.00		0.00		0.00		\n", s.getBill("test"));
 	}
 	@Test
 	public void getBillTestFalse(){
@@ -143,9 +143,9 @@ public class BillingServerSecureTest{
 		s.billAuction("test", 2, 20);
 		s.billAuction("test", 3, 10);
 		s.billAuction("t", 3, 10);
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9.00		5.60		0.45		6.05		\n2		20.00		10.00		2.00		12.00		\n3		10.00		10.00		1.00		11.00		\n", s.getBill("test"));
 		s.shutdown();
 		s= new BillingServerSecure();
-		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9,00		5,60		0,45		6,05		\n2		20,00		10,00		2,00		12,00		\n3		10,00		10,00		1,00		11,00		\n", s.getBill("test"));
+		assertEquals("auction_ID	strike_price	fee_fixed	fee_variable	fee_total\n1		9.00		5.60		0.45		6.05		\n2		20.00		10.00		2.00		12.00		\n3		10.00		10.00		1.00		11.00		\n", s.getBill("test"));
 	}
 }
