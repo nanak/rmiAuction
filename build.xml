@@ -14,10 +14,12 @@
     <property name="client2.port" value="10002"/><!-- UDP port of 2nd Bidding Client -->
     <property name="client3.port" value="10003"/><!-- UDP port of 3rd Bidding Client -->
     <property name="mgmtclient.name" value="management.ManagmentClient"/><!-- Management Client's full class name (including the package) -->
-    <property name="analytics.name" value="your.AnalyticsServer"/><!-- Analytics Server's full class name (including the package) -->
-    <property name="billing.name" value="your.BillingServer"/><!-- Billing Server's full class name (including the package) -->
-    <property name="analytics.bindingName" value="AnalyticsServerRef"/><!-- RMI Binding Name of the Analytics Server -->
-    <property name="billing.bindingName" value="BillingServerRef"/><!-- RMI Binding Name of the Billing Server -->
+    <property name="analytics.name" value="analytics.StartAnalytics"/><!-- Analytics Server's full class name (including the package) -->
+    <property name="billing.name" value="billing.StartBillingServer"/><!-- Billing Server's full class name (including the package) -->
+	
+	
+    <property name="analytics.bindingName" value="USELESS"/><!-- UseLess because it is in the registry.property -->
+    <property name="billing.bindingName" value="USELESS"/><!-- UseLess because it is in the registry.property -->
     <property name="server.port" value="10010"/><!-- TCP port -->
 
     <path id="project.classpath">
@@ -30,7 +32,7 @@
     <target name="compile" description="Compile project.">
         <mkdir dir="${build.dir}"/>
         <javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="project.classpath" debug="true" deprecation="true" includeantruntime="false"/>
-        <copy todir="${build.dir}">
+        <copy todir=".">
             <fileset dir="${src.dir}">
                 <include name="*.properties"/>
             </fileset>
@@ -142,8 +144,12 @@
         </junit>
     </target>
     <target name="clean" description="Clean project.">
+		<delete>
+			<fileset dir="." includes="*.properties"/>
+		</delete>
         <delete dir="${build.dir}"/>
         <delete dir="${reports.dir}"/>
+		
     </target>
 
     <target name="rebuild" depends="clean, compile" description="Clean and build project."/>
