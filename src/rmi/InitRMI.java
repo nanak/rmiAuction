@@ -11,7 +11,11 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Properties;
-
+/**
+ * Class that encapsulates some necessary RMI steps
+ * @author Thomas Traxler <ttraxler@student.tgm.ac.at>
+ * @version 2014-02-25
+ */
 public class InitRMI {
 	
 	private Properties p;
@@ -23,20 +27,26 @@ public class InitRMI {
 	public static final int REGISTRY_BOUND = 0;
 	public static final int REMOTE_BOUND=0;
 	
-	
+	/**
+	 * Konstructor with a properties object
+	 * @param p
+	 */
 	public InitRMI(Properties p){
 		init=false;
 		this.p=p;
 	}
 
-	
+	/**
+	 * Initialises this Object
+	 * @return successstate (0 if successfull, see the static fields for other possibilities)
+	 */
 	public int init(){
 		System.out.println("Init registry");
 		registry = null;
         try{
 //        	System.out.println("Getting registry");
             registry = LocateRegistry.createRegistry(Integer.parseInt(p.getProperty("rmi.port")));        	
-        }catch( RemoteException | NumberFormatException e){
+        }catch( RemoteException | NumberFormatException | NullPointerException e){
         	System.out.println("Could not create RMI registry, getting RMI registry");
         	try{
             	registry = LocateRegistry.getRegistry(Integer.parseInt(p.getProperty("rmi.port")));
@@ -51,10 +61,19 @@ public class InitRMI {
 		return REGISTRY_BOUND;
 	}
 	
-	
+	/**
+	 * Rebinds the Remoteobject
+	 * @param r Remoteobject
+	 * @param rmiIdentifier 
+	 * @return Successstate
+	 * @throws RemoteException
+	 */
 	public int rebind(Remote r, String rmiIdentifier) throws RemoteException{
+		int i=0;
 		if(!init)
-			init();
+			i=init();
+		if(i!=0)
+			return i;
 		ro= UnicastRemoteObject.exportObject(r, 0);
 		registry.rebind(rmiIdentifier, ro);
 		
@@ -64,7 +83,7 @@ public class InitRMI {
 	/**
 	 * Looksup a Server and gets a Remote object
 	 * @param rmiIdentifier		Unique Name in registry
-	 * @return	Remote Object which matches the identifier
+	 * @return	Remote Object which matches the identifier, Null if not initialised or couldn't lookup
 	 * 
 	 * @throws AccessException	Access to Registry not allowed
 	 * @throws RemoteException	Could not get Object
@@ -72,7 +91,16 @@ public class InitRMI {
 	 * @throws MalformedURLException 
 	 */
 	public Remote lookup(String rmiIdentifier) throws AccessException, RemoteException, NotBoundException, MalformedURLException{
-		return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
+		int i=0;
+		if(!init)
+			i=init();
+		if(i!=0)
+			return null;
+		try {
+			return Naming.lookup("rmi://" + p.getProperty("rmi.registryURL") +":"+p.getProperty("rmi.port")+"/"+rmiIdentifier);
+		}catch (Exception e){
+			return null;
+		}
 	}
 	
 	/**
@@ -81,6 +109,11 @@ public class InitRMI {
 	 * @exception NoSuchObjectException	Object no in Registry
 	 */
 	public void unexport(Remote r) throws NoSuchObjectException{
+		int i=0;
+		if(!init)
+			i=init();
+		if(i!=0)
+			return;//TODO throw new Exception
 		UnicastRemoteObject.unexportObject(r, true);
 	}
 
